@@ -1,0 +1,14 @@
+{
+  "name": "ember-atlas",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test",
+    "build": "node build.js"
+  },
+  "dependencies": {
+    "leaflet": "^1.9.4"
+  }
+}

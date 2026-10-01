@@ -1,0 +1,10 @@
+import {mkdir,readFile,writeFile,copyFile,cp} from 'node:fs/promises';
+await mkdir('docs',{recursive:true});
+let html=await readFile('index.html','utf8');
+html=html.replace('<html lang="en">','<html lang="en" data-host="static">').replaceAll('href="/"','href="./"').replaceAll('/node_modules/leaflet/dist/','./vendor/leaflet/').replaceAll('href="/style.css"','href="./style.css"').replaceAll('src="/app.js"','src="./app.js"');
+await writeFile('docs/index.html',html);
+for(const file of ['app.js','core.js','provider.js','style.css'])await copyFile(file,`docs/${file}`);
+await cp('node_modules/leaflet/dist','docs/vendor/leaflet',{recursive:true});
+await copyFile('node_modules/leaflet/LICENSE','docs/vendor/leaflet/LICENSE');
+await writeFile('docs/.nojekyll','');
+console.log('GitHub Pages site built in docs/');
