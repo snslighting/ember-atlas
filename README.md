@@ -2,6 +2,9 @@
 
 A local NASA Space Apps prototype: interactive hotspot map, sensor views and comparison, region/date/confidence filters, daily burning-activity calendar, window-relative critical days, popup provenance, and CSV export.
 
+**Hosted demo:** https://snslighting.github.io/ember-atlas/  
+**Repository:** https://github.com/snslighting/ember-atlas
+
 ## Run
 
 Requires Node.js 20 or newer. In PowerShell:
