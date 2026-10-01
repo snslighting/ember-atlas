@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "test": "node --test",
-    "build": "node build.js"
+    "build": "node build.js",
+    "data:refresh": "node fetch-firms.js"
   },
   "dependencies": {
     "leaflet": "^1.9.4"
