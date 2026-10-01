@@ -3,13 +3,19 @@
 **Website:** https://snslighting.github.io/ember-atlas/
 **Repository:** https://github.com/snslighting/ember-atlas
 
-Interactive NASA FIRMS thermal-anomaly observations with sensor views, geographic/date/confidence filters, observation metadata, sensor comparison, daily burning-activity calendar, window-relative peak indicators, and CSV export.
+A redesigned three-page Earth observation website: an animated WebGL Earth landing page with Lenis smooth scrolling, an automatically updating observatory, and a dedicated methodology page. Responsive layouts and reduced-motion support are included.
 
 ## Actual NASA data
 
-The website now serves an actual NASA FIRMS snapshot for September 27–October 1, 2026, retrieved October 1, 2026. It contains 22,797 observations across Amazon, California, and Central Asia bounding boxes, from MODIS_NRT and VIIRS_NOAA20_NRT. The app shows retrieval time and observation dates. This is a published snapshot, not an automatically refreshing live feed. Synthetic data is used only in an isolated test fixture; it is never a production fallback.
+The observatory serves actual NASA FIRMS observations from MODIS_NRT and VIIRS_NOAA20_NRT for the latest five UTC days. A GitHub Actions publisher downloads official public rolling CSVs, filters the three study-area bounding boxes, validates data, builds the site, and deploys it. No repository secret or browser-exposed API key is needed. Your local ignored key remains available for the area API.
 
-See [NASA-DATA-ANALYSIS.md](NASA-DATA-ANALYSIS.md) for actual counts, daily activity, and interpretation limits. Source documentation: https://firms.modaps.eosdis.nasa.gov/api/area/.
+The publisher is scheduled every 15 minutes (minutes 7, 22, 37, and 52 UTC). GitHub scheduling and publication can be delayed; NASA data have acquisition and processing latency. This is near-real-time, not an instantaneous guaranteed feed. The dashboard polls a small version manifest every 60 seconds, fetches records only when a new publication is available, and updates without reloading. Manual dates, sensor selection, confidence, map position, and selected day are retained when possible. Follow latest dates enables a rolling date window. After 45 minutes without a successful newer retrieval the view marks data stale; failures retain the last actual records and retry. Hidden tabs pause checks and immediately check when resumed.
+
+Official automatic download sources:
+- https://firms.modaps.eosdis.nasa.gov/data/active_fire/modis-c6.1/csv/MODIS_C6_1_Global_7d.csv
+- https://firms.modaps.eosdis.nasa.gov/data/active_fire/noaa-20-viirs-c2/csv/J1_VIIRS_C2_Global_7d.csv
+
+The [checked-in analysis](NASA-DATA-ANALYSIS.md) identifies its retrieval date. Each deployment also includes an updated analysis at /data/analysis.md and metadata at /data/status.json.
 
 ## Run locally
 
@@ -21,7 +27,7 @@ npm.cmd install
 npm.cmd start
 ```
 
-Open http://localhost:3000. The default saved NASA snapshot needs no key. For live retrieval, set FIRMS_MAP_KEY in an environment variable or a local ignored `.env` file, then restart the server and select Refresh NASA. An upstream failure retains clearly labeled actual snapshot data; it never substitutes synthetic records.
+Open http://localhost:3000. The default saved NASA snapshot needs no key. For live retrieval, set FIRMS_MAP_KEY in an environment variable or a local ignored `.env` file, then restart the server. The local observatory retrieves NASA data automatically. An upstream failure retains clearly labeled actual snapshot data; it never substitutes synthetic records.
 
 ## Refresh and publish observations
 
@@ -32,11 +38,11 @@ npm.cmd run build
 npm.cmd test
 ```
 
-`data:refresh` uses the private local key to fetch latest-five-day MODIS and NOAA-20 VIIRS area CSVs. All six requests must succeed before replacing the snapshot. It stores public observations and metadata in `data/firms.json`; no API URL containing the key is saved. `build` copies the real snapshot and relative static assets into `docs/`. Commit the refreshed `data/`, `docs/`, and analysis report and push `main` to publish. GitHub Pages deploys `main → /docs`. Never commit `.env` or put the key in browser code. The static Pages site cannot contact the credentialed API directly; refresh requires the local script/server.
+`data:refresh` uses the local key if configured, otherwise official public CSV downloads. Set FIRMS_PUBLIC_DOWNLOADS=1 to force public sources. All requested products must succeed and validate before replacing the snapshot. It stores public observations and metadata in `data/firms.json`; no API URL containing the key is saved. `build` copies the real snapshot and relative static assets into `docs/`. Commit the refreshed `data/`, `docs/`, and analysis report and push `main` to publish. GitHub Pages uses GitHub Actions; `.github/workflows/publish.yml` runs on main pushes, scheduled intervals, and manual dispatch. It refreshes data before testing, building, and publishing the artifact. Never commit `.env` or put the key in browser code. The static Pages site cannot contact the credentialed API directly; the scheduled publisher handles cloud refreshes.
 
 ## Analysis baseline
 
-Common region/date/confidence filters precede aggregation. Records group by an approximate latitude-adjusted 1 km row grid and UTC day. Each cell retains sensor and product memberships, satellite identifiers, observation count, observation time range, mean location, maximum normalized confidence, and maximum FRP. Original confidence and satellite metadata are preserved for raw observations. VIIRS l/n/h maps heuristically to 30/70/95; MODIS numeric confidence is retained.
+Common region/date/confidence filters precede aggregation. Records group by an approximate latitude-adjusted 1 km row grid and UTC day. Each cell retains sensor and product memberships, satellite identifiers, observation count, observation time range, mean location, maximum normalized confidence, and maximum FRP. Original confidence and satellite metadata are preserved for raw observations. VIIRS l/n/h and low/nominal/high map heuristically to 30/70/95; MODIS numeric confidence is retained.
 
 Daily occupied cells form the calendar. A peak exceeds the selected window's mean + 1.5 population standard deviations. Five days cannot establish historical anomalies or seasonality. Zero selected detections do not prove no fire. Raw records are available in MODIS, VIIRS, and Compare views; CSV export reflects the map selection.
 
@@ -44,7 +50,12 @@ The grid is approximate and has boundary artifacts. It does not validate matches
 
 ## Project files
 
-- `fetch-firms.js`: private-key NASA retrieval and public snapshot generation.
+- `index.html`, `landing.js`, `site.css`: animated Earth landing page.
+- `observatory.html`, `dashboard.css`, `app.js`: automatic-update analysis workspace.
+- `method.html`: dedicated methodology page.
+- `fetch-firms.js`: public download or private local area-API retrieval.
+- `.github/workflows/publish.yml`: scheduled NASA refresh, validation, and Pages deployment.
+- `refresh-state.js`: rolling dates and freshness logic.
 - `data/firms.json`: original-observation metadata and retrieval manifest.
 - `core.js`: normalization, approximate grid, calendar calculations.
 - `app.js`, `provider.js`: interactive map and actual-data providers.

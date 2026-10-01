@@ -17,3 +17,7 @@ test('FIRMS parser preserves original confidence, satellite, and dimensions',()=
  const [r]=parseCSV('latitude,longitude,acq_date,acq_time,confidence,frp,satellite,daynight,scan,track,version\n40,65,2026-09-27,530,h,12,N20,D,0.4,0.5,2.0NRT','VIIRS');
  assert.equal(r.confidenceRaw,'h');assert.equal(r.satellite,'N20');assert.equal(r.scan,.4);assert.equal(r.daynight,'D');
 });
+test('official public CSV full confidence labels normalize like API codes',()=>{
+ const rows=parseCSV('latitude,longitude,acq_date,acq_time,confidence,frp\n40,65,2026-09-27,530,nominal,12\n40,65,2026-09-27,530,high,12\n40,65,2026-09-27,530,low,12','VIIRS');
+ assert.deepEqual(rows.map(r=>r.confidence),[70,95,30]);assert.equal(rows[0].confidenceRaw,'nominal');
+});

@@ -10,6 +10,8 @@
     "data:refresh": "node fetch-firms.js"
   },
   "dependencies": {
-    "leaflet": "^1.9.4"
+    "leaflet": "^1.9.4",
+    "lenis": "^1.3.26",
+    "three": "^0.186.1"
   }
 }

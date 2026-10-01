@@ -1,12 +1,13 @@
 import {mkdir,readFile,writeFile,copyFile,cp} from 'node:fs/promises';
 await mkdir('docs',{recursive:true});
-let html=await readFile('index.html','utf8');
-html=html.replace('<html lang="en">','<html lang="en" data-host="static">').replaceAll('href="/"','href="./"').replaceAll('/node_modules/leaflet/dist/','./vendor/leaflet/').replaceAll('href="/style.css"','href="./style.css"').replaceAll('src="/app.js"','src="./app.js"');
-await writeFile('docs/index.html',html);
-await mkdir('docs/data',{recursive:true});
-await copyFile('data/firms.json','docs/data/firms.json');
-for(const file of ['app.js','core.js','provider.js','style.css'])await copyFile(file,`docs/${file}`);
-await cp('node_modules/leaflet/dist','docs/vendor/leaflet',{recursive:true});
-await copyFile('node_modules/leaflet/LICENSE','docs/vendor/leaflet/LICENSE');
-await writeFile('docs/.nojekyll','');
-console.log('GitHub Pages site built in docs/');
+for(const [input,output] of [['index.html','index.html'],['observatory.html','observatory.html'],['method.html','method.html']]){
+ let html=await readFile(input,'utf8');html=html.replace('<html lang="en">','<html lang="en" data-host="static">').replaceAll('./node_modules/leaflet/dist/','./vendor/leaflet/');await writeFile('docs/'+output,html);
+}
+await mkdir('docs/data',{recursive:true});await copyFile('data/firms.json','docs/data/firms.json');await copyFile('NASA-DATA-ANALYSIS.md','docs/data/analysis.md');
+const snapshot=JSON.parse(await readFile('data/firms.json','utf8'));const {data,...metadata}=snapshot;await writeFile('docs/data/status.json',JSON.stringify({...metadata,observations:data.length}));
+for(const file of ['app.js','core.js','provider.js','refresh-state.js','site.css','dashboard.css','landing.js'])await copyFile(file,'docs/'+file);
+await cp('node_modules/leaflet/dist','docs/vendor/leaflet',{recursive:true});await copyFile('node_modules/leaflet/LICENSE','docs/vendor/leaflet/LICENSE');
+await mkdir('docs/vendor/three',{recursive:true});for(const file of ['three.module.js','three.core.js'])await copyFile('node_modules/three/build/'+file,'docs/vendor/three/'+file);await copyFile('node_modules/three/LICENSE','docs/vendor/three/LICENSE');
+await mkdir('docs/vendor/lenis',{recursive:true});await copyFile('node_modules/lenis/dist/lenis.mjs','docs/vendor/lenis/lenis.mjs');await copyFile('node_modules/lenis/LICENSE','docs/vendor/lenis/LICENSE');
+await cp('assets','docs/assets',{recursive:true});await writeFile('docs/.nojekyll','');
+console.log('Built landing page, observatory, methodology, and NASA feed.');
