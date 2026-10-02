@@ -6,9 +6,17 @@ const stage=document.getElementById('earth-stage');
 if(stage){const mask=()=>syncStarMask(stage);new ResizeObserver(mask).observe(stage);window.addEventListener('resize',mask);window.addEventListener('atlas-motion-change',mask);window.addEventListener('atlas-scene-ready',mask);mask();}
 document.querySelectorAll('.method-card,.method-note,.workspace-heading,.filters,.map-panel,.lower,.context-card').forEach(el=>el.classList.add('reveal'));
 const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}}),{threshold:.08});
+function sensorWheel({event,deltaY}){
+ const column=event.target?.closest?.('.sensor-stories');
+ if(column&&column.scrollHeight>column.clientHeight){
+  const canScroll=deltaY>0?column.scrollTop<column.scrollHeight-column.clientHeight-1:deltaY<0&&column.scrollTop>0;
+  if(canScroll&&lenis?.isScrolling==='smooth')lenis.scrollTo(lenis.actualScroll,{immediate:true});
+ }
+ return true;
+}
 function syncMotion(){
  if(enabled()){
-  if(!lenis&&!document.body.classList.contains('dashboard'))lenis=new Lenis({autoRaf:true,anchors:{offset:-100},duration:1.15,smoothWheel:true,allowNestedScroll:true});
+  if(!lenis&&!document.body.classList.contains('dashboard'))lenis=new Lenis({autoRaf:true,anchors:{offset:-100},duration:1.15,smoothWheel:true,allowNestedScroll:true,virtualScroll:sensorWheel});
   document.querySelectorAll('.reveal:not(.visible)').forEach(el=>observer.observe(el));
   if(!earthLoading){earthLoading=true;import('./earth.js').catch(()=>{document.getElementById('earth-stage')?.classList.add('webgl-unavailable');});}
  }else{
