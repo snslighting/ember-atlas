@@ -58,3 +58,6 @@ body:before{mask-image:radial-gradient(circle at var(--planet-x,68vw) var(--plan
 #earth-stage .earth-fallback,html[data-motion=off] #earth-stage .earth-fallback{background: url('./assets/earth-poster.webp') center/contain no-repeat;box-shadow:0 0 55px #1979af22}
 #earth-stage:not(.webgl-ready) canvas{visibility:hidden}
 @media(max-width:700px){#earth-stage .earth-fallback,html[data-motion=off] #earth-stage .earth-fallback{top:calc(50% + 3.889655vw)}}
+
+/* The cards respond to input over their own column; the page resumes at an edge. */
+@media(min-width:701px){.orbit-story{align-items:start}.sensor-stories{height:clamp(360px,calc(100svh - 180px),760px);overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:auto;scrollbar-gutter:stable;scrollbar-width:thin;scrollbar-color:#477b9f #071526;padding:4px 14px 8px 4px;scroll-behavior:auto}.sensor-stories>.sensor-card{flex:0 0 auto}.sensor-stories:focus-visible{outline:2px solid var(--accent);outline-offset:6px;border-radius:10px}}

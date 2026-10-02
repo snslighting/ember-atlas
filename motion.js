@@ -8,7 +8,7 @@ document.querySelectorAll('.method-card,.method-note,.workspace-heading,.filters
 const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}}),{threshold:.08});
 function syncMotion(){
  if(enabled()){
-  if(!lenis&&!document.body.classList.contains('dashboard'))lenis=new Lenis({autoRaf:true,anchors:{offset:-100},duration:1.15,smoothWheel:true});
+  if(!lenis&&!document.body.classList.contains('dashboard'))lenis=new Lenis({autoRaf:true,anchors:{offset:-100},duration:1.15,smoothWheel:true,allowNestedScroll:true});
   document.querySelectorAll('.reveal:not(.visible)').forEach(el=>observer.observe(el));
   if(!earthLoading){earthLoading=true;import('./earth.js').catch(()=>{document.getElementById('earth-stage')?.classList.add('webgl-unavailable');});}
  }else{
