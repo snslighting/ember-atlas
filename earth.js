@@ -1,5 +1,6 @@
+import {createAnimationLoop} from './animation-loop.js';
 import * as THREE from './vendor/three/three.module.js';
-const stage=document.getElementById('earth-stage'),landing=document.body.classList.contains('landing'),reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const stage=document.getElementById('earth-stage'),landing=document.body.classList.contains('landing');
 if(stage)try{
  const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));stage.append(renderer.domElement);stage.classList.add('webgl-ready');
  const scene=new THREE.Scene(),camera=new THREE.OrthographicCamera(-3,3,2,-2,.1,100),group=new THREE.Group();scene.add(group);
@@ -22,5 +23,7 @@ if(stage)try{
  const release=()=>{drag=null;stage.classList.remove('dragging');};canvas.addEventListener('pointerup',release);canvas.addEventListener('pointercancel',release);canvas.addEventListener('lostpointercapture',release);
  canvas.addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home'].includes(e.key))return;e.preventDefault();if(e.key==='Home')earth.rotation.set(.12,-2.79,.12);else if(e.key==='ArrowLeft'||e.key==='ArrowRight')earth.rotation.y+=e.key==='ArrowLeft'?-.15:.15;else earth.rotation.x=Math.max(-.65,Math.min(.65,earth.rotation.x+(e.key==='ArrowUp'?-.1:.1)));pausedUntil=performance.now()+8000;velocity=0;publish();});
  }
- function animate(time){const delta=Math.min((time-last)/1000,.05);last=time;if(!document.hidden){if(!reduced){if(!drag){earth.rotation.y+=velocity*delta*60;velocity*=Math.exp(-delta*8);if(time>pausedUntil)earth.rotation.y+=delta*.016;}ring.rotation.z+=delta*.018;group.rotation.x=Math.min(scrollY/innerHeight,1)*.035;}renderer.render(scene,camera);}requestAnimationFrame(animate);}requestAnimationFrame(animate);
+ const loop=createAnimationLoop({enabled:()=>window.atlasMotion.enabled,visible:()=>!document.hidden,tick(time){const delta=Math.min((time-last)/1000,.05);last=time;if(!drag){earth.rotation.y+=velocity*delta*60;velocity*=Math.exp(-delta*8);if(time>pausedUntil)earth.rotation.y+=delta*.016;}ring.rotation.z+=delta*.018;group.rotation.x=Math.min(scrollY/innerHeight,1)*.035;renderer.render(scene,camera);}});
+ function syncLoop(){drag=null;velocity=0;stage.classList.remove('dragging');last=performance.now();loop.sync();}
+ window.addEventListener('atlas-motion-change',syncLoop);document.addEventListener('visibilitychange',syncLoop);window.addEventListener('pageshow',syncLoop);window.addEventListener('pagehide',()=>loop.stop());loop.start();
 }catch{stage.classList.add('webgl-unavailable');}
