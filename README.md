@@ -65,3 +65,7 @@ The grid is approximate and has boundary artifacts. It does not validate matches
 - `core.test.js`, `nasa-data.test.js`: processing and data-integrity checks.
 
 Leaflet is bundled with its license. OpenStreetMap tiles and optional fonts require internet. The server binds to 127.0.0.1.
+
+## Shared scene and motion
+
+All three pages share `earth.js`, `motion.js`, and `navigation.js`. The landing globe initially faces Eurasia and occupies about 70% of the desktop hero width, capped on very wide screens. Drag the globe to rotate it; focused arrow keys rotate it and Home restores Eurasia. Rotation carries across internal page links. The observatory and method sheets sit above a dimmed Earth backdrop. Native cross-document view transitions swipe the sheets while preserving the scene and navigation; unsupported browsers use an exit/entrance animation. Reduced-motion preferences disable movement. Smooth scrolling, section reveals, orbital motion, and pointer-lit cards run without interfering with the observatory map.
