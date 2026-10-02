@@ -1,4 +1,4 @@
-import Lenis from './vendor/lenis/lenis.mjs?v=469d481bcfd7';
+import Lenis from './vendor/lenis/lenis.mjs?v=da8a1831c32a';
 let lenis=null,earthLoading=false;
 const enabled=()=>window.atlasMotion.enabled;
 document.querySelectorAll('.method-card,.method-note,.workspace-heading,.filters,.map-panel,.lower,.context-card').forEach(el=>el.classList.add('reveal'));
@@ -7,7 +7,7 @@ function syncMotion(){
  if(enabled()){
   if(!lenis&&!document.body.classList.contains('dashboard'))lenis=new Lenis({autoRaf:true,anchors:{offset:-100},duration:1.15,smoothWheel:true});
   document.querySelectorAll('.reveal:not(.visible)').forEach(el=>observer.observe(el));
-  if(!earthLoading){earthLoading=true;import('./earth.js?v=469d481bcfd7').catch(()=>{document.getElementById('earth-stage')?.classList.add('webgl-unavailable');});}
+  if(!earthLoading){earthLoading=true;import('./earth.js?v=da8a1831c32a').catch(()=>{document.getElementById('earth-stage')?.classList.add('webgl-unavailable');});}
  }else{
   lenis?.destroy();lenis=null;observer.disconnect();document.querySelectorAll('.reveal').forEach(el=>el.classList.add('visible'));
   document.querySelectorAll('.orbital-illustration,.section-heading').forEach(el=>el.style.removeProperty('--drift'));

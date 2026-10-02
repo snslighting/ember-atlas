@@ -1,9 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {minimumWorldZoom,mapOptions,tileOptions} from './map-policy.js';
-test('a single world fills the map viewport at its minimum zoom',()=>{
+test('the full world can fit in the map at its minimum zoom',()=>{
  for(const size of [{x:340,y:410},{x:1350,y:490},{x:2500,y:1100},{x:0,y:0}]){
-  const zoom=minimumWorldZoom(size);assert.ok(zoom>=2);assert.ok(256*2**zoom>=Math.max(size.x,size.y));if(zoom>2)assert.ok(256*2**(zoom-1)<Math.max(size.x,size.y));
+  const zoom=minimumWorldZoom(size);assert.ok(zoom>=0);if(Math.min(size.x,size.y)>=256)assert.ok(256*2**zoom<=Math.min(size.x,size.y));
  }
 });
 test('tiles and panning share the same non-wrapping world boundary',()=>{

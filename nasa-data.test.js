@@ -1,15 +1,16 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {regions,harmonize,parseCSV} from './core.js';
-const snapshot=JSON.parse(await readFile('data/firms.json','utf8'));
+import {regions,harmonize,parseCSV,inRegion} from './core.js';
+import {readSnapshot} from './read-snapshot.js';
+const snapshot=await readSnapshot();
 test('NASA snapshot includes both products for every region with traceable observations',()=>{
-  assert.equal(snapshot.source,'firms');assert.equal(snapshot.requests.length,6);assert.ok(snapshot.data.length>0);
+  assert.equal(snapshot.source,'firms');assert.equal(snapshot.requests.length,2);assert.ok(snapshot.data.length>0);
   assert.equal(snapshot.requests.reduce((s,r)=>s+r.observations,0),snapshot.data.length);
-  for(const r of snapshot.data){const b=regions[r.region].bounds;assert.ok(r.lat>=b[1]&&r.lat<=b[3]&&r.lon>=b[0]&&r.lon<=b[2]);assert.match(r.date,/^\d{4}-\d{2}-\d{2}$/);assert.match(r.time,/^\d{2}:\d{2}$/);assert.ok(Number.isFinite(r.confidence)&&r.confidence>=0&&r.confidence<=100);assert.ok(Number.isFinite(r.frp)&&r.frp>=0);assert.ok(r.product&&r.confidenceRaw!==undefined&&r.satellite);}
+  for(const r of snapshot.data){assert.ok(inRegion(r,'World'));assert.match(r.date,/^\d{4}-\d{2}-\d{2}$/);assert.match(r.time,/^\d{2}:\d{2}$/);assert.ok(Number.isFinite(r.confidence)&&r.confidence>=0&&r.confidence<=100);assert.ok((Number.isFinite(r.frp)&&r.frp>=0)||(r.frp===null&&'frpRaw' in r));assert.ok(r.product&&r.confidenceRaw!==undefined&&r.satellite);}
 });
 test('NASA aggregation preserves all observation counts, time bounds, and product provenance',()=>{
-  const rows=snapshot.data.filter(r=>r.region==='California');const cells=harmonize(rows);
+  const rows=snapshot.data.filter(r=>inRegion(r,'California'));const cells=harmonize(rows);
   assert.equal(cells.reduce((s,r)=>s+r.observations,0),rows.length);
   assert.ok(cells.every(r=>r.timeStart<=r.timeEnd&&r.products.length&&r.satellites.length));
 });

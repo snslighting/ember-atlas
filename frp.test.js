@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {harmonize} from './core.js';
+test('unavailable FRP never becomes a zero-valued energy measurement',()=>{const r={lat:0,lon:0,date:'2026-10-01',time:'12:00',sensor:'VIIRS',frp:null,frpRaw:-.94,confidence:30,product:'VIIRS_NOAA20_NRT'};assert.equal(harmonize([r])[0].frp,null);assert.equal(harmonize([r,{...r,sensor:'MODIS',frp:12}])[0].frp,12);});
