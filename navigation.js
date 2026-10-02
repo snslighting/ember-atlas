@@ -19,3 +19,14 @@ document.addEventListener('click',e=>{
 window.addEventListener('pageshow',()=>{leaving=false;document.documentElement.classList.remove('page-leave');});
 
 document.addEventListener('animationend',e=>{if(e.target.tagName==='MAIN'&&e.animationName==='sheet-in')document.documentElement.classList.remove('page-enter');});
+
+// Warm the next document only on navigation intent, respecting data saving.
+const prefetched=new Set();
+function warmDestination(event){
+ const link=event.target.closest('a[href]');if(!link||link.hasAttribute('download')||link.target&&link.target!=='_self')return;
+ const url=new URL(link.href,location.href);url.hash='';
+ if(url.origin!==location.origin||pageIndex(url)<0||url.pathname===location.pathname||prefetched.has(url.href)||globalThis.navigator?.connection?.saveData)return;
+ prefetched.add(url.href);const hint=document.createElement('link');hint.rel='prefetch';hint.as='document';hint.href=url.href;document.head.append(hint);
+}
+document.addEventListener('pointerover',warmDestination,{passive:true});
+document.addEventListener('focusin',warmDestination);

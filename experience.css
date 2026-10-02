@@ -53,3 +53,8 @@ body:before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;bac
 body:before{mask-image:radial-gradient(circle at var(--planet-x,68vw) var(--planet-y,50svh),transparent 0 var(--planet-radius,34vw),#000 calc(var(--planet-radius,34vw) + 1px));-webkit-mask-image:radial-gradient(circle at var(--planet-x,68vw) var(--planet-y,50svh),transparent 0 var(--planet-radius,34vw),#000 calc(var(--planet-radius,34vw) + 1px))}
 #earth-stage .earth-fallback,html[data-motion=off] #earth-stage .earth-fallback{top:50%;translate:0 -50%;left:34%;width:68%;background-position:70% center}
 @media(max-width:700px){#earth-stage .earth-fallback,html[data-motion=off] #earth-stage .earth-fallback{left:3%;width:94%}}
+
+/* A spherical first paint; reveal WebGL only after its textured frame exists. */
+#earth-stage .earth-fallback,html[data-motion=off] #earth-stage .earth-fallback{background: url('./assets/earth-poster.webp') center/contain no-repeat;box-shadow:0 0 55px #1979af22}
+#earth-stage:not(.webgl-ready) canvas{visibility:hidden}
+@media(max-width:700px){#earth-stage .earth-fallback,html[data-motion=off] #earth-stage .earth-fallback{top:calc(50% + 3.889655vw)}}

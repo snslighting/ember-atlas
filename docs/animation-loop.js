@@ -1,8 +1,1 @@
-// No scheduled frame remains when motion is disabled or the tab is hidden.
-export function createAnimationLoop({enabled,visible,tick,request=requestAnimationFrame,cancel=cancelAnimationFrame}){
- let frame=null;
- function start(){if(frame===null&&enabled()&&visible())frame=request(run);}
- function run(time){frame=null;if(!enabled()||!visible())return;tick(time);start();}
- function stop(){if(frame!==null)cancel(frame);frame=null;}
- return {start,stop,sync(){stop();start();}};
-}
+function f({enabled:u,visible:r,tick:o,request:l=requestAnimationFrame,cancel:e=cancelAnimationFrame}){let n=null;function t(){n===null&&u()&&r()&&(n=l(a))}function a(c){n=null,!(!u()||!r())&&(o(c),t())}function i(){n!==null&&e(n),n=null}return{start:t,stop:i,sync(){i(),t()}}}export{f as createAnimationLoop};

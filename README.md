@@ -3,11 +3,11 @@
 **Website:** https://snslighting.github.io/ember-atlas/
 **Repository:** https://github.com/snslighting/ember-atlas
 
-A redesigned three-page Earth observation website: an animated WebGL Earth landing page with Lenis smooth scrolling, an automatically updating observatory, and a dedicated methodology page. Responsive layouts and reduced-motion support are included.
+A four-page Earth observation website: an animated WebGL Earth landing page with Lenis smooth scrolling, an automatically updating observatory, a dedicated methodology page, and a full-page map. Responsive layouts and reduced-motion support are included.
 
 ## Actual NASA data
 
-The observatory serves actual NASA FIRMS observations from MODIS_NRT and VIIRS_NOAA20_NRT for the latest five UTC days. A GitHub Actions publisher downloads official public rolling CSVs, filters the three study-area bounding boxes, validates data, builds the site, and deploys it. No repository secret or browser-exposed API key is needed. Your local ignored key remains available for the area API.
+The observatory serves actual NASA FIRMS observations from MODIS_NRT and VIIRS_NOAA20_NRT for the latest five UTC days. A GitHub Actions publisher downloads official public rolling CSVs, keeps worldwide observations, validates data, builds the site, and deploys it. No repository secret or browser-exposed API key is needed. Your local ignored key remains available for the area API.
 
 The publisher is scheduled every 15 minutes (minutes 7, 22, 37, and 52 UTC). GitHub scheduling and publication can be delayed; NASA data have acquisition and processing latency. This is near-real-time, not an instantaneous guaranteed feed. The dashboard polls a small version manifest every 60 seconds, fetches records only when a new publication is available, and updates without reloading. Manual dates, sensor selection, confidence, map position, and selected day are retained when possible. Follow latest dates enables a rolling date window. After 45 minutes without a successful newer retrieval the view marks data stale; failures retain the last actual records and retry. Hidden tabs pause checks and immediately check when resumed.
 
@@ -38,7 +38,7 @@ npm.cmd run build
 npm.cmd test
 ```
 
-`data:refresh` uses the local key if configured, otherwise official public CSV downloads. Set FIRMS_PUBLIC_DOWNLOADS=1 to force public sources. All requested products must succeed and validate before replacing the snapshot. It stores public observations and metadata in `data/firms.json`; no API URL containing the key is saved. `build` copies the real snapshot and relative static assets into `docs/`. Commit the refreshed `data/`, `docs/`, and analysis report and push `main` to publish. GitHub Pages uses GitHub Actions; `.github/workflows/publish.yml` runs on main pushes, scheduled intervals, and manual dispatch. It refreshes data before testing, building, and publishing the artifact. Never commit `.env` or put the key in browser code. The static Pages site cannot contact the credentialed API directly; the scheduled publisher handles cloud refreshes.
+`data:refresh` uses official public global CSV downloads. All requested products must succeed and validate before replacing the snapshot. It stores public observations and metadata in `data/firms.json`; no API URL containing the key is saved. `build` copies the real snapshot and relative static assets into `docs/`. Commit the refreshed `data/`, `docs/`, and analysis report and push `main` to publish. GitHub Pages uses GitHub Actions; `.github/workflows/publish.yml` runs on main pushes, scheduled intervals, and manual dispatch. It refreshes data before testing, building, and publishing the artifact. Never commit `.env` or put the key in browser code. The static Pages site cannot contact the credentialed API directly; the scheduled publisher handles cloud refreshes.
 
 ## Analysis baseline
 
@@ -64,11 +64,11 @@ The grid is approximate and has boundary artifacts. It does not validate matches
 - `analyze-data.js`: reproducible actual-data analysis report.
 - `core.test.js`, `nasa-data.test.js`: processing and data-integrity checks.
 
-Leaflet is bundled with its license. OpenStreetMap tiles and optional fonts require internet. The server binds to 127.0.0.1.
+Leaflet is bundled with its license. Basemap imagery requires internet. Fonts are self-hosted. The server binds to 127.0.0.1.
 
 ## Shared scene and motion
 
-All three pages share `earth.js`, `motion.js`, and `navigation.js`. The landing globe initially faces Eurasia and occupies about 70% of the desktop hero width, capped on very wide screens. Drag the globe to rotate it; focused arrow keys rotate it and Home restores Eurasia. Rotation carries across internal page links. The observatory and method sheets sit above a dimmed Earth backdrop. Native cross-document view transitions swipe the sheets while preserving the scene and navigation; unsupported browsers use an exit/entrance animation. Reduced-motion preferences disable movement. Smooth scrolling, section reveals, orbital motion, and pointer-lit cards run without interfering with the observatory map.
+All three pages share `earth.js`, `motion.js`, and `navigation.js`. The landing globe initially faces Eurasia and occupies about 70% of the desktop hero width, capped on very wide screens. Drag the globe to rotate it; focused arrow keys rotate it and Home restores Eurasia. Rotation carries across internal page links. The observatory and method sheets sit above a dimmed Earth backdrop. Coordinated exit and entrance animations swipe the sheets while keeping the distant scene behind the content. Reduced-motion preferences disable movement. Smooth scrolling, section reveals, orbital motion, and pointer-lit cards run without interfering with the observatory map.
 
 The shared styling lives in `experience.css`. Every release versions HTML page links, styles, scripts, and local module imports together so cached styles cannot put the Earth over new page content. The WebGL scene has an isolated, clipped background layer; content and transition snapshots remain above it. The globe uses orthographic projection for a predictable 68% desktop width. The map uses one non-wrapping world, hard geographic bounds, and a viewport-aware minimum zoom; it cannot pan into duplicate worlds. Regression checks cover release invalidation, navigation behavior, and map viewport limits.
 
@@ -81,3 +81,11 @@ The NASA publisher now fetches MODIS and NOAA-20 VIIRS worldwide for the rolling
 The observatory offers Enlarge map (Escape closes it), a dedicated `map.html` view, and World view. Full-page links carry the active area, dates, confidence, sensor, basemap, selected day, and map position. Street and dark maps use OpenStreetMap. Satellite Blue Marble, VIIRS night lights (2012), and dated daily MODIS Terra imagery use NASA GIBS; static composites are labeled and imagery dates are independent of fire observations. Daily imagery uses the previous UTC date unless a calendar day is selected. Imagery tile gaps do not remove NASA hotspot observations. The map is bounded to one non-wrapping Earth.
 
 The shared background is a continuous darker night sky with static stars, a constantly rotating Earth, and illustrative orbiting satellites. Satellites are decorative models, not real-time orbital tracking. The method content has no separate-width gradient. The animation switch stops 3D motion and rendering while leaving data updates active.
+
+## Startup performance
+
+The Pages build bundles and minifies JavaScript, combines page styles, inlines the small navigation/preference bootstrap, self-hosts fonts, and preloads globe resources. The 3D renderer is still skipped when animations are off. A spherical preview from the same texture and Eurasia orientation covers startup until the textured WebGL frame and shaders are ready. Regenerate the WebP assets with node prepare-assets.js after changing the source texture.
+
+Published daily shards include lossless column-encoded gzip files. The worker decodes them, caches compressed responses across page visits, and downloads changed hashes only. Original JSON remains a compatibility fallback. All fields, raw confidence values, optional FRP metadata, coordinates and IDs round-trip exactly. Cache access is optional, so private browsing and storage limits do not prevent loading. Analysis and CSV exports continue to use complete records.
+
+Run npm run build to create the optimized production files in docs/. Run node preview-pages.js to serve them at http://localhost:3001/ember-atlas/. The npm start command serves unbundled development source. Tests cover data round trips, cache reuse, fallback downloads, filters, exports, map interactions, motion preferences and page transitions.

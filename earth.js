@@ -2,9 +2,9 @@ import {createAnimationLoop} from './animation-loop.js';
 import * as THREE from './vendor/three/three.module.js';
 const stage=document.getElementById('earth-stage'),landing=document.body.classList.contains('landing');
 if(stage)try{
- const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'});renderer.setPixelRatio(Math.min(devicePixelRatio,landing?1.7:1));stage.append(renderer.domElement);stage.classList.add('webgl-ready');
+ const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'});renderer.setPixelRatio(Math.min(devicePixelRatio,landing?1.7:1));stage.append(renderer.domElement);
  const scene=new THREE.Scene(),camera=new THREE.OrthographicCamera(-3,3,2,-2,.1,100),group=new THREE.Group();scene.add(group);
- const texture=new THREE.TextureLoader().load('./assets/earth.jpg',()=>renderer.render(scene,camera));texture.colorSpace=THREE.SRGBColorSpace;
+ const texture=await new THREE.TextureLoader().loadAsync('./assets/earth.webp');texture.colorSpace=THREE.SRGBColorSpace;
  const earth=new THREE.Mesh(new THREE.SphereGeometry(1.45,64,64),new THREE.MeshPhongMaterial({map:texture,shininess:12,specular:0x3283b5}));earth.rotation.set(.12,-2.79,.12);group.add(earth);
  try{if(document.documentElement.dataset.direction){const saved=JSON.parse(sessionStorage.getItem('atlas-earth'));if(saved)earth.rotation.set(saved.x,saved.y,.12);}}catch{}
  window.addEventListener('atlas-navigation',()=>{try{sessionStorage.setItem('atlas-earth',JSON.stringify({x:earth.rotation.x,y:earth.rotation.y}));}catch{}});
@@ -14,8 +14,10 @@ if(stage)try{
  const satellites=[];for(let i=0;i<2;i++){const orbitGroup=new THREE.Group();orbitGroup.rotation.set(.7+i*.9,.3+i*.8,.4);group.add(orbitGroup);const satellite=new THREE.Group();satellite.add(new THREE.Mesh(new THREE.BoxGeometry(.08,.07,.07),new THREE.MeshPhongMaterial({color:0xe3eaf3,shininess:40})));for(const sign of [-1,1]){const panel=new THREE.Mesh(new THREE.BoxGeometry(.14,.004,.07),new THREE.MeshPhongMaterial({color:0x276aa9,emissive:0x082540}));panel.position.x=sign*.12;satellite.add(panel);}satellite.scale.setScalar(.35);orbitGroup.add(satellite);satellites.push({object:satellite,radius:1.73+i*.15,phase:i*Math.PI,speed:.10+i*.035});}
  const stars=[];for(let i=0;i<550;i++)stars.push((Math.random()-.5)*20,(Math.random()-.5)*14,-4-Math.random()*6);
  const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(stars,3));scene.add(new THREE.Points(geometry,new THREE.PointsMaterial({color:0xb4ddff,size:.012,transparent:true,opacity:.65})));
- function resize(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;renderer.setSize(w,h);const ratio=(w<700?.94:.68)*w/h;camera.top=1.45/ratio;camera.bottom=-camera.top;camera.right=camera.top*w/h;camera.left=-camera.right;camera.position.z=6;group.position.x=w<700?0:camera.right*.36;group.position.y=w<700?-.12:0;camera.updateProjectionMatrix();stage.dataset.projectedWidth=w<700?'94%':'68%';window.dispatchEvent(new Event('atlas-scene-ready'));renderer.render(scene,camera);}
+ let ready=false;
+ function resize(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;renderer.setSize(w,h);const ratio=(w<700?.94:.68)*w/h;camera.top=1.45/ratio;camera.bottom=-camera.top;camera.right=camera.top*w/h;camera.left=-camera.right;camera.position.z=6;group.position.x=w<700?0:camera.right*.36;group.position.y=w<700?-.12:0;camera.updateProjectionMatrix();stage.dataset.projectedWidth=w<700?'94%':'68%';window.dispatchEvent(new Event('atlas-scene-ready'));if(ready)renderer.render(scene,camera);}
  new ResizeObserver(resize).observe(stage);resize();
+ await renderer.compileAsync(scene,camera);renderer.render(scene,camera);ready=true;stage.classList.add('webgl-ready');window.dispatchEvent(new Event('atlas-scene-ready'));
  const canvas=renderer.domElement,ray=new THREE.Raycaster(),pointer=new THREE.Vector2();let drag=null,velocity=0,pausedUntil=0,last=performance.now();
  function publish(){stage.dataset.rotation=earth.rotation.y.toFixed(3);}publish();
  if(landing){canvas.tabIndex=0;canvas.setAttribute('role','img');canvas.setAttribute('aria-label','Interactive Earth, initially facing Eurasia. Drag to rotate or use arrow keys.');
@@ -29,4 +31,4 @@ if(stage)try{
  function syncLoop(){drag=null;velocity=0;stage.classList.remove('dragging');last=performance.now();loop.sync();}
  const mapElement=document.getElementById('map');if(mapElement)new IntersectionObserver(entries=>{mapVisible=entries[0].isIntersecting;stage.dataset.mapPaused=String(mapVisible);syncLoop();},{threshold:0}).observe(mapElement);
  window.addEventListener('atlas-motion-change',syncLoop);document.addEventListener('visibilitychange',syncLoop);window.addEventListener('pageshow',syncLoop);window.addEventListener('pagehide',()=>loop.stop());loop.start();
-}catch{stage.classList.add('webgl-unavailable');}
+}catch{stage.classList.remove('webgl-ready');stage.classList.add('webgl-unavailable');}
