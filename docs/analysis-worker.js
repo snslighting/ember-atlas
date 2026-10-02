@@ -1,5 +1,5 @@
-import {getData,getVersion} from './provider.js?v=af2cfe938f2d';
-import {createAnalyzer,createViewportIndex,viewportBins,exportCSV} from './map-analysis.js?v=af2cfe938f2d';
+import {getData,getVersion} from './provider.js?v=2715f64faaf7';
+import {createAnalyzer,createViewportIndex,viewportBins,exportCSV} from './map-analysis.js?v=2715f64faaf7';
 let selected=[],analyze=createAnalyzer([]),index=createViewportIndex([]);
 self.onmessage=async({data:{id,type,args}})=>{try{
  let result;

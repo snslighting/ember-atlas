@@ -1,5 +1,5 @@
-import {createAnimationLoop} from './animation-loop.js?v=af2cfe938f2d';
-import * as THREE from './vendor/three/three.module.js?v=af2cfe938f2d';
+import {createAnimationLoop} from './animation-loop.js?v=2715f64faaf7';
+import * as THREE from './vendor/three/three.module.js?v=2715f64faaf7';
 const stage=document.getElementById('earth-stage'),landing=document.body.classList.contains('landing');
 if(stage)try{
  const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'});renderer.setPixelRatio(Math.min(devicePixelRatio,landing?1.7:1));stage.append(renderer.domElement);stage.classList.add('webgl-ready');

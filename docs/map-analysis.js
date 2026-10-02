@@ -1,4 +1,4 @@
-import {inRegion,harmonize,calendar} from './core.js?v=af2cfe938f2d';
+import {inRegion,harmonize,calendar} from './core.js?v=2715f64faaf7';
 // Reuse the expensive daily grid when only the sensor or selected day changes.
 export function createAnalyzer(data){
  let cached=null,key=null;

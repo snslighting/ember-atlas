@@ -1,10 +1,10 @@
-import {mapOptions,tileOptions,minimumWorldZoom} from './map-policy.js?v=af2cfe938f2d';
-import {nextDateRange,feedHealth} from './refresh-state.js?v=af2cfe938f2d';
-import {regions} from './core.js?v=af2cfe938f2d';
-import {basemaps,imageryDate} from './basemaps.js?v=af2cfe938f2d';
-import {createHotspotLayer} from './hotspot-layer.js?v=af2cfe938f2d';
+import {mapOptions,tileOptions,minimumWorldZoom} from './map-policy.js?v=2715f64faaf7';
+import {nextDateRange,feedHealth} from './refresh-state.js?v=2715f64faaf7';
+import {regions} from './core.js?v=2715f64faaf7';
+import {basemaps,imageryDate} from './basemaps.js?v=2715f64faaf7';
+import {createHotspotLayer} from './hotspot-layer.js?v=2715f64faaf7';
 const $=id=>document.getElementById(id),params=new URLSearchParams(location.search),colors={MODIS:'#ff965c',VIIRS:'#77bfff',Harmonized:'#a5e6bc'};
-const worker=new Worker(new URL('./analysis-worker.js?v=af2cfe938f2d',import.meta.url),{type:'module'});let rpcID=0;const pending=new Map();
+const worker=new Worker(new URL('./analysis-worker.js?v=2715f64faaf7',import.meta.url),{type:'module'});let rpcID=0;const pending=new Map();
 function ask(type,args){return new Promise((resolve,reject)=>{const id=++rpcID;pending.set(id,{resolve,reject});worker.postMessage({id,type,args});});}
 worker.onmessage=({data:{id,result,error}})=>{const p=pending.get(id);if(!p)return;pending.delete(id);error?p.reject(Error(error)):p.resolve(result);};
 worker.onerror=()=>{for(const p of pending.values())p.reject(Error('Background processing unavailable'));pending.clear();$('status').textContent='Background data processing could not start. Try loading the page again.';};
@@ -32,7 +32,7 @@ function draw(){
  drawing=(async()=>{
   while(drawRequested){
    drawRequested=false;const id=drawID,args=viewport();
-   try{const result=await ask('points',args);if(id!==drawID)continue;
+   try{const result=await ask('points',args),current=viewport();if(id!==drawID||args.zoom!==current.zoom||args.origin.x!==current.origin.x||args.origin.y!==current.origin.y||args.width!==current.width||args.height!==current.height)continue;
     hotspots.paint(result.bins);visibleBins=result.bins;updateVisibleList();
     $('map-density').textContent=result.visible.toLocaleString()+' selected detections \u00b7 '+result.bins.length.toLocaleString()+' map symbols \u00b7 zoom in for detail';
    }catch{$('map-density').textContent='Map update unavailable; check the data connection.';}

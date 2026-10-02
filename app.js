@@ -32,7 +32,7 @@ function draw(){
  drawing=(async()=>{
   while(drawRequested){
    drawRequested=false;const id=drawID,args=viewport();
-   try{const result=await ask('points',args);if(id!==drawID)continue;
+   try{const result=await ask('points',args),current=viewport();if(id!==drawID||args.zoom!==current.zoom||args.origin.x!==current.origin.x||args.origin.y!==current.origin.y||args.width!==current.width||args.height!==current.height)continue;
     hotspots.paint(result.bins);visibleBins=result.bins;updateVisibleList();
     $('map-density').textContent=result.visible.toLocaleString()+' selected detections \u00b7 '+result.bins.length.toLocaleString()+' map symbols \u00b7 zoom in for detail';
    }catch{$('map-density').textContent='Map update unavailable; check the data connection.';}
