@@ -1,6 +1,9 @@
+import {syncStarMask} from './scene-layout.js';
 import Lenis from './vendor/lenis/lenis.mjs';
 let lenis=null,earthLoading=false;
 const enabled=()=>window.atlasMotion.enabled;
+const stage=document.getElementById('earth-stage');
+if(stage){const mask=()=>syncStarMask(stage);new ResizeObserver(mask).observe(stage);window.addEventListener('resize',mask);window.addEventListener('atlas-motion-change',mask);window.addEventListener('atlas-scene-ready',mask);mask();}
 document.querySelectorAll('.method-card,.method-note,.workspace-heading,.filters,.map-panel,.lower,.context-card').forEach(el=>el.classList.add('reveal'));
 const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}}),{threshold:.08});
 function syncMotion(){

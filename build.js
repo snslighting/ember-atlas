@@ -1,7 +1,7 @@
 import {mkdir,readFile,writeFile,copyFile,cp} from 'node:fs/promises';
 import {releaseVersion,versionHTML,versionModules} from './build-assets.js';
 const pages=['index.html','observatory.html','map.html','method.html'];
-const files=['analysis-worker.js','map-analysis.js','hotspot-layer.js','basemaps.js','animation-loop.js','motion-settings.js','map-policy.js','app.js','core.js','provider.js','refresh-state.js','site.css','experience.css','dashboard.css','landing.js','earth.js','motion.js','navigation.js'];
+const files=['scene-layout.js','analysis-worker.js','map-analysis.js','hotspot-layer.js','basemaps.js','animation-loop.js','motion-settings.js','map-policy.js','app.js','core.js','provider.js','refresh-state.js','site.css','experience.css','dashboard.css','landing.js','earth.js','motion.js','navigation.js'];
 const version=releaseVersion(await Promise.all([...pages,...files,'build-assets.js'].map(p=>readFile(p,'utf8'))));
 await mkdir('docs',{recursive:true});
 for(const page of pages){let html=await readFile(page,'utf8');html=html.replace('<html lang="en">','<html lang="en" data-host="static">').replaceAll('./node_modules/leaflet/dist/','./vendor/leaflet/');await writeFile('docs/'+page,versionHTML(html,version));}

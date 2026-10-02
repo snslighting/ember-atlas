@@ -1,12 +1,12 @@
-import {getData,getVersion} from './provider.js?v=da8a1831c32a';
-import {analyzeRows,viewportBins,exportCSV} from './map-analysis.js?v=da8a1831c32a';
-let rows=[],selected=[];
+import {getData,getVersion} from './provider.js?v=af2cfe938f2d';
+import {createAnalyzer,createViewportIndex,viewportBins,exportCSV} from './map-analysis.js?v=af2cfe938f2d';
+let selected=[],analyze=createAnalyzer([]),index=createViewportIndex([]);
 self.onmessage=async({data:{id,type,args}})=>{try{
  let result;
  if(type==='version')result=await getVersion();
- else if(type==='load'){const snapshot=await getData();rows=snapshot.data;const {data,...metadata}=snapshot;result=metadata;}
- else if(type==='analyze'){const analysis=analyzeRows(rows,args);selected=analysis.selected;result=analysis.summary;}
- else if(type==='points')result=viewportBins(selected,args);
+ else if(type==='load'){const snapshot=await getData();analyze=createAnalyzer(snapshot.data);const {data,...metadata}=snapshot;result=metadata;}
+ else if(type==='analyze'){const analysis=analyze(args);if(selected!==analysis.selected){selected=analysis.selected;index=createViewportIndex(selected);}result=analysis.summary;}
+ else if(type==='points')result=viewportBins(index,args);
  else if(type==='export')result=exportCSV(selected);
  else throw Error('Unknown map request');
  self.postMessage({id,result});
