@@ -43,3 +43,11 @@
 .map-expanded>.map-panel{background:#0b1c2c;border-radius:18px}.map-page .map-panel{border-radius:16px}
 .map-page .map-footer{padding-block:10px 4px}.map-page .map-density{margin-bottom:10px}
 @media(max-width:700px){.map-panel .panel-head{padding:20px}.map-panel .tabs{width:100%;overflow-x:auto}.map-panel .tabs button{padding:9px 12px;white-space:nowrap;flex:1}.map-toolbar{padding:0 20px 12px;align-items:stretch}.map-toolbar select{width:100%}.map-actions{display:grid;grid-template-columns:1fr 1fr}.map-actions #map-page-link{grid-column:1 / -1}.map-footer{padding-inline:20px}.imagery-note,.map-density,.map-accessible{padding-inline:20px}.map-expanded>.map-panel{border-radius:0}.map-expanded .map-actions{display:flex;flex-wrap:wrap}.map-page .map-actions{display:flex;flex-wrap:wrap}}
+
+/* Drawn-area tools use the same compact blue control style as the map. */
+.map-actions{flex-wrap:wrap;justify-content:flex-end}.map-actions [hidden]{display:none}
+#select-area[aria-pressed=true]{background:#63b6ff;border-color:#63b6ff;color:#061626}
+#map.selecting-area,#map.selecting-area .leaflet-interactive{cursor:crosshair}#map.selecting-area{touch-action:none}
+.area-status{margin:0 0 10px;padding:0 26px;color:#b9d9f2;font-size:11px;line-height:1.65}
+.map-expanded .area-status,.map-page .area-status{margin-bottom:6px}
+@media(max-width:700px){.area-status{padding-inline:20px}.map-actions{justify-content:flex-start}}

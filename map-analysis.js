@@ -1,12 +1,14 @@
+import {normalizeArea,inArea} from './area-bounds.js';
 import {inRegion,harmonize,calendar} from './core.js';
 // Reuse the expensive daily grid when only the sensor or selected day changes.
 export function createAnalyzer(data){
  let cached=null,key=null;
  return filters=>{
-  const {region,start,end,confidence,view,day}=filters;
-  const nextKey=JSON.stringify([region,start,end,confidence]);
+  const {region,start,end,confidence,view,day}=filters,area=normalizeArea(filters.area);
+  if(filters.area&&!area)throw Error("Invalid selected area");
+  const nextKey=JSON.stringify([region,start,end,confidence,area]);
   if(key!==nextKey){
-   const raw=data.filter(r=>inRegion(r,region)&&r.date>=start&&r.date<=end&&r.confidence>=confidence);
+   const raw=data.filter(r=>inRegion(r,region)&&inArea(r,area)&&r.date>=start&&r.date<=end&&r.confidence>=confidence);
    const merged=harmonize(raw),sensors={MODIS:[],VIIRS:[]};for(const r of raw)sensors[r.sensor]?.push(r);
    cached={raw,merged,sensors,summary:{raw:raw.length,cells:merged.length,overlap:merged.filter(r=>r.sensors.length>1).length,days:calendar(merged,start,end),bars:[['MODIS',sensors.MODIS.length],['VIIRS',sensors.VIIRS.length],['Harmonized',merged.length]]}};key=nextKey;
   }

@@ -6,7 +6,7 @@ import {build,transform} from 'esbuild';
 import {releaseVersion,versionHTML,versionModules} from './build-assets.js';
 import {packRows} from './data-codec.js';
 const pages=['index.html','observatory.html','map.html','method.html'];
-const modules=['scene-layout.js','analysis-worker.js','map-analysis.js','hotspot-layer.js','basemaps.js','animation-loop.js','map-policy.js','app.js','core.js','provider.js','refresh-state.js','landing.js','earth.js','motion.js','data-codec.js'];
+const modules=['area-bounds.js','area-selection.js','scene-layout.js','analysis-worker.js','map-analysis.js','hotspot-layer.js','basemaps.js','animation-loop.js','map-policy.js','app.js','core.js','provider.js','refresh-state.js','landing.js','earth.js','motion.js','data-codec.js'];
 const styles=['site.css','dashboard.css','experience.css','fonts.css'],classic=['motion-settings.js','navigation.js'];
 const inputs=[...pages,...modules,...styles,...classic,'build.js','build-assets.js','package-lock.json'];
 const version=releaseVersion(await Promise.all(inputs.map(p=>readFile(p,'utf8'))));
