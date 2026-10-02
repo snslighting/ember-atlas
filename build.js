@@ -30,7 +30,7 @@ for(const file of modules){
  await writeFile('docs/'+file,versionModules(result.outputFiles[0].text,version));
 }
 for(const file of classic)await writeFile('docs/'+file,(await transform(await readFile(file,'utf8'),{minify:true,target:'es2022'})).code);
-const site=(await readFile('site.css','utf8')).replace(/^@import[^;]+;/,'');
+const site=(await readFile('site.css','utf8')).replace(/^@import[^\r\n]*(?:\r?\n|$)/,'');
 const experience=await readFile('experience.css','utf8'),dashboard=await readFile('dashboard.css','utf8');
 for(const [file,source] of [['site.css',fontCSS+site+experience],['dashboard.css',fontCSS+site+dashboard+experience],['experience.css',experience]]){
  await writeFile('docs/'+file,(await transform(source,{loader:'css',minify:true,target:'es2022'})).code);
