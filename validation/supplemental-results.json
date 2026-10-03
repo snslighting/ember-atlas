@@ -1,0 +1,1403 @@
+{
+  "generatedAt": "2026-10-03T18:21:47.647Z",
+  "provenance": [
+    {
+      "file": "modis_2018_Kenya.csv",
+      "url": "https://firms.modaps.eosdis.nasa.gov/data/country/modis/2018/modis_2018_Kenya.csv",
+      "retrievedAt": "2026-10-03T18:11:38.044Z",
+      "bytes": 135014,
+      "sha256": "072c22d4f6d9092287c54edb1a531d31895348b5b73a9a48b3bf553559bd685c"
+    },
+    {
+      "file": "viirs-snpp_2018_Kenya.csv",
+      "url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2018/viirs-snpp_2018_Kenya.csv",
+      "retrievedAt": "2026-10-03T18:11:39.142Z",
+      "bytes": 923510,
+      "sha256": "59caa555adfa276b4d271ca2691cdc6d70c3547231189c653a07df9ff4c4d18a"
+    },
+    {
+      "file": "modis_2019_Kenya.csv",
+      "url": "https://firms.modaps.eosdis.nasa.gov/data/country/modis/2019/modis_2019_Kenya.csv",
+      "retrievedAt": "2026-10-03T18:11:40.055Z",
+      "bytes": 253101,
+      "sha256": "ce3c9ce402f6911a718ecd1b7b77e2bead738605db46dffc7494baf21360f298"
+    },
+    {
+      "file": "viirs-snpp_2019_Kenya.csv",
+      "url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2019/viirs-snpp_2019_Kenya.csv",
+      "retrievedAt": "2026-10-03T18:11:40.730Z",
+      "bytes": 1561474,
+      "sha256": "3141df060748c15c12be1af88e951036070cc3eabba89e4c49edd08577158e9c"
+    },
+    {
+      "file": "modis_2020_Kenya.csv",
+      "url": "https://firms.modaps.eosdis.nasa.gov/data/country/modis/2020/modis_2020_Kenya.csv",
+      "retrievedAt": "2026-10-03T18:11:41.963Z",
+      "bytes": 283682,
+      "sha256": "8c0e706f10c953a89b60023e2d4fcf05731dbfcf5156209bada704389bb82c09"
+    },
+    {
+      "file": "viirs-snpp_2020_Kenya.csv",
+      "url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2020/viirs-snpp_2020_Kenya.csv",
+      "retrievedAt": "2026-10-03T18:11:42.604Z",
+      "bytes": 1675804,
+      "sha256": "946b3b7b7e68c0eb3cb1e0c3c5f4954c55b2c25b533f57227c9ce53e43a29648"
+    },
+    {
+      "file": "modis_2021_Kenya.csv",
+      "url": "https://firms.modaps.eosdis.nasa.gov/data/country/modis/2021/modis_2021_Kenya.csv",
+      "retrievedAt": "2026-10-03T18:11:43.749Z",
+      "bytes": 290435,
+      "sha256": "1baba69ffcbbd9438604775a87a24f7a58aceba491abc1b6248a69163d6eecac"
+    },
+    {
+      "file": "viirs-snpp_2021_Kenya.csv",
+      "url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2021/viirs-snpp_2021_Kenya.csv",
+      "retrievedAt": "2026-10-03T18:11:44.391Z",
+      "bytes": 1676638,
+      "sha256": "f8d0300cb540c4a59a06849b3c498589cefe0651749723cf1d041fae62fcf181"
+    },
+    {
+      "file": "modis_2022_Kenya.csv",
+      "url": "https://firms.modaps.eosdis.nasa.gov/data/country/modis/2022/modis_2022_Kenya.csv",
+      "retrievedAt": "2026-10-03T18:11:45.459Z",
+      "bytes": 124756,
+      "sha256": "65c729e362f1bf2fbf4e3052606fcf12e9a0efa063f14e38b55c42395890970a"
+    },
+    {
+      "file": "viirs-snpp_2022_Kenya.csv",
+      "url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2022/viirs-snpp_2022_Kenya.csv",
+      "retrievedAt": "2026-10-03T18:11:46.049Z",
+      "bytes": 894752,
+      "sha256": "12a9a8ccc63eb08afdd57eda13d4e87659b8ae998b369adc30ad222eb9109cd1"
+    },
+    {
+      "file": "modis_2023_Kenya.csv",
+      "url": "https://firms.modaps.eosdis.nasa.gov/data/country/modis/2023/modis_2023_Kenya.csv",
+      "retrievedAt": "2026-10-03T18:11:46.735Z",
+      "bytes": 182529,
+      "sha256": "1885461d1cc1c391d0d80f8330643ab9a913aeb9447ab45868664e89c68a54bd"
+    },
+    {
+      "file": "viirs-snpp_2023_Kenya.csv",
+      "url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2023/viirs-snpp_2023_Kenya.csv",
+      "retrievedAt": "2026-10-03T18:11:47.329Z",
+      "bytes": 1065837,
+      "sha256": "e0f67c8ecb8f0791cd7e7dffae5475de0b83156f8204eab535c4bd924bf44c52"
+    },
+    {
+      "file": "modis_2018_Australia.csv",
+      "url": "https://firms.modaps.eosdis.nasa.gov/data/country/modis/2018/modis_2018_Australia.csv",
+      "retrievedAt": "2026-10-03T18:11:52.417Z",
+      "bytes": 24763900,
+      "sha256": "035a077b88cfd84484f0091fa034993b77b2f73ddc0dbda56bec8da880a616ed"
+    },
+    {
+      "file": "viirs-snpp_2018_Australia.csv",
+      "url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2018/viirs-snpp_2018_Australia.csv",
+      "retrievedAt": "2026-10-03T18:12:13.617Z",
+      "bytes": 117965462,
+      "sha256": "84fa119ad4113029530f7921daec9802e4b0cabcc16d5cca6a49dfba319d3492"
+    },
+    {
+      "file": "modis_2019_Australia.csv",
+      "url": "https://firms.modaps.eosdis.nasa.gov/data/country/modis/2019/modis_2019_Australia.csv",
+      "retrievedAt": "2026-10-03T18:12:31.613Z",
+      "bytes": 25021097,
+      "sha256": "c24edcdf1bd55862c1e7f897006bcd8d3e00f3d4115a8661f4d687137cabfb39"
+    },
+    {
+      "file": "viirs-snpp_2019_Australia.csv",
+      "url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2019/viirs-snpp_2019_Australia.csv",
+      "retrievedAt": "2026-10-03T18:12:52.180Z",
+      "bytes": 126681711,
+      "sha256": "7f19b3c70f1be553e49bbba8e38cf5f1b8c4fab98ac6a08d972961680d4b2c48"
+    },
+    {
+      "file": "modis_2020_Australia.csv",
+      "url": "https://firms.modaps.eosdis.nasa.gov/data/country/modis/2020/modis_2020_Australia.csv",
+      "retrievedAt": "2026-10-03T18:13:10.378Z",
+      "bytes": 12487063,
+      "sha256": "4426abfc1360897daafc066248707696aa84b5e0aba3c6f20183fe455db74176"
+    },
+    {
+      "file": "viirs-snpp_2020_Australia.csv",
+      "url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2020/viirs-snpp_2020_Australia.csv",
+      "retrievedAt": "2026-10-03T18:13:31.703Z",
+      "bytes": 68015966,
+      "sha256": "3664ab6ccd2d167f2d77ce25316cfaa4c09bf77f7acc5aee56f1a315df5e5941"
+    },
+    {
+      "file": "modis_2021_Australia.csv",
+      "url": "https://firms.modaps.eosdis.nasa.gov/data/country/modis/2021/modis_2021_Australia.csv",
+      "retrievedAt": "2026-10-03T18:13:45.026Z",
+      "bytes": 13819813,
+      "sha256": "23722270e8cf9b23483eccb8c0c30037f7f01429cc2abcb2bccd973037a6b101"
+    },
+    {
+      "file": "viirs-snpp_2021_Australia.csv",
+      "url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2021/viirs-snpp_2021_Australia.csv",
+      "retrievedAt": "2026-10-03T18:14:10.750Z",
+      "bytes": 65754049,
+      "sha256": "24b295f86e07493f69084b71b4c331b9120cdbcae6ffd72a6f56d354506ce661"
+    },
+    {
+      "file": "modis_2022_Australia.csv",
+      "url": "https://firms.modaps.eosdis.nasa.gov/data/country/modis/2022/modis_2022_Australia.csv",
+      "retrievedAt": "2026-10-03T18:14:26.688Z",
+      "bytes": 12887209,
+      "sha256": "00523ce7c932ebff5f0f357e682d0c4cebe4ad7b6a1410b3ed1e80aea4963b2f"
+    },
+    {
+      "file": "viirs-snpp_2022_Australia.csv",
+      "url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2022/viirs-snpp_2022_Australia.csv",
+      "retrievedAt": "2026-10-03T18:14:40.656Z",
+      "bytes": 64573386,
+      "sha256": "3622bd5ede3dbd316ae18caafd1f831bd1b24cd348fc94dac656eea827041b59"
+    },
+    {
+      "file": "modis_2023_Australia.csv",
+      "url": "https://firms.modaps.eosdis.nasa.gov/data/country/modis/2023/modis_2023_Australia.csv",
+      "retrievedAt": "2026-10-03T18:14:59.780Z",
+      "bytes": 32319634,
+      "sha256": "6d7e8ef3eb1b984c66d2604b80dd11e3364d4e500aaa82a72327e7b02bb77d63"
+    },
+    {
+      "file": "viirs-snpp_2023_Australia.csv",
+      "url": "https://firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/2023/viirs-snpp_2023_Australia.csv",
+      "retrievedAt": "2026-10-03T18:15:25.425Z",
+      "bytes": 148805600,
+      "sha256": "d8c563eecc444edd789e0aa8fc94a0cb8e717507d40c96fb9510f99f8b4a070f"
+    },
+    {
+      "file": "nifc-item.json",
+      "url": "https://www.arcgis.com/sharing/rest/content/items/e02b85c0ea784ce7bd8add7ae3d293d0?f=json",
+      "retrievedAt": "2026-10-03T18:21:39.230Z",
+      "bytes": 33247,
+      "sha256": "fb2657b06055d0c26b8d5f95afb7e642d4f83bf098966cb1d4c19dd444cd8f14"
+    },
+    {
+      "file": "nifc-layer.json",
+      "url": "https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/InterAgencyFirePerimeterHistory_All_Years_View/FeatureServer/0?f=json",
+      "retrievedAt": "2026-10-03T18:21:39.711Z",
+      "bytes": 11215,
+      "sha256": "683fb8db5ba7619cf33d5a39462b0124aa99c08b06b4a3ef17eebea9082df97b"
+    },
+    {
+      "file": "nifc-california-perimeters.geojson",
+      "url": "https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/InterAgencyFirePerimeterHistory_All_Years_View/FeatureServer/0/query?f=geojson&where=FIRE_YEAR_INT+%3E%3D+2017+AND+FIRE_YEAR_INT+%3C%3D+2019&geometry=%7B%22xmin%22%3A-123%2C%22ymin%22%3A38%2C%22xmax%22%3A-120%2C%22ymax%22%3A41%2C%22spatialReference%22%3A%7B%22wkid%22%3A4326%7D%7D&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=*&outSR=4326&resultRecordCount=2000",
+      "retrievedAt": "2026-10-03T18:21:46.385Z",
+      "bytes": 20179751,
+      "sha256": "3ba51693c7dcecb787f27762cb5132764677a4c618e020970c5751f53fa15c21"
+    }
+  ],
+  "cases": [
+    {
+      "country": "Kenya",
+      "bounds": [
+        34,
+        -5,
+        42,
+        5
+      ],
+      "years": [
+        {
+          "year": 2018,
+          "observations": 13574,
+          "qualityObservations": 11493,
+          "modis": 1539,
+          "viirs": 9954,
+          "matchedModis": 168,
+          "matchedViirs": 372,
+          "legacyCells": 8596,
+          "supportCells": 20097,
+          "evidenceConservationError": 5.820766091346741e-11
+        },
+        {
+          "year": 2019,
+          "observations": 23285,
+          "qualityObservations": 19941,
+          "modis": 2834,
+          "viirs": 17107,
+          "matchedModis": 285,
+          "matchedViirs": 649,
+          "legacyCells": 13745,
+          "supportCells": 31979,
+          "evidenceConservationError": -1.4551915228366852e-11
+        },
+        {
+          "year": 2020,
+          "observations": 25125,
+          "qualityObservations": 21876,
+          "modis": 3143,
+          "viirs": 18733,
+          "matchedModis": 437,
+          "matchedViirs": 1018,
+          "legacyCells": 15033,
+          "supportCells": 34429,
+          "evidenceConservationError": 1.2732925824820995e-10
+        },
+        {
+          "year": 2021,
+          "observations": 25281,
+          "qualityObservations": 22205,
+          "modis": 3282,
+          "viirs": 18923,
+          "matchedModis": 409,
+          "matchedViirs": 1046,
+          "legacyCells": 15403,
+          "supportCells": 35851,
+          "evidenceConservationError": -5.093170329928398e-11
+        },
+        {
+          "year": 2022,
+          "observations": 13060,
+          "qualityObservations": 11054,
+          "modis": 1416,
+          "viirs": 9638,
+          "matchedModis": 132,
+          "matchedViirs": 282,
+          "legacyCells": 8541,
+          "supportCells": 20026,
+          "evidenceConservationError": 2.000888343900442e-11
+        },
+        {
+          "year": 2023,
+          "observations": 15925,
+          "qualityObservations": 13434,
+          "modis": 2039,
+          "viirs": 11395,
+          "matchedModis": 256,
+          "matchedViirs": 570,
+          "legacyCells": 10268,
+          "supportCells": 24757,
+          "evidenceConservationError": 2.546585164964199e-11
+        }
+      ],
+      "baseline": {
+        "days": 1095,
+        "rmse": 7.061962085232257,
+        "mae": 3.914706498987234,
+        "bias": 0.053366100483672886
+      },
+      "seasonal": {
+        "days": 1095,
+        "rmse": 6.993176461565131,
+        "mae": 3.8955202869761,
+        "bias": -0.001011865233151832
+      },
+      "model": {
+        "name": "Seasonal regional MODIS-equivalent activity",
+        "method": "Paired SP daily occupied cells, calendar-month ratios shrunk toward region-wide ratio; fixed training cutoff. Detection exposure not corrected.",
+        "throughYear": 2020,
+        "factors": {
+          "s": {
+            "factor": 0.21988397926437916,
+            "pairedDays": 1096,
+            "trainingYears": [
+              "2018",
+              "2019",
+              "2020"
+            ],
+            "holdoutDays": 1095,
+            "days": 1095,
+            "rmse": 7.061962085232257,
+            "mae": 3.914706498987234,
+            "bias": 0.053366100483672886
+          },
+          "j": {
+            "factor": null,
+            "pairedDays": 0,
+            "trainingYears": [],
+            "holdoutDays": 0,
+            "reason": "Insufficient paired historical coverage"
+          },
+          "n": {
+            "factor": null,
+            "pairedDays": 0,
+            "trainingYears": [],
+            "holdoutDays": 0,
+            "reason": "Insufficient paired historical coverage"
+          }
+        },
+        "months": {
+          "s": {
+            "10": {
+              "factor": 0.20417691265836063,
+              "pairedDays": 93,
+              "trainingYears": [
+                "2018",
+                "2019",
+                "2020"
+              ],
+              "shrinkageWeight": 0.6078431372549019,
+              "fallback": false,
+              "stabilityRange": [
+                0.17096466093600765,
+                0.2101510067114094
+              ],
+              "days": 93,
+              "rmse": 4.905146815140609,
+              "mae": 3.5251882826875076,
+              "bias": 0.6125943454914994
+            },
+            "11": {
+              "factor": 0.2259366265785132,
+              "pairedDays": 90,
+              "trainingYears": [
+                "2018",
+                "2019",
+                "2020"
+              ],
+              "shrinkageWeight": 0.6,
+              "fallback": false,
+              "stabilityRange": [
+                0.19508867667121418,
+                0.3333333333333333
+              ],
+              "days": 90,
+              "rmse": 2.318943668448071,
+              "mae": 1.55906513556511,
+              "bias": 0.287826035411577
+            },
+            "12": {
+              "factor": 0.2071351395950496,
+              "pairedDays": 93,
+              "trainingYears": [
+                "2018",
+                "2019",
+                "2020"
+              ],
+              "shrinkageWeight": 0.6078431372549019,
+              "fallback": false,
+              "stabilityRange": [
+                0.1885593220338983,
+                0.23922413793103448
+              ],
+              "days": 93,
+              "rmse": 2.2281620174994456,
+              "mae": 1.4793188146147016,
+              "bias": 0.08849988715966195
+            },
+            "01": {
+              "factor": 0.2317830170046572,
+              "pairedDays": 93,
+              "trainingYears": [
+                "2018",
+                "2019",
+                "2020"
+              ],
+              "shrinkageWeight": 0.6078431372549019,
+              "fallback": false,
+              "stabilityRange": [
+                0.23119469026548672,
+                0.26076923076923075
+              ],
+              "days": 93,
+              "rmse": 11.726563480372477,
+              "mae": 7.072118273198722,
+              "bias": -1.0633959063235043
+            },
+            "02": {
+              "factor": 0.2179357383997563,
+              "pairedDays": 85,
+              "trainingYears": [
+                "2018",
+                "2019",
+                "2020"
+              ],
+              "shrinkageWeight": 0.5862068965517241,
+              "fallback": false,
+              "stabilityRange": [
+                0.19718309859154928,
+                0.2326571500125219
+              ],
+              "days": 84,
+              "rmse": 13.389358557166968,
+              "mae": 9.186826166362149,
+              "bias": -2.094018873598179
+            },
+            "03": {
+              "factor": 0.19823482646044865,
+              "pairedDays": 93,
+              "trainingYears": [
+                "2018",
+                "2019",
+                "2020"
+              ],
+              "shrinkageWeight": 0.6078431372549019,
+              "fallback": false,
+              "stabilityRange": [
+                0.17806267806267806,
+                0.19226519337016573
+              ],
+              "days": 93,
+              "rmse": 12.57622773536997,
+              "mae": 9.143849708605252,
+              "bias": 0.7144096330388603
+            },
+            "04": {
+              "factor": 0.2158399149739577,
+              "pairedDays": 90,
+              "trainingYears": [
+                "2018",
+                "2019",
+                "2020"
+              ],
+              "shrinkageWeight": 0.6,
+              "fallback": false,
+              "stabilityRange": [
+                0.1938080495356037,
+                0.32011331444759206
+              ],
+              "days": 90,
+              "rmse": 4.014926861008022,
+              "mae": 2.6787066797873202,
+              "bias": 1.0431398850564129
+            },
+            "05": {
+              "factor": 0.3007618834485455,
+              "pairedDays": 93,
+              "trainingYears": [
+                "2018",
+                "2019",
+                "2020"
+              ],
+              "shrinkageWeight": 0.6078431372549019,
+              "fallback": false,
+              "stabilityRange": [
+                0.33276740237691,
+                0.42424242424242425
+              ],
+              "days": 93,
+              "rmse": 1.9256729601219285,
+              "mae": 1.4530875163520234,
+              "bias": 0.049126361173075436
+            },
+            "06": {
+              "factor": 0.2842436422959709,
+              "pairedDays": 90,
+              "trainingYears": [
+                "2018",
+                "2019",
+                "2020"
+              ],
+              "shrinkageWeight": 0.6,
+              "fallback": false,
+              "stabilityRange": [
+                0.26460859977949286,
+                0.4498567335243553
+              ],
+              "days": 90,
+              "rmse": 2.7570200618522764,
+              "mae": 2.041197238025739,
+              "bias": 0.24019322728337156
+            },
+            "07": {
+              "factor": 0.25263319028295733,
+              "pairedDays": 93,
+              "trainingYears": [
+                "2018",
+                "2019",
+                "2020"
+              ],
+              "shrinkageWeight": 0.6078431372549019,
+              "fallback": false,
+              "stabilityRange": [
+                0.2004950495049505,
+                0.28846153846153844
+              ],
+              "days": 93,
+              "rmse": 3.6028298673220354,
+              "mae": 2.278215764484525,
+              "bias": -0.5208676572241551
+            },
+            "08": {
+              "factor": 0.21344549144447938,
+              "pairedDays": 93,
+              "trainingYears": [
+                "2018",
+                "2019",
+                "2020"
+              ],
+              "shrinkageWeight": 0.6078431372549019,
+              "fallback": false,
+              "stabilityRange": [
+                0.19759825327510916,
+                0.22833333333333333
+              ],
+              "days": 93,
+              "rmse": 3.0980803250369844,
+              "mae": 2.2351317679678333,
+              "bias": 0.06912618427174949
+            },
+            "09": {
+              "factor": 0.21868055704810163,
+              "pairedDays": 90,
+              "trainingYears": [
+                "2018",
+                "2019",
+                "2020"
+              ],
+              "shrinkageWeight": 0.6,
+              "fallback": false,
+              "stabilityRange": [
+                0.21477104874446085,
+                0.22042341220423411
+              ],
+              "days": 90,
+              "rmse": 5.991511434148971,
+              "mae": 4.449016217385378,
+              "bias": 0.42313816476349964
+            }
+          },
+          "j": {
+            "10": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "11": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "12": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "01": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "02": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "03": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "04": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "05": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "06": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "07": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "08": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "09": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            }
+          },
+          "n": {
+            "10": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "11": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "12": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "01": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "02": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "03": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "04": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "05": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "06": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "07": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "08": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "09": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            }
+          }
+        },
+        "uncertainty": "Year deletion ranges are model stability, not physical or probabilistic uncertainty; region/season calibration does not transfer automatically."
+      }
+    },
+    {
+      "country": "Australia",
+      "bounds": [
+        145,
+        -24,
+        150,
+        -20
+      ],
+      "years": [
+        {
+          "year": 2018,
+          "observations": 44883,
+          "qualityObservations": 41689,
+          "modis": 5392,
+          "viirs": 36297,
+          "matchedModis": 694,
+          "matchedViirs": 2930,
+          "legacyCells": 15383,
+          "supportCells": 30301,
+          "evidenceConservationError": 5.820766091346741e-11
+        },
+        {
+          "year": 2019,
+          "observations": 14220,
+          "qualityObservations": 13236,
+          "modis": 1670,
+          "viirs": 11566,
+          "matchedModis": 223,
+          "matchedViirs": 654,
+          "legacyCells": 6485,
+          "supportCells": 13997,
+          "evidenceConservationError": -4.18367562815547e-11
+        },
+        {
+          "year": 2020,
+          "observations": 30818,
+          "qualityObservations": 28086,
+          "modis": 3578,
+          "viirs": 24508,
+          "matchedModis": 463,
+          "matchedViirs": 1608,
+          "legacyCells": 13091,
+          "supportCells": 27386,
+          "evidenceConservationError": 1.0913936421275139e-10
+        },
+        {
+          "year": 2021,
+          "observations": 23683,
+          "qualityObservations": 21893,
+          "modis": 2902,
+          "viirs": 18991,
+          "matchedModis": 440,
+          "matchedViirs": 1390,
+          "legacyCells": 11182,
+          "supportCells": 24357,
+          "evidenceConservationError": 7.275957614183426e-11
+        },
+        {
+          "year": 2022,
+          "observations": 19006,
+          "qualityObservations": 17344,
+          "modis": 2292,
+          "viirs": 15052,
+          "matchedModis": 317,
+          "matchedViirs": 879,
+          "legacyCells": 9230,
+          "supportCells": 20156,
+          "evidenceConservationError": 5.4569682106375694e-11
+        },
+        {
+          "year": 2023,
+          "observations": 43686,
+          "qualityObservations": 39749,
+          "modis": 5591,
+          "viirs": 34158,
+          "matchedModis": 748,
+          "matchedViirs": 2799,
+          "legacyCells": 17498,
+          "supportCells": 37063,
+          "evidenceConservationError": -8.003553375601768e-11
+        }
+      ],
+      "baseline": {
+        "days": 1095,
+        "rmse": 10.904530781601999,
+        "mae": 4.873636030625161,
+        "bias": 0.06719183522473889
+      },
+      "seasonal": {
+        "days": 1095,
+        "rmse": 10.772297191986993,
+        "mae": 4.855759211039894,
+        "bias": -0.08598424122525966
+      },
+      "model": {
+        "name": "Seasonal regional MODIS-equivalent activity",
+        "method": "Paired SP daily occupied cells, calendar-month ratios shrunk toward region-wide ratio; fixed training cutoff. Detection exposure not corrected.",
+        "throughYear": 2020,
+        "factors": {
+          "s": {
+            "factor": 0.30262112787926926,
+            "pairedDays": 1096,
+            "trainingYears": [
+              "2018",
+              "2019",
+              "2020"
+            ],
+            "holdoutDays": 1095,
+            "days": 1095,
+            "rmse": 10.904530781601999,
+            "mae": 4.873636030625161,
+            "bias": 0.06719183522473889
+          },
+          "j": {
+            "factor": null,
+            "pairedDays": 0,
+            "trainingYears": [],
+            "holdoutDays": 0,
+            "reason": "Insufficient paired historical coverage"
+          },
+          "n": {
+            "factor": null,
+            "pairedDays": 0,
+            "trainingYears": [],
+            "holdoutDays": 0,
+            "reason": "Insufficient paired historical coverage"
+          }
+        },
+        "months": {
+          "s": {
+            "10": {
+              "factor": 0.32018239074930893,
+              "pairedDays": 93,
+              "trainingYears": [
+                "2018",
+                "2019",
+                "2020"
+              ],
+              "shrinkageWeight": 0.6078431372549019,
+              "fallback": false,
+              "stabilityRange": [
+                0.3225512528473804,
+                0.33679684700824075
+              ],
+              "days": 93,
+              "rmse": 11.715162153131471,
+              "mae": 7.736959899949285,
+              "bias": -0.38523807372291863
+            },
+            "11": {
+              "factor": 0.3492358154366834,
+              "pairedDays": 90,
+              "trainingYears": [
+                "2018",
+                "2019",
+                "2020"
+              ],
+              "shrinkageWeight": 0.6,
+              "fallback": false,
+              "stabilityRange": [
+                0.34384309831181725,
+                0.3936673739187204
+              ],
+              "days": 90,
+              "rmse": 14.801775651550292,
+              "mae": 9.056020346059984,
+              "bias": 2.1057780231828196
+            },
+            "12": {
+              "factor": 0.312717945160952,
+              "pairedDays": 93,
+              "trainingYears": [
+                "2018",
+                "2019",
+                "2020"
+              ],
+              "shrinkageWeight": 0.6078431372549019,
+              "fallback": false,
+              "stabilityRange": [
+                0.310989010989011,
+                0.3286843328684333
+              ],
+              "days": 93,
+              "rmse": 27.344286441302753,
+              "mae": 13.491928271657303,
+              "bias": 2.1935635194990364
+            },
+            "01": {
+              "factor": 0.26098649300947685,
+              "pairedDays": 93,
+              "trainingYears": [
+                "2018",
+                "2019",
+                "2020"
+              ],
+              "shrinkageWeight": 0.6078431372549019,
+              "fallback": false,
+              "stabilityRange": [
+                0.19923615531508593,
+                0.2573033707865168
+              ],
+              "days": 93,
+              "rmse": 6.1366207404575475,
+              "mae": 3.7305459595996933,
+              "bias": 0.48471813755919213
+            },
+            "02": {
+              "factor": 0.2712964479495285,
+              "pairedDays": 85,
+              "trainingYears": [
+                "2018",
+                "2019",
+                "2020"
+              ],
+              "shrinkageWeight": 0.5862068965517241,
+              "fallback": false,
+              "stabilityRange": [
+                0.236724248240563,
+                0.26814268142681424
+              ],
+              "days": 84,
+              "rmse": 3.5683232962706453,
+              "mae": 2.218276508787748,
+              "bias": 0.5687629113715096
+            },
+            "03": {
+              "factor": 0.2876849951511242,
+              "pairedDays": 93,
+              "trainingYears": [
+                "2018",
+                "2019",
+                "2020"
+              ],
+              "shrinkageWeight": 0.6078431372549019,
+              "fallback": false,
+              "stabilityRange": [
+                0.25986078886310904,
+                0.3091106290672451
+              ],
+              "days": 93,
+              "rmse": 4.7820417881080575,
+              "mae": 2.524117407258719,
+              "bias": 0.2199516554655997
+            },
+            "04": {
+              "factor": 0.2444598223891659,
+              "pairedDays": 90,
+              "trainingYears": [
+                "2018",
+                "2019",
+                "2020"
+              ],
+              "shrinkageWeight": 0.6,
+              "fallback": false,
+              "stabilityRange": [
+                0.1694915254237288,
+                0.22359396433470508
+              ],
+              "days": 90,
+              "rmse": 2.7709571073324217,
+              "mae": 1.7605109137657398,
+              "bias": -0.0748847111647127
+            },
+            "05": {
+              "factor": 0.24510632465853696,
+              "pairedDays": 93,
+              "trainingYears": [
+                "2018",
+                "2019",
+                "2020"
+              ],
+              "shrinkageWeight": 0.6078431372549019,
+              "fallback": false,
+              "stabilityRange": [
+                0.15157116451016636,
+                0.2398042414355628
+              ],
+              "days": 93,
+              "rmse": 4.285264741405322,
+              "mae": 2.798444260569105,
+              "bias": -0.4997857125512669
+            },
+            "06": {
+              "factor": 0.3011048951780483,
+              "pairedDays": 90,
+              "trainingYears": [
+                "2018",
+                "2019",
+                "2020"
+              ],
+              "shrinkageWeight": 0.6,
+              "fallback": false,
+              "stabilityRange": [
+                0.2891566265060241,
+                0.3118279569892473
+              ],
+              "days": 90,
+              "rmse": 3.2507838628239587,
+              "mae": 2.1484651128577488,
+              "bias": -0.061296191825670004
+            },
+            "07": {
+              "factor": 0.2699063246585369,
+              "pairedDays": 93,
+              "trainingYears": [
+                "2018",
+                "2019",
+                "2020"
+              ],
+              "shrinkageWeight": 0.6078431372549019,
+              "fallback": false,
+              "stabilityRange": [
+                0.23427331887201736,
+                0.2622739018087855
+              ],
+              "days": 93,
+              "rmse": 3.259534876652683,
+              "mae": 2.2131651138578543,
+              "bias": -1.1633426352819265
+            },
+            "08": {
+              "factor": 0.22823680154064785,
+              "pairedDays": 93,
+              "trainingYears": [
+                "2018",
+                "2019",
+                "2020"
+              ],
+              "shrinkageWeight": 0.6078431372549019,
+              "fallback": false,
+              "stabilityRange": [
+                0.14786324786324787,
+                0.267816091954023
+              ],
+              "days": 93,
+              "rmse": 5.045941944672253,
+              "mae": 3.5509910000632092,
+              "bias": -2.0714494375164323
+            },
+            "09": {
+              "factor": 0.2601093902126468,
+              "pairedDays": 90,
+              "trainingYears": [
+                "2018",
+                "2019",
+                "2020"
+              ],
+              "shrinkageWeight": 0.6,
+              "fallback": false,
+              "stabilityRange": [
+                0.19623875715453803,
+                0.2605042016806723
+              ],
+              "days": 90,
+              "rmse": 11.373870594721506,
+              "mae": 6.795325643379655,
+              "bias": -2.284282140946159
+            }
+          },
+          "j": {
+            "10": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "11": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "12": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "01": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "02": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "03": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "04": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "05": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "06": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "07": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "08": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "09": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            }
+          },
+          "n": {
+            "10": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "11": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "12": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "01": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "02": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "03": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "04": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "05": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "06": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "07": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "08": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            },
+            "09": {
+              "factor": null,
+              "pairedDays": 0,
+              "trainingYears": [],
+              "shrinkageWeight": 0,
+              "fallback": true,
+              "stabilityRange": null
+            }
+          }
+        },
+        "uncertainty": "Year deletion ranges are model stability, not physical or probabilistic uncertainty; region/season calibration does not transfer automatically."
+      }
+    }
+  ],
+  "external": {
+    "fields": [
+      "OBJECTID",
+      "IRWINID",
+      "FORID",
+      "INCIDENT",
+      "GIS_ACRES",
+      "UNQE_FIRE_ID",
+      "DATE_CUR",
+      "FIRE_YEAR_INT",
+      "UNIT_ID",
+      "POO_RESP_I",
+      "LOCAL_NUM",
+      "FEATURE_CA",
+      "MAP_METHOD",
+      "COMMENTS",
+      "GEO_ID",
+      "SOURCE",
+      "AGENCY",
+      "FIRE_YEAR",
+      "GlobalID"
+    ],
+    "perimeters": 558,
+    "truncated": false,
+    "yearField": "FIRE_YEAR_INT",
+    "consistency": [
+      {
+        "year": 2017,
+        "sensor": "MODIS",
+        "detections": 311,
+        "insideSameYearFinalPerimeter": 121,
+        "proportion": 0.3890675241157556,
+        "perimeters": 226,
+        "legacyCenterFraction": 0.356,
+        "footprintEvidenceFraction": 0.30896080698641454
+      },
+      {
+        "year": 2017,
+        "sensor": "VIIRS",
+        "detections": 962,
+        "insideSameYearFinalPerimeter": 430,
+        "proportion": 0.446985446985447,
+        "perimeters": 226,
+        "legacyCenterFraction": 0.3307543520309478,
+        "footprintEvidenceFraction": 0.3618167620990811
+      },
+      {
+        "year": 2018,
+        "sensor": "MODIS",
+        "detections": 681,
+        "insideSameYearFinalPerimeter": 452,
+        "proportion": 0.6637298091042585,
+        "perimeters": 158,
+        "legacyCenterFraction": 0.6242884250474383,
+        "footprintEvidenceFraction": 0.6564151548940486
+      },
+      {
+        "year": 2018,
+        "sensor": "VIIRS",
+        "detections": 5389,
+        "insideSameYearFinalPerimeter": 4128,
+        "proportion": 0.7660048246427908,
+        "perimeters": 158,
+        "legacyCenterFraction": 0.5639097744360902,
+        "footprintEvidenceFraction": 0.7485757468964112
+      },
+      {
+        "year": 2019,
+        "sensor": "MODIS",
+        "detections": 977,
+        "insideSameYearFinalPerimeter": 688,
+        "proportion": 0.7041965199590583,
+        "perimeters": 174,
+        "legacyCenterFraction": 0.6638655462184874,
+        "footprintEvidenceFraction": 0.6721433125806845
+      },
+      {
+        "year": 2019,
+        "sensor": "VIIRS",
+        "detections": 8246,
+        "insideSameYearFinalPerimeter": 6721,
+        "proportion": 0.8150618481688091,
+        "perimeters": 174,
+        "legacyCenterFraction": 0.6318181818181818,
+        "footprintEvidenceFraction": 0.7774898852497845
+      }
+    ],
+    "interpretation": "Retrospective same-year final-perimeter spatial plausibility; incomplete incident inventory, not daily fire truth or false-positive rate. Historical NIFC item ends 2019."
+  }
+}

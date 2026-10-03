@@ -1,6 +1,12 @@
 import {compileGeometry} from './boundary-geometry.js';
 import {normalizeArea,inArea} from './area-bounds.js';
 import {inRegion,harmonize,calendar} from './core.js';
+import {addHistoricalObservation} from './history-core.js';
+export function historyLiveCounts(data,filters){
+ const inside=filters.boundary?compileGeometry(filters.boundary.geometry):()=>true,cells=new Map(),start=filters.day||filters.start,end=filters.day||filters.end;
+ for(const r of data)if(r.date>=start&&r.date<=end&&inRegion(r,filters.region)&&inArea(r,normalizeArea(filters.area))&&inside(r))addHistoricalObservation(cells,r,r.product||(r.sensor==='MODIS'?'MODIS_NRT':'VIIRS_NOAA20_NRT'));
+ const values=[...cells.values()];const byDate=new Map();for(const c of values){byDate.set(c.date,byDate.get(c.date)||{date:c.date,modisCells:0,viirsCells:0});const d=byDate.get(c.date);if(c.m)d.modisCells++;if(c.j)d.viirsCells++;}return {dailyCounts:[...byDate.values()],modisCells:values.filter(c=>c.m).length,viirsCells:values.filter(c=>c.j).length,monthDayStart:start.slice(5),monthDayEnd:end.slice(5),viirsSlot:'j'};
+}
 // Reuse the expensive daily grid when only the sensor or selected day changes.
 export function createAnalyzer(data){
  let cached=null,key=null,boundaryID=null,geographic=data;
@@ -14,7 +20,7 @@ export function createAnalyzer(data){
    const raw=geographic.filter(r=>inRegion(r,region)&&inArea(r,area)&&r.date>=start&&r.date<=end&&r.confidence>=confidence);
    let latest=null,maxFrp=null;for(const r of raw){const acquired=r.date+' '+(r.time||'00:00');if(!latest||acquired>latest)latest=acquired;if(Number.isFinite(r.frp))maxFrp=maxFrp===null?r.frp:Math.max(maxFrp,r.frp);}
    const merged=harmonize(raw),sensors={MODIS:[],VIIRS:[]};for(const r of raw)sensors[r.sensor]?.push(r);
-   cached={raw,merged,sensors,summary:{latest,maxFrp,raw:raw.length,cells:merged.length,overlap:merged.filter(r=>r.sensors.length>1).length,days:calendar(merged,start,end),bars:[['MODIS',sensors.MODIS.length],['VIIRS',sensors.VIIRS.length],['Harmonized',merged.length]]}};key=nextKey;
+   cached={raw,merged,sensors,summary:{latest,maxFrp,raw:raw.length,cells:merged.length,modisCells:merged.filter(r=>r.sensors.includes('MODIS')).length,viirsCells:merged.filter(r=>r.sensors.includes('VIIRS')).length,overlap:merged.filter(r=>r.crossSensorCoincident).length,days:calendar(merged,start,end),bars:[['MODIS',sensors.MODIS.length],['VIIRS',sensors.VIIRS.length],['Harmonized',merged.length]]}};key=nextKey;
   }
   let selected=view==='Harmonized'?cached.merged:view==='Compare'?cached.raw:cached.sensors[view]||[];
   if(day)selected=selected.filter(r=>r.date===day);
@@ -50,4 +56,4 @@ export function viewportBins(source,{zoom,origin,width,height,cellSize}){
  }
  return {visible,bins:[...bins.values()].map(b=>({...b,x:b.x/b.count,y:b.y/b.count,lat:b.lat/b.count,lon:b.lon/b.count}))};
 }
-export function exportCSV(rows){const cols=['sensor','date','time','lat','lon','confidence','frp','frpRaw','observations','sensors','satellite','product','confidenceRaw','daynight','timeStart','timeEnd'];const escape=value=>'"'+String(Array.isArray(value)?value.join('+'):value??'').replaceAll('"','""')+'"';return [cols.join(','),...rows.map(r=>cols.map(c=>escape(r[c])).join(','))].join('\n');}
+export function exportCSV(rows){const cols=['sensor','date','time','lat','lon','confidence','frp','frpRaw','observations','sensors','satellite','product','confidenceRaw','daynight','timeStart','timeEnd','derived','algorithmVersion','cellID','evidenceWeight','sourceObservationIDs','bySource','confidenceClasses','uncertainty','frpStatistic','crossSensorCoincident'];const escape=value=>'"'+String(value&&typeof value==='object'?JSON.stringify(value):value??'').replaceAll('"','""')+'"';return [cols.join(','),...rows.map(r=>cols.map(c=>escape(r[c])).join(','))].join('\n');}

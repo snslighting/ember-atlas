@@ -1,3 +1,4 @@
+import {appendLiveHistory} from './append-live-history.js';
 import {leafletGlobalPlugin} from './vector-build-plugin.js';
 import {fileURLToPath} from 'node:url';
 import {mkdir,readFile,writeFile,copyFile,cp,readdir,unlink} from 'node:fs/promises';
@@ -6,9 +7,10 @@ import {gzipSync} from 'node:zlib';
 import {build,transform} from 'esbuild';
 import {releaseVersion,versionHTML,versionModules} from './build-assets.js';
 import {packRows} from './data-codec.js';
-const pages=['index.html','observatory.html','map.html','method.html'];
-const modules=["vector-basemap.js","english-style.js","boundary-geometry.js","boundary-explorer.js","map-shell.js","area-bounds.js","area-selection.js","scene-layout.js","analysis-worker.js","map-analysis.js","hotspot-layer.js","basemaps.js","animation-loop.js","map-policy.js","app.js","core.js","provider.js","refresh-state.js","landing.js","earth.js","motion.js","data-codec.js"];
-const styles=['site.css','dashboard.css','experience.css','fonts.css'],classic=['motion-settings.js','navigation.js'];
+const pages=['index.html','observatory.html','map.html','history.html','method.html'];
+await appendLiveHistory();
+const modules=["history-context.js","history-app.js","history-core.js","history-catalog.js","history-provider.js","history-engine.js","history-worker.js","vector-basemap.js","english-style.js","boundary-geometry.js","boundary-explorer.js","map-shell.js","area-bounds.js","area-selection.js","scene-layout.js","analysis-worker.js","map-analysis.js","hotspot-layer.js","basemaps.js","animation-loop.js","map-policy.js","app.js","core.js","harmonization.js","seasonal-calibration.js","provider.js","refresh-state.js","landing.js","earth.js","motion.js","data-codec.js"];
+const styles=['site.css','dashboard.css','experience.css','fonts.css','history.css'],classic=['motion-settings.js','navigation.js'];
 const inputs=[...pages,...modules,...styles,...classic,'build.js','vector-build-plugin.js','build-assets.js','package-lock.json'];
 const version=releaseVersion(await Promise.all(inputs.map(p=>readFile(p,'utf8'))));
 await mkdir('docs',{recursive:true});
@@ -17,8 +19,8 @@ const fontCSS=await readFile('fonts.css','utf8'),fontFaces=fontCSS.split('/* lat
 for(const page of pages){
  let html=await readFile(page,'utf8');
  html=html.replace('<html lang="en">','<html lang="en" data-host="static">').replaceAll('./node_modules/leaflet/dist/','./vendor/leaflet/');
- const dashboard=page==='observatory.html'||page==='map.html';
- html=html.replace('<link rel="stylesheet" href="./experience.css">','');
+ const dashboard=page==='observatory.html'||page==='map.html'||page==='history.html';
+ html=html.replace(/<link[^>]*href="\.\/history\.css"[^>]*>/g,'').replace('<link rel="stylesheet" href="./experience.css">','').replace('<link rel="stylesheet" href="./history.css">','');
  if(dashboard)html=html.replace('<link rel="stylesheet" href="./site.css">','');
  html=html.replace('<script src="./motion-settings.js"></script>','<script>'+compressedClassic[0]+'</script>').replace('<script src="./navigation.js"></script>','<script>'+compressedClassic[1]+'</script>');
  const preload='<link rel="preload" as="image" fetchpriority="high" href="./assets/earth-poster.webp">'+fontPreloads+'<link rel="modulepreload" href="./motion.js?v='+version+'"><script>if(window.atlasMotion.enabled){for(const [rel,href,as] of [["modulepreload","./earth.js?v='+version+'",""],["preload","./assets/earth.webp","image"]]){const link=document.createElement("link");link.rel=rel;link.href=href;if(as)link.as=as;document.head.append(link);}}</script>';
@@ -27,13 +29,13 @@ for(const page of pages){
 }
 const aliases={name:'local-vendor',setup(build){build.onResolve({filter:/vendor\/three\/three.module.js$/},()=>({path:fileURLToPath(new URL('./node_modules/three/build/three.module.js',import.meta.url))}));build.onResolve({filter:/vendor\/lenis\/lenis.mjs$/},()=>({path:fileURLToPath(new URL('./node_modules/lenis/dist/lenis.mjs',import.meta.url))}));}};
 for(const file of modules){
- const result=await build({entryPoints:[file],bundle:true,minify:true,format:'esm',target:'es2022',write:false,external:file==='motion.js'?['./earth.js']:file==='app.js'?['./vector-basemap.js']:[],plugins:[aliases,leafletGlobalPlugin],legalComments:'inline'});
+ const result=await build({entryPoints:[file],bundle:true,minify:true,format:'esm',target:'es2022',write:false,external:file==='motion.js'?['./earth.js']:(file==='app.js'||file==='history-app.js')?['./vector-basemap.js']:[],plugins:[aliases,leafletGlobalPlugin],legalComments:'inline'});
  await writeFile('docs/'+file,versionModules(result.outputFiles[0].text,version));
 }
 for(const file of classic)await writeFile('docs/'+file,(await transform(await readFile(file,'utf8'),{minify:true,target:'es2022'})).code);
 const site=(await readFile('site.css','utf8')).replace(/^@import[^\r\n]*(?:\r?\n|$)/,'');
 const vectorCSS=await readFile('node_modules/maplibre-gl/dist/maplibre-gl.css','utf8');
-const experience=await readFile('experience.css','utf8'),dashboard=await readFile('dashboard.css','utf8');
+const experience=await readFile('experience.css','utf8'),dashboard=await readFile('dashboard.css','utf8')+await readFile('history.css','utf8');
 for(const [file,source] of [['site.css',fontCSS+site+experience],['dashboard.css',fontCSS+site+vectorCSS+dashboard+experience],['experience.css',experience]]){
  await writeFile('docs/'+file,(await transform(source,{loader:'css',minify:true,target:'es2022'})).code);
 }
@@ -55,5 +57,7 @@ await cp('node_modules/leaflet/dist','docs/vendor/leaflet',{recursive:true});awa
 await mkdir('docs/vendor/three',{recursive:true});await copyFile('node_modules/three/LICENSE','docs/vendor/three/LICENSE');
 await mkdir('docs/vendor/lenis',{recursive:true});await copyFile('node_modules/lenis/LICENSE','docs/vendor/lenis/LICENSE');
 await mkdir('docs/vendor/maplibre',{recursive:true});for(const file of ['maplibre-gl-worker.mjs','maplibre-gl-shared.mjs'])await copyFile('node_modules/maplibre-gl/dist/'+file,'docs/vendor/maplibre/'+file);await copyFile('node_modules/maplibre-gl/LICENSE.txt','docs/vendor/maplibre/LICENSE.txt');
+await cp('data/history','docs/data/history',{recursive:true});
+await copyFile('HISTORY-ANALYSIS.md','docs/data/history/analysis.md');
 await cp('assets','docs/assets',{recursive:true});await writeFile('docs/.nojekyll','');
 console.log(JSON.stringify({version,dataOriginalBytes:originalBytes,dataCompressedBytes:transportBytes,dataReduction:Math.round((1-transportBytes/originalBytes)*100)+'%'}));

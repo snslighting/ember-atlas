@@ -1,0 +1,14 @@
+# Fresh NASA and independent fire data validation
+
+All successful source downloads are hashed and timestamped in supplemental-results.json. NASA country CSVs cover 2018–2023; train 2018–2020, hold out 2021–2023. Australia is restricted to the declared eastern-Australia bounds; Kenya uses its declared bounds. Entire national source files remain cached.
+
+| Region | Holdout days | Baseline RMSE | Seasonal RMSE | Seasonal bias |
+|---|---:|---:|---:|---:|
+| Kenya | 1095 | 7.062 | 6.993 | -0.001 |
+| Australia | 1095 | 10.905 | 10.772 | -0.086 |
+
+Independent NIFC perimeter results: {"fields":["OBJECTID","IRWINID","FORID","INCIDENT","GIS_ACRES","UNQE_FIRE_ID","DATE_CUR","FIRE_YEAR_INT","UNIT_ID","POO_RESP_I","LOCAL_NUM","FEATURE_CA","MAP_METHOD","COMMENTS","GEO_ID","SOURCE","AGENCY","FIRE_YEAR","GlobalID"],"perimeters":558,"truncated":false,"yearField":"FIRE_YEAR_INT","consistency":[{"year":2017,"sensor":"MODIS","detections":311,"insideSameYearFinalPerimeter":121,"proportion":0.3890675241157556,"perimeters":226,"legacyCenterFraction":0.356,"footprintEvidenceFraction":0.30896080698641454},{"year":2017,"sensor":"VIIRS","detections":962,"insideSameYearFinalPerimeter":430,"proportion":0.446985446985447,"perimeters":226,"legacyCenterFraction":0.3307543520309478,"footprintEvidenceFraction":0.3618167620990811},{"year":2018,"sensor":"MODIS","detections":681,"insideSameYearFinalPerimeter":452,"proportion":0.6637298091042585,"perimeters":158,"legacyCenterFraction":0.6242884250474383,"footprintEvidenceFraction":0.6564151548940486},{"year":2018,"sensor":"VIIRS","detections":5389,"insideSameYearFinalPerimeter":4128,"proportion":0.7660048246427908,"perimeters":158,"legacyCenterFraction":0.5639097744360902,"footprintEvidenceFraction":0.7485757468964112},{"year":2019,"sensor":"MODIS","detections":977,"insideSameYearFinalPerimeter":688,"proportion":0.7041965199590583,"perimeters":174,"legacyCenterFraction":0.6638655462184874,"footprintEvidenceFraction":0.6721433125806845},{"year":2019,"sensor":"VIIRS","detections":8246,"insideSameYearFinalPerimeter":6721,"proportion":0.8150618481688091,"perimeters":174,"legacyCenterFraction":0.6318181818181818,"footprintEvidenceFraction":0.7774898852497845}],"interpretation":"Retrospective same-year final-perimeter spatial plausibility; incomplete incident inventory, not daily fire truth or false-positive rate. Historical NIFC item ends 2019."}.
+
+A lower sensor-consistency error is not ground-truth accuracy. Perimeter disagreement is not commission error: inventory coverage, prescribed/agricultural burns, footprint uncertainty and time windows differ. No new fire probability model is trained on incident perimeters.
+
+Reproduce with `node supplemental-fire-validation.js` (downloads sources directly). Sources: NASA FIRMS country archives and NIFC InterAgencyFirePerimeterHistory All Years View.

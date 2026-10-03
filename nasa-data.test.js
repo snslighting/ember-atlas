@@ -11,7 +11,8 @@ test('NASA snapshot includes both products for every region with traceable obser
 });
 test('NASA aggregation preserves all observation counts, time bounds, and product provenance',()=>{
   const rows=snapshot.data.filter(r=>inRegion(r,'California'));const cells=harmonize(rows);
-  assert.equal(cells.reduce((s,r)=>s+r.observations,0),rows.length);
+  assert.ok(Math.abs(cells.reduce((s,r)=>s+r.evidenceWeight,0)-rows.length)<1e-7);
+  assert.equal(new Set(cells.flatMap(r=>r.sourceObservationIDs)).size,rows.length);
   assert.ok(cells.every(r=>r.timeStart<=r.timeEnd&&r.products.length&&r.satellites.length));
 });
 test('FIRMS parser preserves original confidence, satellite, and dimensions',()=>{

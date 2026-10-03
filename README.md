@@ -1,105 +1,158 @@
-# Ember Atlas — MODIS × VIIRS
+# Ember Atlas — NASA MODIS × VIIRS
 
-**Website:** https://snslighting.github.io/ember-atlas/
-**Repository:** https://github.com/snslighting/ember-atlas
+An independent NASA Space Apps prototype with **Live** and **History** modes. MODIS and VIIRS observe thermal anomalies with different resolution, sensitivity and acquisition times. Ember Atlas retains their provenance, aligns observations into common daily cells, fits an overlap-era scaling baseline, and compares activity with actual historical seasons.
 
-A four-page Earth observation website: an animated WebGL Earth landing page with Lenis smooth scrolling, an automatically updating observatory, a dedicated methodology page, and a full-page map. Responsive layouts and reduced-motion support are included.
+The published site is [Ember Atlas](https://snslighting.github.io/ember-atlas/), with [Live observations](https://snslighting.github.io/ember-atlas/observatory.html) and [History](https://snslighting.github.io/ember-atlas/history.html).
+The local project lives at `C:\Codex\NASA Space Apps\ember atlas`.
 
-## Actual NASA data
+## Local review
 
-The observatory serves actual NASA FIRMS observations from MODIS_NRT and VIIRS_NOAA20_NRT for the latest five UTC days. A GitHub Actions publisher downloads official public rolling CSVs, keeps worldwide observations, validates data, builds the site, and deploys it. No repository secret or browser-exposed API key is needed. Your local ignored key remains available for the area API.
-
-The publisher is scheduled every 15 minutes (minutes 7, 22, 37, and 52 UTC). GitHub scheduling and publication can be delayed; NASA data have acquisition and processing latency. This is near-real-time, not an instantaneous guaranteed feed. The dashboard polls a small version manifest every 60 seconds, fetches records only when a new publication is available, and updates without reloading. Manual dates, sensor selection, confidence, map position, and selected day are retained when possible. Follow latest dates enables a rolling date window. After 45 minutes without a successful newer retrieval the view marks data stale; failures retain the last actual records and retry. Hidden tabs pause checks and immediately check when resumed.
-
-Official automatic download sources:
-- https://firms.modaps.eosdis.nasa.gov/data/active_fire/modis-c6.1/csv/MODIS_C6_1_Global_7d.csv
-- https://firms.modaps.eosdis.nasa.gov/data/active_fire/noaa-20-viirs-c2/csv/J1_VIIRS_C2_Global_7d.csv
-
-The [checked-in analysis](NASA-DATA-ANALYSIS.md) identifies its retrieval date. Each deployment also includes an updated analysis at /data/analysis.md and metadata at /data/status.json.
-
-## Run locally
-
-Requires Node.js 20 or newer:
+Node.js 22 or newer is recommended.
 
 ```powershell
-cd 'C:\Codex\NASA Space Apps'
+cd 'C:\Codex\NASA Space Apps\ember atlas'
 npm.cmd install
 npm.cmd start
 ```
 
-Open http://localhost:3000. The default saved NASA snapshot needs no key. For live retrieval, set FIRMS_MAP_KEY in an environment variable or a local ignored `.env` file, then restart the server. The local observatory retrieves NASA data automatically. An upstream failure retains clearly labeled actual snapshot data; it never substitutes synthetic records.
+- Overview: http://localhost:3000/
+- History: http://localhost:3000/history.html
+- Live: http://localhost:3000/observatory.html
+- California case: http://localhost:3000/history.html?case=california&month=2020-09
+- Amazon case: http://localhost:3000/history.html?case=amazon&month=2019-08
+- Current Uzbekistan + seasonal context: http://localhost:3000/observatory.html?country=UZB
 
-## Refresh and publish observations
+Saved real NASA data needs no key to browse. The local server refreshes public worldwide NRT files every 15 minutes while it runs; pages check published/local metadata every 60 seconds without reloading. Stop the server to stop local retrieval. Check now checks the current snapshot; it does not guarantee a new NASA publication.
 
-```powershell
-npm.cmd run data:refresh
-node analyze-data.js
-npm.cmd run build
-npm.cmd test
+## Architecture
+
+Existing animated Earth, satellites, page swipes, scroll animations, reduced-motion preference, English map labels, sharper road maps, satellite/night/daily imagery, area drawing, country/region drill-down, map expansion, sidebar collapse, on-map Back/close and Hide detections are retained.
+
+- **Live:** `provider.js` fetches the small version manifest and compressed/date/sensor shards. `analysis-worker.js` handles filtering, approximate daily grid, viewport queries and CSV export. The existing canvas map renders only visible bins.
+- **History:** `history-provider.js` uses gzip with JSON fallback, a 48-partition memory LRU, persistent browser cache and a four-download queue. `history-worker.js` isolates aggregation/calibration from the UI. `history-engine.js` loads compact annual summaries for the timeline, then only intersecting year/geographic cell partitions for the selected map. Custom AOIs load their intersecting partitions and recompute historical statistics.
+- **UI:** `history-app.js` connects the monthly calendar, selected period, sensor views, raw source-count comparison, metrics, provenance and the existing map shell. Calendar missing months stay blank. Map symbols are common cell centers; original source point coordinates remain in the offline download cache.
+- **Static output:** `build.js` creates versioned assets in `docs/`, preserves the subpath used by GitHub Pages, and appends current NRT summaries. It never needs the ignored historical raw download cache.
+
+Historical files follow this layout:
+
+```
+data/history/metadata.json
+ data/history/<case>/<year>/summary.json[.gz]
+ data/history/<case>/<year>/<5-degree-x>_<5-degree-y>.json[.gz]
+ data/history/<case>/recent/{cells,summary}.json[.gz]
 ```
 
-`data:refresh` uses official public global CSV downloads. All requested products must succeed and validate before replacing the snapshot. It stores public observations and metadata in `data/firms.json`; no API URL containing the key is saved. `build` copies the real snapshot and relative static assets into `docs/`. Commit the refreshed `data/`, `docs/`, and analysis report and push `main` to publish. GitHub Pages uses GitHub Actions; `.github/workflows/publish.yml` runs on main pushes, scheduled intervals, and manual dispatch. It refreshes data before testing, building, and publishing the artifact. Never commit `.env` or put the key in browser code. The static Pages site cannot contact the credentialed API directly; the scheduled publisher handles cloud refreshes.
+Metadata lists coverage, product eras, source links, retrieval dates, source checksums and partition versions. A public derived record is separate from the private/offline source cache.
 
-## Map explorer
+## Real historical coverage in this build
 
-The observatory embeds a compact map with rectangle selection, a country summary and an enlarge button. Enlarging moves the existing map and controls into a full-screen explorer with a collapsible sidebar; closing restores the observatory without refetching observations. The dedicated map page uses this layout immediately. On phones, controls become a collapsible bottom sheet.
+The initial input contains **731 real NASA source files, 1,225,406 source rows before geographic/quality filtering, and 1,007,542 accepted rows**. Original input counts include records outside the Uzbekistan country polygon in bounding-box API downloads. Counts are not unique fires.
 
-Double-click a country to highlight it, dim the surroundings, zoom to its main landmass and show first-level administrative regions. Double-click a region to focus on it. Country search and a region selector provide keyboard alternatives. Breadcrumbs and Clear boundary undo selection. The information box shows NASA sensor totals, selected detections, grid occupancy, overlap, highest observed FRP and latest acquisition, with date/confidence/view context. Polygon containment, including islands and holes, filters observations before aggregation and export. The country/region, drawn area, imagery and filters carry over to full-page links and remain active during live updates.
+| Case | Archive coverage | Default example |
+|---|---|---|
+| Uzbekistan | MODIS November 2000–June 2026 SP; S-NPP January 2012 onward; NOAA-20 April 2018 onward; July–October 2026 NRT appended separately | August 2024 |
+| Northern California, [-123, 38, -120, 41] | September 2017–2024 SP | September 2020 |
+| Amazon / Rondônia, [-64, -13, -60, -8] | August 2017–2024 SP | August 2019 |
 
-Boundaries and English labels are self-hosted Natural Earth data (257 countries/territories and 4,596 first-level divisions). Regional data download only on selection. Boundaries are generalized, use the dataset's de facto geography and are not current cadastral/legal boundaries. Some tiny territories have no subdivisions; this is stated in the UI. NASA sums describe thermal detections, not unique fires. Regenerate assets with `node prepare-boundaries.js`; its source revision is pinned, and raw cached downloads are ignored.
+Recent worldwide MODIS/NOAA-20 observations are available in Live, but **decades of global history are not populated**. California and Amazon have selected seasonal months only. Historical country/region selection shows only the archived case's coverage, not a complete country-wide history. Latest UTC days and all NRT periods are provisional.
 
-Street and dark road maps use OpenFreeMap with a lazy-loaded MapLibre renderer and explicit English label fields, falling back to Latin transliteration when an English name is unavailable. NASA satellite, daily imagery and night lights keep their existing imagery, with English country, region and city labels supplied separately. Detailed street labels require the vector road styles. MapLibre's workers and runtime are self-hosted; tiles and fonts come from OpenFreeMap. No map API key is needed.
+NOAA-21 NRT is represented by the ingestion schema, but no NOAA-21 historical series is downloaded in this build and NASA currently lists no corresponding SP area product. Its contribution stays missing.
 
-## Analysis baseline
+## Historical preprocessing and reproduction
 
-Common region/date/confidence filters precede aggregation. Records group by an approximate latitude-adjusted 1 km row grid and UTC day. Each cell retains sensor and product memberships, satellite identifiers, observation count, observation time range, mean location, maximum normalized confidence, and maximum FRP. Original confidence and satellite metadata are preserved for raw observations. VIIRS l/n/h and low/nominal/high map heuristically to 30/70/95; MODIS numeric confidence is retained.
+1. Browse existing derived data without downloading raw archives.
+2. For reproducing Uzbekistan's public annual archives through 2024, no key is needed.
+3. For area API case studies and 2025–2026 continuation, set `FIRMS_MAP_KEY` in the environment or an ignored local `.env` file. Request your own key from NASA FIRMS. Never place it in frontend code.
+4. Download and build:
 
-Daily occupied cells form the calendar. A peak exceeds the selected window's mean + 1.5 population standard deviations. Five days cannot establish historical anomalies or seasonality. Zero selected detections do not prove no fire. Raw records are available in MODIS, VIIRS, and Compare views; CSV export reflects the map selection.
+```powershell
+npm.cmd run history:fetch -- --cases=uzbekistan --years=2000-2024
+npm.cmd run history:fetch -- --cases=uzbekistan --years=2025-2026
+npm.cmd run history:fetch -- --cases=california,amazon --years=2017-2024
+npm.cmd run history:build
+npm.cmd run data:refresh
+npm.cmd run history:append
+npm.cmd run history:audit
+npm.cmd test
+npm.cmd run build
+```
 
-The grid is approximate and has boundary artifacts. It does not validate matches between fire events, correct for overpasses/clouds/missing coverage, calibrate sensors scientifically, or estimate burned area. FIRMS thermal anomalies include agricultural burning and other heat sources. Counts are neither unique fires nor fire extent. Bounding boxes are not administrative polygons. Production scientific validation requires historical records, coverage masks, an equal-area projection, sensor calibration, and independent evaluation.
+The downloader is resumable, checksum-aware, uses two concurrent requests, retries failures, respects NASA's five-day area-query limit, and checks actual product availability. Inspect its reported failures before building. Annual country archives are preferred; unavailable annual files fall back to bounded SP/NRT area queries. Modify `history-catalog.js` to extend case/month coverage deliberately.
 
-## Project files
+`.history-source/manifest.json` describes inputs as `firms-history-input-v1`, with caseID, year, product, processing SP/NRT, date bounds, local CSV filename, sanitized source link, retrieval timestamp and SHA-256. The offline builder accepts another manifest path. It validates dates/checksums, clips Uzbekistan to the country polygon, deduplicates source observations within year/product, applies quality filters and emits cells/summaries. Raw files and private API keys are ignored by Git.
 
-- `index.html`, `landing.js`, `site.css`: animated Earth landing page.
-- `observatory.html`, `dashboard.css`, `app.js`: automatic-update analysis workspace.
-- `method.html`: dedicated methodology page.
-- `fetch-firms.js`: public download or private local area-API retrieval.
-- `.github/workflows/publish.yml`: scheduled NASA refresh, validation, and Pages deployment.
-- `refresh-state.js`: rolling dates and freshness logic.
-- `data/firms.json`: original-observation metadata and retrieval manifest.
-- `core.js`: normalization, approximate grid, calendar calculations.
-- `app.js`, `provider.js`: interactive map and actual-data providers.
-- `server.js`: local-only HTTP server and optional live NASA requests.
-- `build.js`: GitHub Pages static build in `docs/`.
-- `analyze-data.js`: reproducible actual-data analysis report.
-- `core.test.js`, `nasa-data.test.js`: processing and data-integrity checks.
+## Common representation and baseline harmonization
 
-Leaflet is bundled with its license. Basemap imagery requires internet. Fonts are self-hosted. The server binds to 127.0.0.1.
+Historical quality rules are fixed: MODIS native confidence ≥40; VIIRS nominal/high only. VIIRS low/nominal/high →30/70/95 are filtering scores, **not probabilities**.
 
-## Shared scene and motion
+For each approximate 1 km cell and UTC day retain MODIS/S-NPP/NOAA-20/NOAA-21 counts, date, grid ID/center, maximum valid nonnegative FRP, confidence filter score, acquisition time bounds, satellites and product names. Maximum FRP is never summed energy. Per-product summaries allow NRT to update one satellite without erasing others or keeping superseded FRP/time values. Source observation counts and occupied-cell counts are displayed separately. Combined VIIRS occupied cells are a union; reference VIIRS counts are also shown.
 
-All three pages share `earth.js`, `motion.js`, and `navigation.js`. The landing globe initially faces Eurasia and occupies about 70% of the desktop hero width, capped on very wide screens. The Earth rotates gently on its own with four decorative satellites; it has no mouse or keyboard rotation controls. Its orientation carries across internal page links. The observatory and method sheets sit above a dimmed Earth backdrop. Coordinated exit and entrance animations swipe the sheets while keeping the distant scene behind the content. Reduced-motion preferences disable movement. Smooth scrolling, section reveals, orbital motion, and pointer-lit cards run without interfering with the observatory map.
+For each AOI and VIIRS product:
+- Train using SP paired daily occupied-cell totals through 2020.
+- `k = sum(MODIS cells) / sum(VIIRS product cells)`.
+- Require at least 30 paired days, three training years, and positive totals.
+- Include source-covered zero-detection days; exclude missing product days and all NRT.
+- Daily `H = (M + kV) / 2` when both exist; use M or kV when only one calibrated contribution exists.
+- Reference VIIRS priority: S-NPP, then NOAA-20, then NOAA-21. Satellites are not added together into H.
+- Monthly activity is the sum of daily H. Units are a MODIS-scale occupied-cell activity proxy; there is no arbitrary 0–100 cap.
+- SP after 2020 is held out. Report paired sample sizes, daily RMSE and bias of kV−M. Earlier periods are in-sample.
 
-The shared styling lives in `experience.css`. Every release versions HTML page links, styles, scripts, and local module imports together so cached styles cannot put the Earth over new page content. The WebGL scene has an isolated, clipped background layer; content and transition snapshots remain above it. The globe uses orthographic projection for a predictable 68% desktop width. The map uses one non-wrapping world, hard geographic bounds, and a viewport-aware minimum zoom; it cannot pan into duplicate worlds. Regression checks cover release invalidation, navigation behavior, and map viewport limits.
+This is the **Baseline harmonization model**, a simple statistical prototype. It addresses aggregate sensitivity differences; it does not validate matched fire events or remove cloud/overpass/clear-sky sampling biases.
 
-The header's Animations button applies immediately and saves a browser preference across pages. Off uses a static Earth, cancels the 3D rendering frame loop, destroys Lenis and its frame loop, disables decorative CSS effects and backdrop blur, and skips page swipe delays. The 3D modules are not loaded on initial visits with animations off. System reduced motion is the default when no explicit preference exists. NASA polling and map/data controls continue normally. Departing content now moves a full viewport out of view before the new document arrives; navigation and the distant scene stay stationary.
+## Seasonal baseline and Live context
 
-## Global explorer
+Compare the selected month's exact covered calendar dates with those dates in other SP years for the same AOI. Exclude the selected year and all provisional NRT reference periods. Reference years must cover every selected date. Partial current months therefore compare like dates.
 
-The NASA publisher now fetches MODIS and NOAA-20 VIIRS worldwide for the rolling five-day UTC window. Observations are stored once in daily sensor JSON shards, referenced by a small versioned manifest in `data/firms.json`. Region presets are geographic bounding-box filters over that same global record. Browser analysis runs in a module worker. A single canvas groups nearby map symbols at the current zoom; metrics and CSV exports retain all selected records. Missing/negative reported FRP is shown as unavailable and its original value is retained as `frpRaw` in exports.
+At least five comparison years are required. Report:
+- Midrank percentile: 100 × (years below + 0.5 × tied years) / N.
+- Seasonal median and H/median if median >0.
+- Sample z-score when variance >0.
+- Normal <80th percentile; Elevated ≥80; Unusual ≥95.
+- Critical activity ≥99 with at least 20 comparison years. This labels relative activity, not emergency risk.
 
-The observatory offers Enlarge map (Escape closes it), a dedicated `map.html` view, and World view. Full-page links carry the active area, dates, confidence, sensor, basemap, selected day, and map position. Street and dark maps use OpenStreetMap. The default satellite view uses EOX Sentinel-2 cloudless 2025, with 10 m source detail and native zoom 14. EOX permits this non-commercial educational usage under CC BY-NC-SA 4.0 with on-map credit. Sub-meter Google/ArcGIS satellite imagery requires a provider API key. NASA Blue Marble remains an optional background. Blue Marble, VIIRS night lights (2012), and dated daily MODIS Terra imagery use NASA GIBS; static composites are labeled and imagery dates are independent of fire observations. Daily imagery uses the previous UTC date unless a calendar day is selected. Imagery tile gaps do not remove NASA hotspot observations. The map is bounded to one non-wrapping Earth.
+Live historical context uses its exact selected date window and fixed historical quality rules, independently of the display confidence slider. It is offered for Uzbekistan country/regions and AOIs fully within the California/Rondônia case boxes. Other places correctly report missing historical coverage. Incomplete current days can depress current counts.
 
-The shared background is a continuous darker night sky with static stars, a constantly rotating Earth, and illustrative orbiting satellites. Satellites are decorative models, not real-time orbital tracking. The method content has no separate-width gradient. The animation switch stops 3D motion and rendering while leaving data updates active.
+The Live short-window calendar still shows window-relative peaks (mean +1.5 standard deviations); these are labeled **Window peaks**, separate from historical categories.
 
-## Startup performance
+## Data sources and map imagery
 
-The Pages build bundles and minifies JavaScript, combines page styles, inlines the small navigation/preference bootstrap, self-hosts fonts, and preloads globe resources. The 3D renderer is still skipped when animations are off. A spherical preview from the same texture and Eurasia orientation covers startup until the textured WebGL frame and shaders are ready. Regenerate the WebP assets with node prepare-assets.js after changing the source texture.
+Primary NASA sources:
+- https://firms.modaps.eosdis.nasa.gov/download/
+- https://firms.modaps.eosdis.nasa.gov/api/area/
+- https://firms.modaps.eosdis.nasa.gov/api/data_availability/
+- Annual country catalog: https://firms.modaps.eosdis.nasa.gov/data/country/yearly_summary_files.txt
+- Public MODIS rolling CSV: https://firms.modaps.eosdis.nasa.gov/data/active_fire/modis-c6.1/csv/MODIS_C6_1_Global_7d.csv
+- Public NOAA-20 CSV: https://firms.modaps.eosdis.nasa.gov/data/active_fire/noaa-20-viirs-c2/csv/J1_VIIRS_C2_Global_7d.csv
 
-Published daily shards include lossless column-encoded gzip files. The worker decodes them, caches compressed responses across page visits, and downloads changed hashes only. Original JSON remains a compatibility fallback. All fields, raw confidence values, optional FRP metadata, coordinates and IDs round-trip exactly. Cache access is optional, so private browsing and storage limits do not prevent loading. Analysis and CSV exports continue to use complete records.
+Public annual archives currently extend through 2024. Product availability was queried for this build: SP through June 30, 2026 and current NRT from July 1, 2026. Availability can change; the downloader checks it rather than hardcoding current cutoffs.
 
-Run npm run build to create the optimized production files in docs/. Run node preview-pages.js to serve them at http://localhost:3001/ember-atlas/. The npm start command serves unbundled development source. Tests cover data round trips, cache reuse, fallback downloads, filters, exports, map interactions, motion preferences and page transitions.
+Map imagery is independent of FIRMS observations: OpenFreeMap road/dark styles with English labels, EOX Sentinel-2 cloudless 2025 imagery, NASA Blue Marble, 2012 nighttime lights and dated MODIS true-color. Composites are not live imagery. Natural Earth borders are generalized, not legal boundary authority. Baikonur is included in Kazakhstan and retained as a selectable lease area. Imagery attribution remains visible.
 
-The map loads tiles for the visible viewport with one tile of buffer, discards distant tiles, and requests new zoom imagery after zooming settles. Street/dark vector maps remain sharp through zoom 20. Satellite source resolution is explicit rather than implying that magnifying a coarse tile creates detail. The on-map Hide detections control removes circles/count labels and stops viewport detection queries while hidden. It stays available with the sidebar collapsed, saves the browser preference, and carries into full-page links. Data summaries, live refresh, boundary navigation and exports continue; Show detections redraws the current viewport.
+## Updates, local build and deployment
 
-Natural Earth's source encodes Baikonur (KAB) as a separate leased area. The preparation script groups it under Kazakhstan (KAZ), fills only the matching lease hole in Kazakhstan's country geometry, and retains Baikonur as a selectable leased subdivision with explanatory text. Kazakhstan summaries and exports therefore include observations inside the lease. This is a documented override of source grouping, not a general change to other territorial classifications.
+The existing GitHub Actions workflow fetches public NASA worldwide NRT every 15 minutes, checks/tests data and builds Pages. Both modes poll small metadata files every 60 seconds and preserve the last successful real values if fetching fails. Browser-hidden tabs pause checks.
+
+`append-live-history.js` preserves accumulated derived NRT for the three cases and refreshes each newly supplied product/date. Scheduled builds restore/save these recent partitions through Actions cache, then generate fresh metadata. Cache retention is best effort: a cold cache starts from checked-in derived history, so continuity beyond committed archives is not guaranteed until a durable archive store is added. NRT is never calibration training.
+
+A push to `main` activates the publisher. Review changes locally and obtain explicit user approval before pushing or dispatching the publisher. Local `npm run build` only writes files.
+
+To verify the static Pages subpath locally:
+
+```powershell
+npm.cmd run build
+npm.cmd run preview
+```
+
+Open http://localhost:3001/ember-atlas/history.html. Deploy only after explicit user approval.
+
+## Validation
+
+Automated tests cover existing animations/navigation/map interactions, confidence/provenance and compressed Live data; historical sensor eras, calibration split, missing-vs-zero coverage, anomaly sample sizes/thresholds, partial seasonal windows, real NASA case loading, lazy partition loading, map selection/export and current context. Desktop/phone browser checks complement these tests; test fixtures are never served as product data.
+
+## Limitations and future work
+
+Detections are thermal anomalies, not confirmed wildfires, unique fire events or burned area. No coverage mask accounts for clouds or overpass effort. Grid-center country/AOI assignment has edge uncertainty. Raw source counts include repeat acquisitions. Global historical coverage, NOAA-21 SP, cell-level transfer calibration, clear-sky normalization, independent validation, transition diagnostics and uncertainty intervals remain future work.
+
+Persist NRT in a durable versioned store, replace provisional NRT with SP when it becomes available, extend area/month coverage, and add smaller temporal partitions as records grow. Exports are selected common cells with provenance; original raw point drill-down is an optional future extension.
+
+The reproducible [historical baseline audit](HISTORY-ANALYSIS.md) lists actual fitted factors, paired sample sizes and held-out errors for all three cases.

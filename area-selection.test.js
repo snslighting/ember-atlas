@@ -1,3 +1,4 @@
+import {footprintWeights} from './harmonization.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {normalizeArea,parseArea,areaFromCorners,inArea} from './area-bounds.js';
@@ -14,7 +15,7 @@ test('area filters observations, statistics and export, and clearing restores gl
  const rows=[{lat:35,lon:-120,date:'2026-10-01',confidence:90,frp:1,sensor:'MODIS'},{lat:0,lon:0,date:'2026-10-01',confidence:90,frp:2,sensor:'VIIRS'}];
  const analyze=createAnalyzer(rows),filters={region:'World',start:'2026-10-01',end:'2026-10-01',confidence:40,view:'Compare'};
  const selected=analyze({...filters,area:[-125,32,-114,42]});
- assert.equal(selected.summary.raw,1);assert.equal(selected.summary.selected,1);assert.equal(selected.summary.cells,1);
+ assert.equal(selected.summary.raw,1);assert.equal(selected.summary.selected,1);assert.equal(selected.summary.cells,footprintWeights(rows[0]).length);
  assert.deepEqual(selected.summary.bars.slice(0,2),[['MODIS',1],['VIIRS',0]]);
  assert.equal(exportCSV(selected.selected).split('\n').length,2);
  assert.equal(analyze({...filters,area:[10,10,20,20]}).summary.raw,0);

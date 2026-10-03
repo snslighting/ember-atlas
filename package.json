@@ -7,7 +7,15 @@
     "start": "node server.js",
     "test": "node --test",
     "build": "node build.js",
-    "data:refresh": "node fetch-firms.js"
+    "data:refresh": "node fetch-firms.js",
+    "history:fetch": "node fetch-history.js",
+    "history:build": "node build-history.js",
+    "history:append": "node -e \"import('./append-live-history.js').then(m=>m.appendLiveHistory())\"",
+    "preview": "node preview-pages.js",
+    "history:audit": "node analyze-history.js",
+    "harmonization:validate": "node validate-harmonization.js",
+    "harmonization:external": "node supplemental-fire-validation.js",
+    "harmonization:e2e": "node check-end-to-end.js"
   },
   "dependencies": {
     "@maplibre/maplibre-gl-leaflet": "^0.1.4",

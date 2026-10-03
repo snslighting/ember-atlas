@@ -196,3 +196,5 @@
  .explorer-full .map-overlay-toggle{bottom:calc(50% + 62px)}
  .explorer-full.sidebar-collapsed .map-overlay-toggle{bottom:58px}
 }
+
+.live-history-context{padding:20px;border:1px solid #315671;border-radius:12px;background:#0b2134;margin:20px 0;min-width:0}.live-history-context p{color:#aac6dc;font-size:13px;line-height:1.8}.live-history-context a{display:inline-block;margin:8px 12px 0 0;color:#77bfff;font-size:12px}.history-scope{color:#accfe8!important}

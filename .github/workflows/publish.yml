@@ -25,12 +25,21 @@ jobs:
         with:
           node-version: '22'
           cache: npm
+      - uses: actions/cache@v4
+        with:
+          path: |
+            data/history/uzbekistan/recent
+            data/history/california/recent
+            data/history/amazon/recent
+          key: history-nrt-v1-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: history-nrt-v1-
       - run: npm ci
       - name: Fetch actual NASA observations
         env:
           FIRMS_PUBLIC_DOWNLOADS: "1"
         run: npm run data:refresh
       - run: node analyze-data.js
+      - run: node analyze-history.js
       - run: npm test
       - run: npm run build
       - uses: actions/configure-pages@v5

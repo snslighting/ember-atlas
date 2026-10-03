@@ -5,3 +5,10 @@ node_modules/
 deployed-preview.png
 
 .boundary-source/
+
+.history-source/
+*.pid
+*.tmp.*
+
+# Re-downloadable NASA/NIFC validation source archives
+validation/sources/
