@@ -185,3 +185,14 @@
 
 #map-boundary-back{max-width:65%;overflow:hidden;text-overflow:ellipsis}
 #map-boundary-name{min-width:0}
+
+/* Data visibility is available in embedded, full-page, and collapsed-sidebar maps. */
+.map-overlay-toggle{position:absolute;bottom:58px;left:16px;z-index:850;background:#081827f5;border:1px solid #345b79;border-radius:10px;box-shadow:0 4px 15px #0003;padding:11px 15px;font:500 12px 'DM Sans',system-ui;color:#d3edff;cursor:pointer;white-space:nowrap}
+.map-overlay-toggle:hover,.map-overlay-toggle:focus-visible{border-color:#63b6ff;background:#133149}
+.map-overlay-toggle[aria-pressed=true]{color:#77c5ff;border-color:#5289b4}
+.detections-hidden .map-footer>span:first-child,.detections-hidden .map-accessible{display:none}
+@media(max-width:760px){
+ .map-overlay-toggle{left:10px;font-size:11px}
+ .explorer-full .map-overlay-toggle{bottom:calc(50% + 62px)}
+ .explorer-full.sidebar-collapsed .map-overlay-toggle{bottom:58px}
+}

@@ -17,7 +17,7 @@ test('boundary summaries and exports exclude detections inside the bounding box 
  assert.equal(analyze({...f,boundary:null}).summary.raw,3);
 });
 test('actual country and region geometry distinguishes known capitals and preserves all administrative units',async()=>{
- const world=JSON.parse(await readFile('assets/boundaries/world.json','utf8'));assert.equal(world.features.length,258);
+ const world=JSON.parse(await readFile('assets/boundaries/world.json','utf8'));assert.equal(world.features.length,257);
  for(const [id,inside,outside,count] of [['UZB',[69.24,41.3],[71.45,51.17],14],['JPN',[139.76,35.68],[126.98,37.57],47],['USA',[-77.04,38.90],[-79.38,43.65],51]]){
   const data=JSON.parse(await readFile('assets/boundaries/countries/'+id+'.json','utf8')),contains=compileGeometry(data.country.geometry);
   assert.ok(contains({lon:inside[0],lat:inside[1]}),id);assert.ok(!contains({lon:outside[0],lat:outside[1]}),id);assert.equal(data.regions.features.length,count);
@@ -28,4 +28,17 @@ test('vector labels explicitly choose English and Latin names and preserve road 
  const original={layers:[{layout:{'text-field':['get','name']}},{layout:{'text-field':['get','ref']}}]},style=englishStyle(original);
  assert.deepEqual(original.layers[0].layout['text-field'],['get','name']);assert.deepEqual(style.layers[1],original.layers[1]);
  const expression=JSON.stringify(style.layers[0].layout['text-field']);assert.ok(expression.includes('name_en'));assert.ok(!expression.includes('"name"'));assert.ok(!expression.includes('name:nonlatin'));
+});
+
+test('Baikonur belongs to Kazakhstan selections, with its lease retained as a special area',async()=>{
+ const world=JSON.parse(await readFile('assets/boundaries/world.json','utf8')),detail=JSON.parse(await readFile('assets/boundaries/countries/KAZ.json','utf8'));
+ assert.ok(!world.features.some(f=>f.id==='KAB'));
+ const contains=compileGeometry(detail.country.geometry),area=detail.regions.features.find(f=>f.id==='KAB+00?');
+ assert.equal(area.properties.country,'KAZ');assert.equal(area.properties.kind,'Leased area');assert.match(area.properties.note,/leased to Russia/);
+ const cosmodrome={lon:63.35,lat:45.96};assert.ok(contains(cosmodrome));assert.ok(compileGeometry(area.geometry)(cosmodrome));
+ assert.ok(compileGeometry(world.features.find(f=>f.id==='KAZ').geometry)(cosmodrome));
+ assert.ok(!contains({lon:69.24,lat:41.3}));assert.ok(detail.regions.features.some(f=>f.properties.name==='Kyzylorda'));
+ const rows=[{...cosmodrome,sensor:'VIIRS',date:'2026-10-02',confidence:90},{lon:69.24,lat:41.3,sensor:'MODIS',date:'2026-10-02',confidence:90}];
+ const analyze=createAnalyzer(rows),f={region:'World',start:'2026-10-02',end:'2026-10-02',confidence:40,view:'Compare'};
+ assert.equal(analyze({...f,boundary:detail.country}).summary.raw,1);assert.equal(analyze({...f,boundary:area}).summary.raw,1);
 });

@@ -1,16 +1,18 @@
 // One retained canvas; Leaflet moves it with the map while the worker queries.
 export function createHotspotLayer(map,onInspect){
  const Layer=L.Layer.extend({
-  onAdd(){this.canvas=L.DomUtil.create('canvas','hotspot-canvas leaflet-zoom-hide');this.canvas.style.pointerEvents='none';map.getPane('overlayPane').append(this.canvas);this.bins=[];map.on('click',this.click,this);map.on('zoomend',this.zoomEnd,this);},
+  onAdd(){this.canvas=L.DomUtil.create('canvas','hotspot-canvas leaflet-zoom-hide');this.canvas.style.pointerEvents='none';map.getPane('overlayPane').append(this.canvas);this.bins=[];this.visible=true;map.on('click',this.click,this);map.on('zoomend',this.zoomEnd,this);},
   onRemove(){this.canvas.remove();map.off('click',this.click,this);map.off('zoomend',this.zoomEnd,this);},
+  setVisible(value){this.visible=value;this.canvas.style.visibility='hidden';if(!value)this.bins=[];},
   zoomEnd(){if(this.zoom!==map.getZoom())this.canvas.style.visibility='hidden';},
   click(e){
-   if(this.zoom!==map.getZoom()||!this.position)return;
+   if(!this.visible||this.zoom!==map.getZoom()||!this.position)return;
    const offset=map.layerPointToContainerPoint(this.position);let best=null,distance=Infinity;
    for(const b of this.bins){const d=Math.hypot(b.x+offset.x-e.containerPoint.x,b.y+offset.y-e.containerPoint.y);if(d<Math.max(12,b.radius)&&d<distance){best=b;distance=d;}}
    if(best)onInspect(best);
   },
   paint(bins){
+   if(!this.visible)return;
    const size=map.getSize(),ratio=Math.min(devicePixelRatio,1.5),width=Math.round(size.x*ratio),height=Math.round(size.y*ratio);
    if(this.canvas.width!==width||this.canvas.height!==height){this.canvas.width=width;this.canvas.height=height;}
    this.canvas.style.width=size.x+'px';this.canvas.style.height=size.y+'px';

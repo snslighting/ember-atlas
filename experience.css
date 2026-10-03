@@ -4,7 +4,7 @@ html[data-direction=back]{--slide:-1}body{background:radial-gradient(ellipse at 
 body>main,body>.site-footer{position:relative;z-index:2}body>main{view-transition-name:page-content}.site-nav{view-transition-name:site-navigation;background:linear-gradient(#071526ee,#07152699)}
 #earth-stage{position:fixed;inset:0;width:100%;height:100svh;opacity:1;pointer-events:none;view-transition-name:earth-sky;z-index:0;transition:filter .8s,opacity .8s}
 .landing #earth-stage{opacity:calc(1 - var(--hero-depth)*.78)}#earth-stage canvas{width:100%;height:100%;outline-offset:-6px}
-.landing #earth-stage canvas{pointer-events:auto;cursor:grab;touch-action:pan-y}.landing #earth-stage.dragging canvas{cursor:grabbing}
+.landing #earth-stage canvas{pointer-events:none}
 .deep-scene #earth-stage{opacity:.23;filter:saturate(.8) blur(2px);transform:scale(.92)}
 .earth-fallback{width:70vw;left:35%;top:10%;background-position:70% center}.hero{background:transparent}.hero-grain{background:linear-gradient(90deg,#07152677 0,transparent 70%)}
 .hero-bottom,.earth-coordinate{pointer-events:none}.hero-copy h1{text-shadow:0 4px 40px #07152677}.earth-coordinate{color:#b0d2ed}.earth-coordinate b{color:#77c5ff}
@@ -29,7 +29,7 @@ body>main,body>.site-footer{position:relative;z-index:2}body>main{view-transitio
 @media(max-width:1000px){#earth-stage{inset:0;width:100%;height:100svh;opacity:1}.deep-scene #earth-stage{opacity:.2}.hero-copy h1{font-size:clamp(66px,8vw,90px)}}
 @media(max-width:700px){.landing #earth-stage{top:360px;height:540px}.deep-scene #earth-stage{top:0;height:100svh}.hero-copy h1{font-size:66px}.earth-fallback{width:95vw;left:2%;top:10%}.hero-grain{background:linear-gradient(#07152600,#07152622)}.hero-copy{pointer-events:none}.deep-scene #earth-stage{opacity:.15}.earth-coordinate{bottom:70px}.hero-actions{flex-wrap:wrap}.document-page>h1{font-size:clamp(32px,7vw,45px)}}
 
-.landing>main{pointer-events:none}.landing>main>section:not(.hero){pointer-events:auto}.hero{pointer-events:none}.hero-copy a{pointer-events:auto}
+.landing>main,.landing .hero,.landing .hero-copy{pointer-events:auto}
 /* Hard scene boundary: WebGL can never paint in front of page content. */
 html{overflow-x:hidden}body{isolation:isolate;overflow-x:hidden}#earth-stage{position:fixed;inset:0;width:100%;height:100svh;z-index:0;isolation:isolate;overflow:hidden;contain:layout paint;pointer-events:none;transform:none}
 #earth-stage canvas{position:absolute;inset:0;z-index:0;display:block}.landing #earth-stage{opacity:var(--scene-opacity,1)}.deep-scene #earth-stage{opacity:.13;filter:saturate(.75);transform:none}

@@ -8,7 +8,7 @@ export function createBoundaryExplorer(map,{isDrawing,onSelect,onClear,onNotice,
  const pathStyle={color:'#8cbfe4',weight:1,opacity:.65,fillOpacity:0,interactive:false};
  map.doubleClickZoom.disable();
  map.attributionControl.addAttribution('Boundaries & labels <a href="https://www.naturalearthdata.com/">Natural Earth</a>');
- async function json(file){const response=await fetch(root+file);if(!response.ok)throw Error('Boundary data unavailable');return response.json();}
+ async function json(file){const response=await fetch(root+file,{cache:'no-cache'});if(!response.ok)throw Error('Boundary data unavailable');return response.json();}
  function details(id){if(!cache.has(id)){const request=json('countries/'+id+'.json').catch(error=>{cache.delete(id);throw error;});cache.set(id,request);}return cache.get(id);}
  function fit(feature){const b=focusBounds(feature.geometry),padding=getPadding();map.fitBounds([[Math.max(-85,b[1]),b[0]],[Math.min(85,b[3]),b[2]]],{maxZoom:feature.properties.kind==='Country / territory'?9:12,...(Array.isArray(padding)?{padding}:padding),animate:window.atlasMotion.enabled});}
  function shade(feature){
@@ -26,7 +26,7 @@ export function createBoundaryExplorer(map,{isDrawing,onSelect,onClear,onNotice,
  }
  async function commit(feature){selected=feature;shade(feature);breadcrumbs();onNotice(feature.properties.name,{backLabel:feature.id===country?.id?'Back to world':'Back to '+country.properties.name});$('boundary-info').replaceChildren();const h=document.createElement('h3');h.textContent=feature.properties.name;const p=document.createElement('p');p.textContent='Analyzing NASA observations inside this border…';$('boundary-info').append(h,p);fit(feature);labels.paint();try{await onSelect(feature);}catch{if(selected?.id===feature.id)$('boundary-status').textContent='Boundary selected; NASA analysis unavailable. Check the data connection.';}}
  async function selectCountry(id){
-  const idTicket=++ticket;const overview=countries.find(f=>f.properties.country===id);if(!overview)return;
+  if(id==='KAB')id='KAZ';const idTicket=++ticket;const overview=countries.find(f=>f.properties.country===id);if(!overview)return;
   $('boundary-status').textContent='Loading '+overview.properties.name+' regions…';map.closePopup();
   try{const detail=await details(id);if(ticket!==idTicket)return;country=detail.country;regions=detail.regions.features.map(f=>({...f,contains:compileGeometry(f.geometry)}));
    if(subdivisions)map.removeLayer(subdivisions);
@@ -80,7 +80,7 @@ export function createBoundaryExplorer(map,{isDrawing,onSelect,onClear,onNotice,
  }).catch(()=>{$('boundary-status').textContent='Country borders unavailable. Reload to retry; map detections still work.';return false;});
  return {ready,selectCountry,selectRegion,clear,back,get selected(){return selected;},get country(){return country;},showSummary(result,{start,end,confidence,view,day}){
   if(!selected)return;const node=$('boundary-info');node.replaceChildren();const title=document.createElement('h3');title.textContent=selected.properties.name;node.append(title);
-  const type=document.createElement('p');type.className='boundary-kind';type.textContent=selected.properties.kind+(country&&selected.id!==country.id?' · '+country.properties.name:'');node.append(type);
+  const type=document.createElement('p');type.className='boundary-kind';type.textContent=selected.properties.kind+(country&&selected.id!==country.id?' · '+country.properties.name:'');node.append(type);if(selected.properties.note){const context=document.createElement('p');context.textContent=selected.properties.note;node.append(context);}
   const values=[['Selected detections',result.selected.toLocaleString()],['MODIS observations',result.bars[0][1].toLocaleString()],['VIIRS observations',result.bars[1][1].toLocaleString()],['Daily occupied cells',result.cells.toLocaleString()],['Multi-sensor cells',result.overlap.toLocaleString()],['Highest observed FRP',result.maxFrp===null?'Unavailable':result.maxFrp+' MW'],['Latest observation',result.latest?result.latest+' UTC':'No detections in window']];
   const dl=document.createElement('dl');for(const [label,value] of values){const dt=document.createElement('dt');dt.textContent=label;const dd=document.createElement('dd');dd.textContent=value;dl.append(dt,dd);}node.append(dl);
   const note=document.createElement('p');note.textContent=start+'–'+end+' UTC · confidence ≥ '+confidence+'% · '+view+(day?' · '+day:'')+'. Sensor totals cover this date window; selected detections follow the view and day filters. These are thermal anomalies, not counts of unique fires.';node.append(note);

@@ -9,3 +9,8 @@ test('the full world can fit in the map at its minimum zoom',()=>{
 test('tiles and panning share the same non-wrapping world boundary',()=>{
  assert.deepEqual(mapOptions.maxBounds,tileOptions.bounds);assert.equal(tileOptions.noWrap,true);assert.equal(mapOptions.maxBoundsViscosity,1);assert.equal(mapOptions.inertia,false);
 });
+
+test('raster navigation keeps a small tile buffer and avoids intermediate zoom fetches',()=>{
+ assert.equal(tileOptions.keepBuffer,1);assert.equal(tileOptions.updateWhenZooming,false);assert.equal(tileOptions.updateWhenIdle,false);
+ assert.ok(tileOptions.updateInterval>=150);assert.equal(tileOptions.maxZoom,mapOptions.maxZoom);
+});
