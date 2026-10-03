@@ -1,0 +1,1 @@
+function n(l){let t=structuredClone(l);for(let e of t.layers||[])e.layout?.["text-field"]&&JSON.stringify(e.layout["text-field"]).includes("name")&&(e.layout["text-field"]=["case",["!=",["coalesce",["get","name_en"],""],""],["get","name_en"],["coalesce",["get","name:latin"],""]]);return t}export{n as englishStyle};

@@ -1,3 +1,4 @@
+import {leafletGlobalPlugin} from './vector-build-plugin.js';
 import {fileURLToPath} from 'node:url';
 import {mkdir,readFile,writeFile,copyFile,cp,readdir,unlink} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
@@ -6,9 +7,9 @@ import {build,transform} from 'esbuild';
 import {releaseVersion,versionHTML,versionModules} from './build-assets.js';
 import {packRows} from './data-codec.js';
 const pages=['index.html','observatory.html','map.html','method.html'];
-const modules=['area-bounds.js','area-selection.js','scene-layout.js','analysis-worker.js','map-analysis.js','hotspot-layer.js','basemaps.js','animation-loop.js','map-policy.js','app.js','core.js','provider.js','refresh-state.js','landing.js','earth.js','motion.js','data-codec.js'];
+const modules=["vector-basemap.js","english-style.js","boundary-geometry.js","boundary-explorer.js","map-shell.js","area-bounds.js","area-selection.js","scene-layout.js","analysis-worker.js","map-analysis.js","hotspot-layer.js","basemaps.js","animation-loop.js","map-policy.js","app.js","core.js","provider.js","refresh-state.js","landing.js","earth.js","motion.js","data-codec.js"];
 const styles=['site.css','dashboard.css','experience.css','fonts.css'],classic=['motion-settings.js','navigation.js'];
-const inputs=[...pages,...modules,...styles,...classic,'build.js','build-assets.js','package-lock.json'];
+const inputs=[...pages,...modules,...styles,...classic,'build.js','vector-build-plugin.js','build-assets.js','package-lock.json'];
 const version=releaseVersion(await Promise.all(inputs.map(p=>readFile(p,'utf8'))));
 await mkdir('docs',{recursive:true});
 const compressedClassic=await Promise.all(classic.map(async file=>(await transform(await readFile(file,'utf8'),{minify:true,target:'es2022'})).code));
@@ -26,13 +27,14 @@ for(const page of pages){
 }
 const aliases={name:'local-vendor',setup(build){build.onResolve({filter:/vendor\/three\/three.module.js$/},()=>({path:fileURLToPath(new URL('./node_modules/three/build/three.module.js',import.meta.url))}));build.onResolve({filter:/vendor\/lenis\/lenis.mjs$/},()=>({path:fileURLToPath(new URL('./node_modules/lenis/dist/lenis.mjs',import.meta.url))}));}};
 for(const file of modules){
- const result=await build({entryPoints:[file],bundle:true,minify:true,format:'esm',target:'es2022',write:false,external:file==='motion.js'?['./earth.js']:[],plugins:[aliases],legalComments:'inline'});
+ const result=await build({entryPoints:[file],bundle:true,minify:true,format:'esm',target:'es2022',write:false,external:file==='motion.js'?['./earth.js']:file==='app.js'?['./vector-basemap.js']:[],plugins:[aliases,leafletGlobalPlugin],legalComments:'inline'});
  await writeFile('docs/'+file,versionModules(result.outputFiles[0].text,version));
 }
 for(const file of classic)await writeFile('docs/'+file,(await transform(await readFile(file,'utf8'),{minify:true,target:'es2022'})).code);
 const site=(await readFile('site.css','utf8')).replace(/^@import[^\r\n]*(?:\r?\n|$)/,'');
+const vectorCSS=await readFile('node_modules/maplibre-gl/dist/maplibre-gl.css','utf8');
 const experience=await readFile('experience.css','utf8'),dashboard=await readFile('dashboard.css','utf8');
-for(const [file,source] of [['site.css',fontCSS+site+experience],['dashboard.css',fontCSS+site+dashboard+experience],['experience.css',experience]]){
+for(const [file,source] of [['site.css',fontCSS+site+experience],['dashboard.css',fontCSS+site+vectorCSS+dashboard+experience],['experience.css',experience]]){
  await writeFile('docs/'+file,(await transform(source,{loader:'css',minify:true,target:'es2022'})).code);
 }
 await mkdir('docs/data/chunks',{recursive:true});
@@ -52,5 +54,6 @@ await copyFile('NASA-DATA-ANALYSIS.md','docs/data/analysis.md');
 await cp('node_modules/leaflet/dist','docs/vendor/leaflet',{recursive:true});await copyFile('node_modules/leaflet/LICENSE','docs/vendor/leaflet/LICENSE');
 await mkdir('docs/vendor/three',{recursive:true});await copyFile('node_modules/three/LICENSE','docs/vendor/three/LICENSE');
 await mkdir('docs/vendor/lenis',{recursive:true});await copyFile('node_modules/lenis/LICENSE','docs/vendor/lenis/LICENSE');
+await mkdir('docs/vendor/maplibre',{recursive:true});for(const file of ['maplibre-gl-worker.mjs','maplibre-gl-shared.mjs'])await copyFile('node_modules/maplibre-gl/dist/'+file,'docs/vendor/maplibre/'+file);await copyFile('node_modules/maplibre-gl/LICENSE.txt','docs/vendor/maplibre/LICENSE.txt');
 await cp('assets','docs/assets',{recursive:true});await writeFile('docs/.nojekyll','');
 console.log(JSON.stringify({version,dataOriginalBytes:originalBytes,dataCompressedBytes:transportBytes,dataReduction:Math.round((1-transportBytes/originalBytes)*100)+'%'}));

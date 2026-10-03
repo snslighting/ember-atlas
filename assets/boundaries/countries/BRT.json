@@ -1,0 +1,1 @@
+{"country":{"type":"Feature","id":"BRT","properties":{"id":"BRT","country":"BRT","name":"Bir Tawil","kind":"Country / territory","label":[33.673428,21.860442]},"geometry":{"type":"Polygon","coordinates":[[[33.18114,21.99541],[34.08418,21.99545],[33.99912,21.76735],[33.55844,21.71096],[33.18114,21.99541]]]}},"regions":{"type":"FeatureCollection","features":[]}}

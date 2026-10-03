@@ -1,9 +1,10 @@
 const gibs='https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/';
 const nasa='Imagery © <a href="https://www.earthdata.nasa.gov/engage/open-data-services-and-software/earthdata-developer-portal/gibs-api">NASA GIBS</a>';
-const osm='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+const mapTiles='© <a href="https://openfreemap.org/">OpenFreeMap</a> · © <a href="https://openmaptiles.org/">OpenMapTiles</a> · © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 export const basemaps={
- street:{label:'Street map',url:'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',maxNativeZoom:18,attribution:osm,note:'OpenStreetMap roads and places.'},
- dark:{label:'Dark map',url:'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',maxNativeZoom:18,attribution:osm,note:'Dark styling of OpenStreetMap roads and places.'},
+ street:{label:'Street map · English',vector:true,attribution:mapTiles,note:'OpenFreeMap roads and places. English labels with Latin transliterations where translations are unavailable.'},
+ dark:{label:'Dark map · English',vector:true,attribution:mapTiles,note:'OpenFreeMap dark roads and places. English labels with Latin transliterations where translations are unavailable.'},
+ 
  satellite:{label:'Satellite · Blue Marble',url:gibs+'BlueMarble_ShadedRelief_Bathymetry/default/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpeg',maxNativeZoom:8,attribution:nasa,note:'NASA Blue Marble composite with relief and bathymetry. Static background, not live imagery.'},
  night:{label:'Night lights · VIIRS 2012',url:gibs+'VIIRS_CityLights_2012/default/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpeg',maxNativeZoom:8,attribution:nasa,note:'NASA VIIRS nighttime lights composite from 2012. Static imagery; hotspot observations update separately.'},
  daily:{label:'Satellite · daily MODIS',url:gibs+'MODIS_Terra_CorrectedReflectance_TrueColor/default/{date}/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpeg',maxNativeZoom:9,attribution:nasa,note:'NASA MODIS Terra daily true-color imagery. Clouds and unobserved areas may obscure the surface; imagery dates differ from hotspot acquisition dates.'}

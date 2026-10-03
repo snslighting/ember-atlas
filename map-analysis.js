@@ -1,16 +1,20 @@
+import {compileGeometry} from './boundary-geometry.js';
 import {normalizeArea,inArea} from './area-bounds.js';
 import {inRegion,harmonize,calendar} from './core.js';
 // Reuse the expensive daily grid when only the sensor or selected day changes.
 export function createAnalyzer(data){
- let cached=null,key=null;
+ let cached=null,key=null,boundaryID=null,geographic=data;
  return filters=>{
   const {region,start,end,confidence,view,day}=filters,area=normalizeArea(filters.area);
   if(filters.area&&!area)throw Error("Invalid selected area");
-  const nextKey=JSON.stringify([region,start,end,confidence,area]);
+  const id=filters.boundary?.id||null;
+  if(id!==boundaryID){geographic=filters.boundary?data.filter(compileGeometry(filters.boundary.geometry)):data;boundaryID=id;}
+  const nextKey=JSON.stringify([region,start,end,confidence,area,id]);
   if(key!==nextKey){
-   const raw=data.filter(r=>inRegion(r,region)&&inArea(r,area)&&r.date>=start&&r.date<=end&&r.confidence>=confidence);
+   const raw=geographic.filter(r=>inRegion(r,region)&&inArea(r,area)&&r.date>=start&&r.date<=end&&r.confidence>=confidence);
+   let latest=null,maxFrp=null;for(const r of raw){const acquired=r.date+' '+(r.time||'00:00');if(!latest||acquired>latest)latest=acquired;if(Number.isFinite(r.frp))maxFrp=maxFrp===null?r.frp:Math.max(maxFrp,r.frp);}
    const merged=harmonize(raw),sensors={MODIS:[],VIIRS:[]};for(const r of raw)sensors[r.sensor]?.push(r);
-   cached={raw,merged,sensors,summary:{raw:raw.length,cells:merged.length,overlap:merged.filter(r=>r.sensors.length>1).length,days:calendar(merged,start,end),bars:[['MODIS',sensors.MODIS.length],['VIIRS',sensors.VIIRS.length],['Harmonized',merged.length]]}};key=nextKey;
+   cached={raw,merged,sensors,summary:{latest,maxFrp,raw:raw.length,cells:merged.length,overlap:merged.filter(r=>r.sensors.length>1).length,days:calendar(merged,start,end),bars:[['MODIS',sensors.MODIS.length],['VIIRS',sensors.VIIRS.length],['Harmonized',merged.length]]}};key=nextKey;
   }
   let selected=view==='Harmonized'?cached.merged:view==='Compare'?cached.raw:cached.sensors[view]||[];
   if(day)selected=selected.filter(r=>r.date===day);
