@@ -1,0 +1,1622 @@
+{
+  "builtAt": "2026-10-03T20:49:50.834Z",
+  "algorithm": "evidence-grid-v2",
+  "sourceFiles": 743,
+  "sourceCatalogSHA256": "061e72e9663cf542c57e2054687ab2f38a00651b15d0453bc61cc91d43e08b66",
+  "policy": "monitoring-rules-v1",
+  "replay": "Chronological acquisition-prefix inference; earlier SP years only; no physical wildfire labels",
+  "scope": "12 stratified acquisition checkpoints per actual case month, first/last included. This is sampled replay, not exhaustive continuous alert validation.",
+  "reports": [
+    {
+      "caseID": "uzbekistan",
+      "month": "2021-04",
+      "description": "high seasonal activity",
+      "acquisitionGroups": 315,
+      "sampledPrefixes": 12,
+      "loadMs": 13369,
+      "replayMedianMs": 1814,
+      "firstTriggers": {
+        "Elevated": "2021-04-01T06:29:59.999Z",
+        "Watch": "2021-04-04T09:29:59.999Z"
+      },
+      "statusComparisons": 1073,
+      "statusChanges": 75,
+      "statusChangeFraction": 0.06989748369058714,
+      "sampledPersistentWarningHours": 5631,
+      "warningExposures": 1203,
+      "nonPersistentWarningProxyFraction": 0.9193682460515378,
+      "percentileArithmeticChecks": 2718,
+      "thresholdSensitivity": {
+        "75": {
+          "eligibleDays": 30,
+          "daysAtOrAbove": 23
+        },
+        "80": {
+          "eligibleDays": 30,
+          "daysAtOrAbove": 18
+        },
+        "90": {
+          "eligibleDays": 30,
+          "daysAtOrAbove": 12
+        },
+        "95": {
+          "eligibleDays": 30,
+          "daysAtOrAbove": 12
+        },
+        "99": {
+          "eligibleDays": 30,
+          "daysAtOrAbove": 12
+        }
+      },
+      "history": [
+        {
+          "time": "2021-04-01T06:29:59.999Z",
+          "raw": 11,
+          "support": 55,
+          "events": 8,
+          "states": {
+            "Elevated": 6,
+            "Normal": 2
+          },
+          "areaPercentile": 44.44444444444444,
+          "areaYears": 9
+        },
+        {
+          "time": "2021-04-04T09:29:59.999Z",
+          "raw": 910,
+          "support": 1149,
+          "events": 240,
+          "states": {
+            "Elevated": 179,
+            "Insufficient history": 2,
+            "Normal": 56,
+            "Watch": 3
+          },
+          "areaPercentile": 0,
+          "areaYears": 9
+        },
+        {
+          "time": "2021-04-07T07:44:59.999Z",
+          "raw": 1646,
+          "support": 2042,
+          "events": 438,
+          "states": {
+            "Elevated": 183,
+            "Watch": 19,
+            "Insufficient history": 2,
+            "Normal": 46
+          },
+          "areaPercentile": 66.66666666666667,
+          "areaYears": 9
+        },
+        {
+          "time": "2021-04-09T21:59:59.999Z",
+          "raw": 2748,
+          "support": 3434,
+          "events": 718,
+          "states": {
+            "Elevated": 152,
+            "Watch": 32,
+            "Insufficient history": 1,
+            "Normal": 65
+          },
+          "areaPercentile": 100,
+          "areaYears": 9
+        },
+        {
+          "time": "2021-04-12T07:44:59.999Z",
+          "raw": 3729,
+          "support": 4960,
+          "events": 978,
+          "states": {
+            "Elevated": 207,
+            "Watch": 25,
+            "Insufficient history": 5,
+            "Normal": 13
+          },
+          "areaPercentile": 33.333333333333336,
+          "areaYears": 9
+        },
+        {
+          "time": "2021-04-14T07:59:59.999Z",
+          "raw": 4862,
+          "support": 6131,
+          "events": 1204,
+          "states": {
+            "Elevated": 155,
+            "Watch": 45,
+            "Insufficient history": 3,
+            "Normal": 47
+          },
+          "areaPercentile": 44.44444444444444,
+          "areaYears": 9
+        },
+        {
+          "time": "2021-04-16T09:59:59.999Z",
+          "raw": 5758,
+          "support": 7169,
+          "events": 1413,
+          "states": {
+            "Elevated": 187,
+            "Watch": 14,
+            "Insufficient history": 4,
+            "Normal": 45
+          },
+          "areaPercentile": 77.77777777777777,
+          "areaYears": 9
+        },
+        {
+          "time": "2021-04-19T22:59:59.999Z",
+          "raw": 6218,
+          "support": 7792,
+          "events": 1555,
+          "states": {
+            "Elevated": 217,
+            "Watch": 4,
+            "Insufficient history": 3,
+            "Normal": 26
+          },
+          "areaPercentile": 0,
+          "areaYears": 9
+        },
+        {
+          "time": "2021-04-22T20:29:59.999Z",
+          "raw": 6836,
+          "support": 8460,
+          "events": 1704,
+          "states": {
+            "Elevated": 187,
+            "Watch": 20,
+            "Insufficient history": 1,
+            "Normal": 42
+          },
+          "areaPercentile": 100,
+          "areaYears": 9
+        },
+        {
+          "time": "2021-04-25T09:44:59.999Z",
+          "raw": 7460,
+          "support": 9088,
+          "events": 1829,
+          "states": {
+            "Elevated": 203,
+            "Watch": 10,
+            "Insufficient history": 3,
+            "Normal": 34
+          },
+          "areaPercentile": 66.66666666666667,
+          "areaYears": 9
+        },
+        {
+          "time": "2021-04-27T21:29:59.999Z",
+          "raw": 8128,
+          "support": 9823,
+          "events": 1956,
+          "states": {
+            "Elevated": 191,
+            "Watch": 10,
+            "Insufficient history": 5,
+            "Normal": 44
+          },
+          "areaPercentile": 100,
+          "areaYears": 9
+        },
+        {
+          "time": "2021-04-30T22:59:59.999Z",
+          "raw": 8458,
+          "support": 10187,
+          "events": 2002,
+          "states": {
+            "Elevated": 229,
+            "Watch": 3,
+            "Insufficient history": 1,
+            "Normal": 17
+          },
+          "areaPercentile": 22.22222222222222,
+          "areaYears": 9
+        }
+      ]
+    },
+    {
+      "caseID": "uzbekistan",
+      "month": "2024-01",
+      "description": "quiet winter",
+      "acquisitionGroups": 98,
+      "sampledPrefixes": 12,
+      "loadMs": 3324,
+      "replayMedianMs": 184,
+      "firstTriggers": {
+        "Elevated": "2024-01-03T09:14:59.999Z",
+        "Watch": "2024-01-05T20:44:59.999Z"
+      },
+      "statusComparisons": 689,
+      "statusChanges": 11,
+      "statusChangeFraction": 0.015965166908563134,
+      "sampledPersistentWarningHours": 264.25,
+      "warningExposures": 67,
+      "nonPersistentWarningProxyFraction": 0.8955223880597015,
+      "percentileArithmeticChecks": 748,
+      "thresholdSensitivity": {
+        "75": {
+          "eligibleDays": 31,
+          "daysAtOrAbove": 0
+        },
+        "80": {
+          "eligibleDays": 31,
+          "daysAtOrAbove": 0
+        },
+        "90": {
+          "eligibleDays": 31,
+          "daysAtOrAbove": 0
+        },
+        "95": {
+          "eligibleDays": 31,
+          "daysAtOrAbove": 0
+        },
+        "99": {
+          "eligibleDays": 31,
+          "daysAtOrAbove": 0
+        }
+      },
+      "history": [
+        {
+          "time": "2024-01-01T07:59:59.999Z",
+          "raw": 6,
+          "support": 8,
+          "events": 3,
+          "states": {
+            "Normal": 3
+          },
+          "areaPercentile": 0,
+          "areaYears": 12
+        },
+        {
+          "time": "2024-01-03T09:14:59.999Z",
+          "raw": 34,
+          "support": 47,
+          "events": 16,
+          "states": {
+            "Elevated": 9,
+            "Insufficient history": 1,
+            "Normal": 6
+          },
+          "areaPercentile": 16.666666666666668,
+          "areaYears": 12
+        },
+        {
+          "time": "2024-01-05T20:44:59.999Z",
+          "raw": 66,
+          "support": 81,
+          "events": 25,
+          "states": {
+            "Elevated": 9,
+            "Watch": 1,
+            "Insufficient history": 2,
+            "Normal": 13
+          },
+          "areaPercentile": 8.333333333333334,
+          "areaYears": 12
+        },
+        {
+          "time": "2024-01-07T21:59:59.999Z",
+          "raw": 97,
+          "support": 111,
+          "events": 35,
+          "states": {
+            "Elevated": 18,
+            "Watch": 1,
+            "Insufficient history": 3,
+            "Normal": 13
+          },
+          "areaPercentile": 8.333333333333334,
+          "areaYears": 12
+        },
+        {
+          "time": "2024-01-10T09:29:59.999Z",
+          "raw": 123,
+          "support": 150,
+          "events": 50,
+          "states": {
+            "Elevated": 25,
+            "Watch": 2,
+            "Insufficient history": 4,
+            "Normal": 19
+          },
+          "areaPercentile": 0,
+          "areaYears": 11
+        },
+        {
+          "time": "2024-01-13T21:44:59.999Z",
+          "raw": 144,
+          "support": 183,
+          "events": 62,
+          "states": {
+            "Elevated": 28,
+            "Watch": 5,
+            "Insufficient history": 6,
+            "Normal": 23
+          },
+          "areaPercentile": 16.666666666666668,
+          "areaYears": 12
+        },
+        {
+          "time": "2024-01-17T20:29:59.999Z",
+          "raw": 161,
+          "support": 214,
+          "events": 72,
+          "states": {
+            "Elevated": 30,
+            "Watch": 8,
+            "Insufficient history": 7,
+            "Normal": 27
+          },
+          "areaPercentile": 0,
+          "areaYears": 12
+        },
+        {
+          "time": "2024-01-19T21:29:59.999Z",
+          "raw": 190,
+          "support": 263,
+          "events": 88,
+          "states": {
+            "Elevated": 37,
+            "Insufficient history": 9,
+            "Normal": 32,
+            "Watch": 10
+          },
+          "areaPercentile": 0,
+          "areaYears": 12
+        },
+        {
+          "time": "2024-01-22T08:59:59.999Z",
+          "raw": 234,
+          "support": 318,
+          "events": 102,
+          "states": {
+            "Elevated": 47,
+            "Watch": 11,
+            "Insufficient history": 9,
+            "Normal": 35
+          },
+          "areaPercentile": 0,
+          "areaYears": 12
+        },
+        {
+          "time": "2024-01-23T08:59:59.999Z",
+          "raw": 268,
+          "support": 366,
+          "events": 115,
+          "states": {
+            "Elevated": 51,
+            "Watch": 12,
+            "Insufficient history": 10,
+            "Normal": 42
+          },
+          "areaPercentile": 66.66666666666667,
+          "areaYears": 12
+        },
+        {
+          "time": "2024-01-26T07:44:59.999Z",
+          "raw": 285,
+          "support": 393,
+          "events": 121,
+          "states": {
+            "Elevated": 55,
+            "Normal": 45,
+            "Watch": 11,
+            "Insufficient history": 10
+          },
+          "areaPercentile": 0,
+          "areaYears": 12
+        },
+        {
+          "time": "2024-01-31T20:59:59.999Z",
+          "raw": 301,
+          "support": 419,
+          "events": 131,
+          "states": {
+            "Elevated": 58,
+            "Normal": 50,
+            "Watch": 12,
+            "Insufficient history": 11
+          },
+          "areaPercentile": 0,
+          "areaYears": 12
+        }
+      ]
+    },
+    {
+      "caseID": "california",
+      "month": "2023-09",
+      "description": "later September comparison",
+      "acquisitionGroups": 179,
+      "sampledPrefixes": 12,
+      "loadMs": 365,
+      "replayMedianMs": 142,
+      "firstTriggers": {
+        "Elevated": "2023-09-01T09:14:59.999Z",
+        "Watch": "2023-09-06T21:29:59.999Z"
+      },
+      "statusComparisons": 1240,
+      "statusChanges": 24,
+      "statusChangeFraction": 0.01935483870967742,
+      "sampledPersistentWarningHours": 789.75,
+      "warningExposures": 136,
+      "nonPersistentWarningProxyFraction": 0.8970588235294118,
+      "percentileArithmeticChecks": 1296,
+      "thresholdSensitivity": {
+        "75": {
+          "eligibleDays": 30,
+          "daysAtOrAbove": 1
+        },
+        "80": {
+          "eligibleDays": 30,
+          "daysAtOrAbove": 1
+        },
+        "90": {
+          "eligibleDays": 30,
+          "daysAtOrAbove": 0
+        },
+        "95": {
+          "eligibleDays": 30,
+          "daysAtOrAbove": 0
+        },
+        "99": {
+          "eligibleDays": 30,
+          "daysAtOrAbove": 0
+        }
+      },
+      "history": [
+        {
+          "time": "2023-09-01T09:14:59.999Z",
+          "raw": 3,
+          "support": 6,
+          "events": 2,
+          "states": {
+            "Elevated": 2
+          },
+          "areaPercentile": 0,
+          "areaYears": 6
+        },
+        {
+          "time": "2023-09-04T17:59:59.999Z",
+          "raw": 56,
+          "support": 94,
+          "events": 22,
+          "states": {
+            "Elevated": 11,
+            "Insufficient history": 4,
+            "Normal": 7
+          },
+          "areaPercentile": 0,
+          "areaYears": 6
+        },
+        {
+          "time": "2023-09-06T21:29:59.999Z",
+          "raw": 177,
+          "support": 270,
+          "events": 52,
+          "states": {
+            "Elevated": 34,
+            "Watch": 2,
+            "Insufficient history": 7,
+            "Normal": 9
+          },
+          "areaPercentile": 33.333333333333336,
+          "areaYears": 6
+        },
+        {
+          "time": "2023-09-09T09:14:59.999Z",
+          "raw": 324,
+          "support": 458,
+          "events": 74,
+          "states": {
+            "Elevated": 46,
+            "Watch": 7,
+            "Insufficient history": 8,
+            "Normal": 13
+          },
+          "areaPercentile": 0,
+          "areaYears": 6
+        },
+        {
+          "time": "2023-09-11T21:44:59.999Z",
+          "raw": 412,
+          "support": 569,
+          "events": 92,
+          "states": {
+            "Elevated": 48,
+            "Insufficient history": 12,
+            "Normal": 26,
+            "Watch": 6
+          },
+          "areaPercentile": 0,
+          "areaYears": 6
+        },
+        {
+          "time": "2023-09-14T09:14:59.999Z",
+          "raw": 550,
+          "support": 736,
+          "events": 110,
+          "states": {
+            "Elevated": 62,
+            "Watch": 7,
+            "Insufficient history": 14,
+            "Normal": 27
+          },
+          "areaPercentile": 0,
+          "areaYears": 6
+        },
+        {
+          "time": "2023-09-16T10:29:59.999Z",
+          "raw": 654,
+          "support": 862,
+          "events": 134,
+          "states": {
+            "Elevated": 77,
+            "Watch": 8,
+            "Insufficient history": 19,
+            "Normal": 30
+          },
+          "areaPercentile": 0,
+          "areaYears": 6
+        },
+        {
+          "time": "2023-09-19T10:59:59.999Z",
+          "raw": 744,
+          "support": 983,
+          "events": 165,
+          "states": {
+            "Elevated": 98,
+            "Insufficient history": 23,
+            "Normal": 36,
+            "Watch": 8
+          },
+          "areaPercentile": 0,
+          "areaYears": 6
+        },
+        {
+          "time": "2023-09-22T21:29:59.999Z",
+          "raw": 843,
+          "support": 1111,
+          "events": 186,
+          "states": {
+            "Elevated": 108,
+            "Insufficient history": 26,
+            "Normal": 43,
+            "Watch": 9
+          },
+          "areaPercentile": 0,
+          "areaYears": 6
+        },
+        {
+          "time": "2023-09-25T10:59:59.999Z",
+          "raw": 917,
+          "support": 1196,
+          "events": 199,
+          "states": {
+            "Elevated": 112,
+            "Insufficient history": 30,
+            "Normal": 48,
+            "Watch": 9
+          },
+          "areaPercentile": 0,
+          "areaYears": 6
+        },
+        {
+          "time": "2023-09-27T10:59:59.999Z",
+          "raw": 1016,
+          "support": 1339,
+          "events": 229,
+          "states": {
+            "Elevated": 130,
+            "Insufficient history": 34,
+            "Normal": 56,
+            "Watch": 9
+          },
+          "areaPercentile": 0,
+          "areaYears": 6
+        },
+        {
+          "time": "2023-09-29T20:14:59.999Z",
+          "raw": 1241,
+          "support": 1678,
+          "events": 275,
+          "states": {
+            "Elevated": 162,
+            "Watch": 12,
+            "Insufficient history": 42,
+            "Normal": 34
+          },
+          "areaPercentile": 33.333333333333336,
+          "areaYears": 6
+        }
+      ]
+    },
+    {
+      "caseID": "california",
+      "month": "2020-09",
+      "description": "high activity with insufficient earlier years",
+      "acquisitionGroups": 298,
+      "sampledPrefixes": 12,
+      "loadMs": 7195,
+      "replayMedianMs": 5467,
+      "firstTriggers": {},
+      "statusComparisons": 1448,
+      "statusChanges": 0,
+      "statusChangeFraction": 0,
+      "sampledPersistentWarningHours": 0,
+      "warningExposures": 0,
+      "nonPersistentWarningProxyFraction": null,
+      "percentileArithmeticChecks": 0,
+      "thresholdSensitivity": {
+        "75": {
+          "eligibleDays": 0,
+          "daysAtOrAbove": 0
+        },
+        "80": {
+          "eligibleDays": 0,
+          "daysAtOrAbove": 0
+        },
+        "90": {
+          "eligibleDays": 0,
+          "daysAtOrAbove": 0
+        },
+        "95": {
+          "eligibleDays": 0,
+          "daysAtOrAbove": 0
+        },
+        "99": {
+          "eligibleDays": 0,
+          "daysAtOrAbove": 0
+        }
+      },
+      "history": [
+        {
+          "time": "2020-09-01T06:29:59.999Z",
+          "raw": 182,
+          "support": 414,
+          "events": 17,
+          "states": {
+            "Insufficient history": 17
+          },
+          "areaPercentile": null,
+          "areaYears": 3
+        },
+        {
+          "time": "2020-09-03T20:29:59.999Z",
+          "raw": 9612,
+          "support": 2235,
+          "events": 51,
+          "states": {
+            "Insufficient history": 51
+          },
+          "areaPercentile": null,
+          "areaYears": 3
+        },
+        {
+          "time": "2020-09-06T09:44:59.999Z",
+          "raw": 16789,
+          "support": 4197,
+          "events": 61,
+          "states": {
+            "Insufficient history": 61
+          },
+          "areaPercentile": null,
+          "areaYears": 3
+        },
+        {
+          "time": "2020-09-08T22:14:59.999Z",
+          "raw": 28895,
+          "support": 6488,
+          "events": 83,
+          "states": {
+            "Insufficient history": 83
+          },
+          "areaPercentile": null,
+          "areaYears": 3
+        },
+        {
+          "time": "2020-09-11T18:59:59.999Z",
+          "raw": 50968,
+          "support": 10540,
+          "events": 146,
+          "states": {
+            "Insufficient history": 146
+          },
+          "areaPercentile": null,
+          "areaYears": 3
+        },
+        {
+          "time": "2020-09-14T09:44:59.999Z",
+          "raw": 55723,
+          "support": 12081,
+          "events": 161,
+          "states": {
+            "Insufficient history": 161
+          },
+          "areaPercentile": null,
+          "areaYears": 3
+        },
+        {
+          "time": "2020-09-16T22:14:59.999Z",
+          "raw": 60831,
+          "support": 13232,
+          "events": 191,
+          "states": {
+            "Insufficient history": 191
+          },
+          "areaPercentile": null,
+          "areaYears": 3
+        },
+        {
+          "time": "2020-09-19T19:59:59.999Z",
+          "raw": 63279,
+          "support": 14105,
+          "events": 214,
+          "states": {
+            "Insufficient history": 214
+          },
+          "areaPercentile": null,
+          "areaYears": 3
+        },
+        {
+          "time": "2020-09-22T10:44:59.999Z",
+          "raw": 65615,
+          "support": 14876,
+          "events": 221,
+          "states": {
+            "Insufficient history": 221
+          },
+          "areaPercentile": null,
+          "areaYears": 3
+        },
+        {
+          "time": "2020-09-24T22:14:59.999Z",
+          "raw": 67584,
+          "support": 15498,
+          "events": 238,
+          "states": {
+            "Insufficient history": 238
+          },
+          "areaPercentile": null,
+          "areaYears": 3
+        },
+        {
+          "time": "2020-09-28T10:14:59.999Z",
+          "raw": 70732,
+          "support": 16707,
+          "events": 267,
+          "states": {
+            "Insufficient history": 250
+          },
+          "areaPercentile": null,
+          "areaYears": 3
+        },
+        {
+          "time": "2020-09-30T21:59:59.999Z",
+          "raw": 79224,
+          "support": 18071,
+          "events": 302,
+          "states": {
+            "Insufficient history": 250
+          },
+          "areaPercentile": null,
+          "areaYears": 3
+        }
+      ]
+    },
+    {
+      "caseID": "amazon",
+      "month": "2024-08",
+      "description": "high dry-season activity",
+      "acquisitionGroups": 288,
+      "sampledPrefixes": 12,
+      "loadMs": 14999,
+      "replayMedianMs": 5536,
+      "firstTriggers": {
+        "Elevated": "2024-08-01T02:44:59.999Z",
+        "Watch": "2024-08-04T01:29:59.999Z"
+      },
+      "statusComparisons": 688,
+      "statusChanges": 186,
+      "statusChangeFraction": 0.2703488372093023,
+      "sampledPersistentWarningHours": 16831.25,
+      "warningExposures": 1488,
+      "nonPersistentWarningProxyFraction": 0.8259408602150538,
+      "percentileArithmeticChecks": 2650,
+      "thresholdSensitivity": {
+        "75": {
+          "eligibleDays": 31,
+          "daysAtOrAbove": 18
+        },
+        "80": {
+          "eligibleDays": 31,
+          "daysAtOrAbove": 18
+        },
+        "90": {
+          "eligibleDays": 31,
+          "daysAtOrAbove": 11
+        },
+        "95": {
+          "eligibleDays": 31,
+          "daysAtOrAbove": 11
+        },
+        "99": {
+          "eligibleDays": 31,
+          "daysAtOrAbove": 11
+        }
+      },
+      "history": [
+        {
+          "time": "2024-08-01T02:44:59.999Z",
+          "raw": 8,
+          "support": 57,
+          "events": 4,
+          "states": {
+            "Elevated": 1,
+            "Normal": 3
+          },
+          "areaPercentile": 0,
+          "areaYears": 7
+        },
+        {
+          "time": "2024-08-04T01:29:59.999Z",
+          "raw": 2743,
+          "support": 1706,
+          "events": 185,
+          "states": {
+            "Elevated": 82,
+            "Watch": 26,
+            "Normal": 77
+          },
+          "areaPercentile": 0,
+          "areaYears": 7
+        },
+        {
+          "time": "2024-08-06T18:14:59.999Z",
+          "raw": 9243,
+          "support": 5005,
+          "events": 383,
+          "states": {
+            "Elevated": 126,
+            "Watch": 36,
+            "Insufficient history": 2,
+            "Normal": 86
+          },
+          "areaPercentile": 85.71428571428571,
+          "areaYears": 7
+        },
+        {
+          "time": "2024-08-10T02:14:59.999Z",
+          "raw": 14650,
+          "support": 8163,
+          "events": 505,
+          "states": {
+            "Elevated": 161,
+            "Watch": 31,
+            "Insufficient history": 3,
+            "Normal": 55
+          },
+          "areaPercentile": 42.857142857142854,
+          "areaYears": 7
+        },
+        {
+          "time": "2024-08-12T18:44:59.999Z",
+          "raw": 22030,
+          "support": 11759,
+          "events": 761,
+          "states": {
+            "Elevated": 100,
+            "Watch": 44,
+            "Insufficient history": 7,
+            "Normal": 99
+          },
+          "areaPercentile": 57.142857142857146,
+          "areaYears": 7
+        },
+        {
+          "time": "2024-08-15T06:59:59.999Z",
+          "raw": 32181,
+          "support": 17554,
+          "events": 941,
+          "states": {
+            "Elevated": 166,
+            "Watch": 26,
+            "Insufficient history": 6,
+            "Normal": 52
+          },
+          "areaPercentile": 57.142857142857146,
+          "areaYears": 7
+        },
+        {
+          "time": "2024-08-18T05:59:59.999Z",
+          "raw": 37788,
+          "support": 20893,
+          "events": 1095,
+          "states": {
+            "Elevated": 135,
+            "Watch": 32,
+            "Insufficient history": 3,
+            "Normal": 80
+          },
+          "areaPercentile": 14.285714285714286,
+          "areaYears": 7
+        },
+        {
+          "time": "2024-08-21T06:14:59.999Z",
+          "raw": 43446,
+          "support": 24041,
+          "events": 1299,
+          "states": {
+            "Elevated": 97,
+            "Watch": 19,
+            "Insufficient history": 9,
+            "Normal": 125
+          },
+          "areaPercentile": 14.285714285714286,
+          "areaYears": 7
+        },
+        {
+          "time": "2024-08-24T01:44:59.999Z",
+          "raw": 52292,
+          "support": 29702,
+          "events": 1533,
+          "states": {
+            "Elevated": 112,
+            "Watch": 38,
+            "Insufficient history": 8,
+            "Normal": 92
+          },
+          "areaPercentile": 0,
+          "areaYears": 7
+        },
+        {
+          "time": "2024-08-26T06:14:59.999Z",
+          "raw": 63040,
+          "support": 35029,
+          "events": 1847,
+          "states": {
+            "Elevated": 214,
+            "Watch": 36
+          },
+          "areaPercentile": 100,
+          "areaYears": 7
+        },
+        {
+          "time": "2024-08-29T06:14:59.999Z",
+          "raw": 75909,
+          "support": 42449,
+          "events": 2108,
+          "states": {
+            "Elevated": 182,
+            "Watch": 67,
+            "Insufficient history": 1
+          },
+          "areaPercentile": 57.142857142857146,
+          "areaYears": 7
+        },
+        {
+          "time": "2024-08-31T18:44:59.999Z",
+          "raw": 85138,
+          "support": 47383,
+          "events": 2377,
+          "states": {
+            "Elevated": 209,
+            "Watch": 41
+          },
+          "areaPercentile": 100,
+          "areaYears": 7
+        }
+      ]
+    },
+    {
+      "caseID": "amazon",
+      "month": "2023-08",
+      "description": "contrasting dry-season activity",
+      "acquisitionGroups": 250,
+      "sampledPrefixes": 12,
+      "loadMs": 4736,
+      "replayMedianMs": 1315,
+      "firstTriggers": {
+        "Elevated": "2023-08-01T02:14:59.999Z",
+        "Watch": "2023-08-01T02:14:59.999Z"
+      },
+      "statusComparisons": 1175,
+      "statusChanges": 119,
+      "statusChangeFraction": 0.10127659574468086,
+      "sampledPersistentWarningHours": 3154.75,
+      "warningExposures": 647,
+      "nonPersistentWarningProxyFraction": 0.9227202472952086,
+      "percentileArithmeticChecks": 2602,
+      "thresholdSensitivity": {
+        "75": {
+          "eligibleDays": 31,
+          "daysAtOrAbove": 1
+        },
+        "80": {
+          "eligibleDays": 31,
+          "daysAtOrAbove": 1
+        },
+        "90": {
+          "eligibleDays": 31,
+          "daysAtOrAbove": 0
+        },
+        "95": {
+          "eligibleDays": 31,
+          "daysAtOrAbove": 0
+        },
+        "99": {
+          "eligibleDays": 31,
+          "daysAtOrAbove": 0
+        }
+      },
+      "history": [
+        {
+          "time": "2023-08-01T02:14:59.999Z",
+          "raw": 17,
+          "support": 63,
+          "events": 14,
+          "states": {
+            "Elevated": 3,
+            "Watch": 2,
+            "Normal": 9
+          },
+          "areaPercentile": 0,
+          "areaYears": 6
+        },
+        {
+          "time": "2023-08-03T17:44:59.999Z",
+          "raw": 1042,
+          "support": 978,
+          "events": 139,
+          "states": {
+            "Elevated": 46,
+            "Watch": 25,
+            "Insufficient history": 1,
+            "Normal": 67
+          },
+          "areaPercentile": 16.666666666666668,
+          "areaYears": 6
+        },
+        {
+          "time": "2023-08-05T18:44:59.999Z",
+          "raw": 1844,
+          "support": 1630,
+          "events": 219,
+          "states": {
+            "Elevated": 65,
+            "Watch": 37,
+            "Normal": 116,
+            "Insufficient history": 1
+          },
+          "areaPercentile": 16.666666666666668,
+          "areaYears": 6
+        },
+        {
+          "time": "2023-08-08T17:44:59.999Z",
+          "raw": 3797,
+          "support": 3079,
+          "events": 355,
+          "states": {
+            "Elevated": 107,
+            "Watch": 55,
+            "Insufficient history": 3,
+            "Normal": 85
+          },
+          "areaPercentile": 33.333333333333336,
+          "areaYears": 6
+        },
+        {
+          "time": "2023-08-11T17:44:59.999Z",
+          "raw": 5199,
+          "support": 4224,
+          "events": 492,
+          "states": {
+            "Elevated": 133,
+            "Watch": 29,
+            "Insufficient history": 2,
+            "Normal": 86
+          },
+          "areaPercentile": 0,
+          "areaYears": 6
+        },
+        {
+          "time": "2023-08-16T02:44:59.999Z",
+          "raw": 5967,
+          "support": 5082,
+          "events": 591,
+          "states": {
+            "Elevated": 161,
+            "Watch": 51,
+            "Insufficient history": 2,
+            "Normal": 36
+          },
+          "areaPercentile": 0,
+          "areaYears": 6
+        },
+        {
+          "time": "2023-08-18T18:44:59.999Z",
+          "raw": 8809,
+          "support": 6890,
+          "events": 751,
+          "states": {
+            "Elevated": 161,
+            "Watch": 22,
+            "Insufficient history": 3,
+            "Normal": 64
+          },
+          "areaPercentile": 33.333333333333336,
+          "areaYears": 6
+        },
+        {
+          "time": "2023-08-21T05:14:59.999Z",
+          "raw": 11912,
+          "support": 9195,
+          "events": 921,
+          "states": {
+            "Elevated": 100,
+            "Watch": 20,
+            "Insufficient history": 3,
+            "Normal": 127
+          },
+          "areaPercentile": 0,
+          "areaYears": 6
+        },
+        {
+          "time": "2023-08-23T14:59:59.999Z",
+          "raw": 17154,
+          "support": 12465,
+          "events": 1081,
+          "states": {
+            "Elevated": 92,
+            "Watch": 48,
+            "Insufficient history": 1,
+            "Normal": 109
+          },
+          "areaPercentile": 16.666666666666668,
+          "areaYears": 6
+        },
+        {
+          "time": "2023-08-26T06:14:59.999Z",
+          "raw": 21760,
+          "support": 15565,
+          "events": 1261,
+          "states": {
+            "Elevated": 83,
+            "Watch": 32,
+            "Insufficient history": 1,
+            "Normal": 134
+          },
+          "areaPercentile": 0,
+          "areaYears": 6
+        },
+        {
+          "time": "2023-08-29T05:14:59.999Z",
+          "raw": 22845,
+          "support": 16659,
+          "events": 1401,
+          "states": {
+            "Elevated": 132,
+            "Watch": 21,
+            "Insufficient history": 2,
+            "Normal": 95
+          },
+          "areaPercentile": 0,
+          "areaYears": 6
+        },
+        {
+          "time": "2023-08-31T18:14:59.999Z",
+          "raw": 24226,
+          "support": 17941,
+          "events": 1598,
+          "states": {
+            "Elevated": 146,
+            "Watch": 17,
+            "Insufficient history": 1,
+            "Normal": 86
+          },
+          "areaPercentile": 0,
+          "areaYears": 6
+        }
+      ]
+    },
+    {
+      "caseID": "australia",
+      "month": "2023-12",
+      "description": "high southern-summer activity",
+      "acquisitionGroups": 167,
+      "sampledPrefixes": 12,
+      "loadMs": 1521,
+      "replayMedianMs": 430,
+      "firstTriggers": {
+        "Elevated": "2023-12-01T03:14:59.999Z",
+        "Watch": "2023-12-03T23:44:59.999Z"
+      },
+      "statusComparisons": 1535,
+      "statusChanges": 10,
+      "statusChangeFraction": 0.006514657980456026,
+      "sampledPersistentWarningHours": 8941.75,
+      "warningExposures": 1082,
+      "nonPersistentWarningProxyFraction": 0.8530499075785583,
+      "percentileArithmeticChecks": 2568,
+      "thresholdSensitivity": {
+        "75": {
+          "eligibleDays": 31,
+          "daysAtOrAbove": 29
+        },
+        "80": {
+          "eligibleDays": 31,
+          "daysAtOrAbove": 29
+        },
+        "90": {
+          "eligibleDays": 31,
+          "daysAtOrAbove": 25
+        },
+        "95": {
+          "eligibleDays": 31,
+          "daysAtOrAbove": 25
+        },
+        "99": {
+          "eligibleDays": 31,
+          "daysAtOrAbove": 25
+        }
+      },
+      "history": [
+        {
+          "time": "2023-12-01T03:14:59.999Z",
+          "raw": 75,
+          "support": 64,
+          "events": 12,
+          "states": {
+            "Elevated": 10,
+            "Insufficient history": 1,
+            "Normal": 1
+          },
+          "areaPercentile": 40,
+          "areaYears": 5
+        },
+        {
+          "time": "2023-12-03T23:44:59.999Z",
+          "raw": 624,
+          "support": 707,
+          "events": 94,
+          "states": {
+            "Elevated": 85,
+            "Watch": 3,
+            "Insufficient history": 3,
+            "Normal": 3
+          },
+          "areaPercentile": 80,
+          "areaYears": 5
+        },
+        {
+          "time": "2023-12-06T03:29:59.999Z",
+          "raw": 2356,
+          "support": 2531,
+          "events": 327,
+          "states": {
+            "Elevated": 222,
+            "Watch": 3,
+            "Insufficient history": 16,
+            "Normal": 9
+          },
+          "areaPercentile": 100,
+          "areaYears": 5
+        },
+        {
+          "time": "2023-12-08T04:44:59.999Z",
+          "raw": 6311,
+          "support": 6385,
+          "events": 539,
+          "states": {
+            "Elevated": 250
+          },
+          "areaPercentile": 100,
+          "areaYears": 5
+        },
+        {
+          "time": "2023-12-10T15:29:59.999Z",
+          "raw": 10237,
+          "support": 9331,
+          "events": 690,
+          "states": {
+            "Elevated": 246,
+            "Watch": 3,
+            "Insufficient history": 1
+          },
+          "areaPercentile": 100,
+          "areaYears": 5
+        },
+        {
+          "time": "2023-12-13T04:59:59.999Z",
+          "raw": 10718,
+          "support": 9808,
+          "events": 720,
+          "states": {
+            "Elevated": 247,
+            "Watch": 1,
+            "Insufficient history": 1,
+            "Normal": 1
+          },
+          "areaPercentile": 20,
+          "areaYears": 5
+        },
+        {
+          "time": "2023-12-17T04:59:59.999Z",
+          "raw": 11253,
+          "support": 10482,
+          "events": 826,
+          "states": {
+            "Elevated": 246,
+            "Watch": 2,
+            "Insufficient history": 2
+          },
+          "areaPercentile": 20,
+          "areaYears": 5
+        },
+        {
+          "time": "2023-12-19T16:44:59.999Z",
+          "raw": 12593,
+          "support": 11646,
+          "events": 952,
+          "states": {
+            "Elevated": 246,
+            "Watch": 2,
+            "Insufficient history": 2
+          },
+          "areaPercentile": 100,
+          "areaYears": 5
+        },
+        {
+          "time": "2023-12-22T12:44:59.999Z",
+          "raw": 13146,
+          "support": 12298,
+          "events": 1041,
+          "states": {
+            "Elevated": 242,
+            "Watch": 4,
+            "Insufficient history": 4
+          },
+          "areaPercentile": 100,
+          "areaYears": 5
+        },
+        {
+          "time": "2023-12-25T15:14:59.999Z",
+          "raw": 13417,
+          "support": 12634,
+          "events": 1099,
+          "states": {
+            "Elevated": 243,
+            "Watch": 3,
+            "Insufficient history": 4
+          },
+          "areaPercentile": 0,
+          "areaYears": 5
+        },
+        {
+          "time": "2023-12-28T15:59:59.999Z",
+          "raw": 13576,
+          "support": 12876,
+          "events": 1128,
+          "states": {
+            "Elevated": 247,
+            "Watch": 2,
+            "Insufficient history": 1
+          },
+          "areaPercentile": 100,
+          "areaYears": 5
+        },
+        {
+          "time": "2023-12-31T14:59:59.999Z",
+          "raw": 13993,
+          "support": 13359,
+          "events": 1212,
+          "states": {
+            "Elevated": 247,
+            "Insufficient history": 3
+          },
+          "areaPercentile": 100,
+          "areaYears": 5
+        }
+      ]
+    },
+    {
+      "caseID": "australia",
+      "month": "2023-05",
+      "description": "contrasting southern-autumn activity",
+      "acquisitionGroups": 108,
+      "sampledPrefixes": 12,
+      "loadMs": 1107,
+      "replayMedianMs": 120,
+      "firstTriggers": {
+        "Elevated": "2023-05-01T03:29:59.999Z",
+        "Watch": "2023-05-05T15:14:59.999Z"
+      },
+      "statusComparisons": 865,
+      "statusChanges": 5,
+      "statusChangeFraction": 0.005780346820809248,
+      "sampledPersistentWarningHours": 1581,
+      "warningExposures": 154,
+      "nonPersistentWarningProxyFraction": 0.7987012987012987,
+      "percentileArithmeticChecks": 1018,
+      "thresholdSensitivity": {
+        "75": {
+          "eligibleDays": 31,
+          "daysAtOrAbove": 17
+        },
+        "80": {
+          "eligibleDays": 31,
+          "daysAtOrAbove": 17
+        },
+        "90": {
+          "eligibleDays": 31,
+          "daysAtOrAbove": 14
+        },
+        "95": {
+          "eligibleDays": 31,
+          "daysAtOrAbove": 14
+        },
+        "99": {
+          "eligibleDays": 31,
+          "daysAtOrAbove": 14
+        }
+      },
+      "history": [
+        {
+          "time": "2023-05-01T03:29:59.999Z",
+          "raw": 25,
+          "support": 23,
+          "events": 5,
+          "states": {
+            "Elevated": 5
+          },
+          "areaPercentile": 40,
+          "areaYears": 5
+        },
+        {
+          "time": "2023-05-03T04:29:59.999Z",
+          "raw": 130,
+          "support": 174,
+          "events": 20,
+          "states": {
+            "Elevated": 20
+          },
+          "areaPercentile": 100,
+          "areaYears": 5
+        },
+        {
+          "time": "2023-05-05T15:14:59.999Z",
+          "raw": 337,
+          "support": 316,
+          "events": 38,
+          "states": {
+            "Elevated": 34,
+            "Watch": 3,
+            "Normal": 1
+          },
+          "areaPercentile": 100,
+          "areaYears": 5
+        },
+        {
+          "time": "2023-05-09T15:29:59.999Z",
+          "raw": 401,
+          "support": 396,
+          "events": 59,
+          "states": {
+            "Elevated": 50,
+            "Watch": 5,
+            "Normal": 4
+          },
+          "areaPercentile": 80,
+          "areaYears": 5
+        },
+        {
+          "time": "2023-05-13T15:59:59.999Z",
+          "raw": 508,
+          "support": 485,
+          "events": 70,
+          "states": {
+            "Elevated": 60,
+            "Watch": 6,
+            "Normal": 4
+          },
+          "areaPercentile": 20,
+          "areaYears": 5
+        },
+        {
+          "time": "2023-05-17T03:29:59.999Z",
+          "raw": 552,
+          "support": 598,
+          "events": 84,
+          "states": {
+            "Elevated": 72,
+            "Watch": 7,
+            "Normal": 5
+          },
+          "areaPercentile": 100,
+          "areaYears": 5
+        },
+        {
+          "time": "2023-05-19T00:14:59.999Z",
+          "raw": 610,
+          "support": 690,
+          "events": 95,
+          "states": {
+            "Elevated": 82,
+            "Watch": 8,
+            "Normal": 5
+          },
+          "areaPercentile": 40,
+          "areaYears": 5
+        },
+        {
+          "time": "2023-05-21T03:44:59.999Z",
+          "raw": 714,
+          "support": 845,
+          "events": 106,
+          "states": {
+            "Elevated": 91,
+            "Watch": 10,
+            "Normal": 5
+          },
+          "areaPercentile": 80,
+          "areaYears": 5
+        },
+        {
+          "time": "2023-05-22T23:44:59.999Z",
+          "raw": 926,
+          "support": 1085,
+          "events": 120,
+          "states": {
+            "Elevated": 105,
+            "Watch": 10,
+            "Normal": 5
+          },
+          "areaPercentile": 100,
+          "areaYears": 5
+        },
+        {
+          "time": "2023-05-25T04:14:59.999Z",
+          "raw": 999,
+          "support": 1170,
+          "events": 130,
+          "states": {
+            "Elevated": 114,
+            "Watch": 11,
+            "Normal": 5
+          },
+          "areaPercentile": 0,
+          "areaYears": 5
+        },
+        {
+          "time": "2023-05-28T16:14:59.999Z",
+          "raw": 1045,
+          "support": 1227,
+          "events": 139,
+          "states": {
+            "Elevated": 123,
+            "Watch": 11,
+            "Normal": 5
+          },
+          "areaPercentile": 0,
+          "areaYears": 5
+        },
+        {
+          "time": "2023-05-31T15:14:59.999Z",
+          "raw": 1163,
+          "support": 1331,
+          "events": 154,
+          "states": {
+            "Elevated": 135,
+            "Watch": 12,
+            "Insufficient history": 2,
+            "Normal": 5
+          },
+          "areaPercentile": 100,
+          "areaYears": 5
+        }
+      ]
+    }
+  ]
+}

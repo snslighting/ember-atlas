@@ -1,13 +1,15 @@
 # Ember Atlas — NASA MODIS × VIIRS
 
-An independent NASA Space Apps prototype with **Live** and **History** modes. MODIS and VIIRS observe thermal anomalies with different resolution, sensitivity and acquisition times. Ember Atlas retains their provenance, aligns observations into common daily cells, fits an overlap-era scaling baseline, and compares activity with actual historical seasons.
+An independent NASA Space Apps decision-support prototype. Work's MODIS/VIIRS harmonization produces an observed support record; Monitor adds activity tracking, prior-year seasonal context, transparent warning states, playback, a burning activity calendar and locally saved Areas of Interest. These are satellite evidence priorities, not confirmed wildfires or ignition predictions.
+
+**The monitoring upgrade is prepared locally and has not been deployed.** See [EARLY_WARNING_METHOD.md](EARLY_WARNING_METHOD.md), [CHALLENGE_COVERAGE.md](CHALLENGE_COVERAGE.md) and [historical replay validation](validation/MONITORING-REPLAY.md). Work's original report remains at `../Ember-Atlas-Harmonization-Report.md`.
 
 The published site is [Ember Atlas](https://snslighting.github.io/ember-atlas/), with [Live observations](https://snslighting.github.io/ember-atlas/observatory.html) and [History](https://snslighting.github.io/ember-atlas/history.html).
 The local project lives at `C:\Codex\NASA Space Apps\ember atlas`.
 
 ## Local review
 
-Node.js 22 or newer is recommended.
+Node.js 22 or newer is recommended. The new monitoring archive uses gzip-only partitions and requires a current browser with native decompression support; existing Sensors/Analyze pages keep their compatibility paths.
 
 ```powershell
 cd 'C:\Codex\NASA Space Apps\ember atlas'
@@ -15,6 +17,9 @@ npm.cmd install
 npm.cmd start
 ```
 
+- Monitor: http://localhost:3000/monitor.html
+- Monitoring history: http://localhost:3000/monitor.html?case=amazon&mode=history&month=2024-08
+- Calendar: http://localhost:3000/monitor.html?mode=history#monitor-calendar
 - Overview: http://localhost:3000/
 - History: http://localhost:3000/history.html
 - Live: http://localhost:3000/observatory.html
@@ -22,15 +27,17 @@ npm.cmd start
 - Amazon case: http://localhost:3000/history.html?case=amazon&month=2019-08
 - Current Uzbekistan + seasonal context: http://localhost:3000/observatory.html?country=UZB
 
-Saved real NASA data needs no key to browse. The local server refreshes public worldwide NRT files every 15 minutes while it runs; pages check published/local metadata every 60 seconds without reloading. Stop the server to stop local retrieval. Check now checks the current snapshot; it does not guarantee a new NASA publication.
+Saved real NASA data needs no key to browse. The local server refreshes public worldwide NRT files every 15 minutes while it runs; pages check published/local metadata every 60 seconds without reloading. Stop the server to stop local retrieval. Check now checks the current snapshot; it does not guarantee a new NASA publication. Monitor history/seasonal inference is limited to four prepared areas and their declared seasons; global historical inference is explicitly unavailable elsewhere.
 
 ## Architecture
 
 Existing animated Earth, satellites, page swipes, scroll animations, reduced-motion preference, English map labels, sharper road maps, satellite/night/daily imagery, area drawing, country/region drill-down, map expansion, sidebar collapse, on-map Back/close and Hide detections are retained.
 
+- **Monitor:** `event-tracking.js` uses Work's footprint grid unchanged. `early-warning.js` evaluates previous SP years at the same season and a fixed local monitoring zone, with minimum-history and calibration guards. `monitor-worker.js` connects live snapshots, actual compressed raw/support partitions, prepared seasonal context, event lineage and prefix-only replay. `monitor-app.js` connects priorities, detail/timeline/raw exports, map/AOI controls, calendars, watchlists and in-app alerts.
+- **Monitoring preprocessing:** `npm run monitor:build-history` verifies 743 cached source files and creates `data/monitor` raw/support geographic-year partitions plus prepared seasonal context; `npm run monitor:validate` produces the measured replay report. Raw downloads remain ignored and are required only to regenerate the scientific archive, not to build or browse the existing public data.
 - **Live:** `provider.js` fetches the small version manifest and compressed/date/sensor shards. `analysis-worker.js` handles filtering, approximate daily grid, viewport queries and CSV export. The existing canvas map renders only visible bins.
 - **History:** `history-provider.js` uses gzip with JSON fallback, a 48-partition memory LRU, persistent browser cache and a four-download queue. `history-worker.js` isolates aggregation/calibration from the UI. `history-engine.js` loads compact annual summaries for the timeline, then only intersecting year/geographic cell partitions for the selected map. Custom AOIs load their intersecting partitions and recompute historical statistics.
-- **UI:** `history-app.js` connects the monthly calendar, selected period, sensor views, raw source-count comparison, metrics, provenance and the existing map shell. Calendar missing months stay blank. Map symbols are common cell centers; original source point coordinates remain in the offline download cache.
+- **Existing Analyze UI:** `history-app.js` connects the monthly calendar, selected period, sensor views, raw source-count comparison, metrics, provenance and the existing map shell. Calendar missing months stay blank. This legacy archive uses centre-cell counts, a distinct unit from Monitor’s footprint-support record. Do not compare their counts directly. Legacy map symbols are common cell centres; original source point coordinates remain in the offline download cache.
 - **Static output:** `build.js` creates versioned assets in `docs/`, preserves the subpath used by GitHub Pages, and appends current NRT summaries. It never needs the ignored historical raw download cache.
 
 Historical files follow this layout:

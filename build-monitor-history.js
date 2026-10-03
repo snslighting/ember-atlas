@@ -1,0 +1,28 @@
+import {readFile,writeFile,mkdir} from 'node:fs/promises';import {createHash} from 'node:crypto';import {gzipSync} from 'node:zlib';
+import {parseCSV} from './core.js';import {compileGeometry} from './boundary-geometry.js';
+import {monitorCases,supportRows,supportDaily,encodeSupport,encodeRaw,monitoringZone} from './monitor-preprocess.js';
+import {criticalPeriods} from './early-warning.js';import {trackEvents,eventTrend} from './event-tracking.js';
+const root='data/monitor',input=JSON.parse(await readFile('.history-source/manifest.json','utf8')),supplement=JSON.parse(await readFile('validation/supplemental-results.json','utf8'));
+const manifest={format:'atlas-monitor-history-v1',builtAt:new Date().toISOString(),algorithm:'evidence-grid-v2',cases:[],sources:[],quality:'MODIS native confidence ≥40; VIIRS nominal/high. Quality is not probability.',uncertainty:'Historical support geometry and event associations are approximations; no clear-sky exposure or ground truth.'};
+const uzb=JSON.parse(await readFile('assets/boundaries/countries/UZB.json','utf8')).country;if(!uzb)throw Error('Uzbekistan boundary unavailable');
+async function save(file,value){const text=JSON.stringify(value),bytes=gzipSync(text,{level:9});await mkdir(root+'/'+file.slice(0,file.lastIndexOf('/')),{recursive:true});await writeFile(root+'/'+file+'.gz',bytes);return {file,gzip:file+'.gz',version:createHash('sha256').update(bytes).digest('hex').slice(0,12),bytes:bytes.length};}
+for(const config of Object.values(monitorCases)){
+ const entries=config.id==='australia'?supplement.provenance.filter(e=>e.sha256&&/_Australia\.csv$/.test(e.file)).map(e=>({...e,caseID:'australia',year:+e.file.match(/_(\d{4})_/)[1],product:e.file.startsWith('modis')?'MODIS_SP':'VIIRS_SNPP_SP',start:e.file.match(/_(\d{4})_/)[1]+'-01-01',end:e.file.match(/_(\d{4})_/)[1]+'-12-31',processing:'SP',source:e.url,base:'validation/sources/'})):input.entries.filter(e=>e.caseID===config.id).map(e=>({...e,base:'.history-source/'}));
+ const area={...config,partitions:[],days:[],eventSamples:[],sourceFiles:[],coverage:[]},inside=config.id==='uzbekistan'?compileGeometry(uzb.geometry):r=>r.lon>=config.bounds[0]&&r.lon<=config.bounds[2]&&r.lat>=config.bounds[1]&&r.lat<=config.bounds[3];
+ for(const year of [...new Set(entries.map(e=>e.year))].sort()){
+  const yearEntries=entries.filter(e=>e.year===year),coverage=yearEntries.map(({product,start,end,processing})=>({product,start,end,processing})),raw=[];
+  for(const e of yearEntries){const buffer=await readFile(e.base+e.file);if(createHash('sha256').update(buffer).digest('hex')!==e.sha256)throw Error('Source checksum changed: '+e.file);const source={file:e.file,source:e.source,sha256:e.sha256,product:e.product,start:e.start,end:e.end,retrievedAt:e.retrievedAt,caseID:config.id};manifest.sources.push(source);area.sourceFiles.push(e.file);
+   // Prefilter large national files before parsing; preserve original source line ordinal in the ID.
+   const lines=buffer.toString('utf8').trim().split(/\r?\n/),header=lines.shift(),selected=[];let ordinal=0;for(const line of lines){ordinal++;const a=line.split(',',2),r={lat:+a[0],lon:+a[1]};if(inside(r))selected.push({line,ordinal});}const parsed=parseCSV(header+'\n'+selected.map(x=>x.line).join('\n'),e.product.startsWith('MODIS')?'MODIS':'VIIRS');for(let i=0;i<parsed.length;i++)raw.push({...parsed[i],id:e.sha256.slice(0,16)+':'+selected[i].ordinal,product:e.product,sourceChecksum:e.sha256});
+  }
+  const cells=supportRows(raw),days=supportDaily(cells,coverage);area.days.push(...days);area.coverage.push(...coverage);
+  const partitions=new Map(),tile=r=>Math.floor((r.lon+180)/5)+'_'+Math.floor((r.lat+90)/5);for(const r of raw){const id=tile(r);if(!partitions.has(id))partitions.set(id,{raw:[],cells:[]});partitions.get(id).raw.push(r);}for(const c of cells){const id=tile(c);if(!partitions.has(id))partitions.set(id,{raw:[],cells:[]});partitions.get(id).cells.push(c);}
+  for(const [id,part] of partitions){const [x,y]=id.split('_').map(Number),zones=new Map();for(const c of part.cells){const z=monitoringZone(c.lat,c.lon).id;if(!zones.has(z))zones.set(z,[]);zones.get(z).push(c);}const compactZones=[];for(const [zone,records] of zones)for(const d of supportDaily(records,coverage))if(d.cells)compactZones.push([zone,d.date,d.m,d.s,d.j,d.n,d.cells,d.frpMax,d.shared]);area.partitions.push({year,bounds:[x*5-180,y*5-90,(x+1)*5-180,(y+1)*5-90],coverage,zones:await save(config.id+'/'+year+'/'+id+'.zones.json',{coverage,rows:compactZones}),support:await save(config.id+'/'+year+'/'+id+'.support.json',encodeSupport(part.cells)),raw:await save(config.id+'/'+year+'/'+id+'.raw.json',encodeRaw(part.raw))});}
+  if(coverage.every(c=>c.processing==='SP'))for(const e of trackEvents(raw)){const trend=eventTrend(e);area.eventSamples.push({date:new Date(e.firstTime).toISOString().slice(0,10),bounds:e.bounds,center:e.center,duration:e.durationHours,growth:trend.growth,newCellRate:trend.newCellRate,frpMax:e.frpMax,acquisitionGroups:e.acquisitionGroups,processing:'SP'});}
+  console.log(config.id+' '+year+': '+raw.length+' actual source observations → '+cells.length+' Work footprint-support cells');
+ }
+ area.periods=criticalPeriods(area.days);const entry=await save(config.id+'/summary.json',{days:area.days,coverage:area.coverage,periods:area.periods,eventSamples:area.eventSamples});delete area.days;delete area.eventSamples;delete area.coverage;delete area.periods;area.summary=entry;manifest.cases.push(area);
+}
+await writeFile(root+'/manifest.json',JSON.stringify(manifest));console.log(JSON.stringify({cases:manifest.cases.length,sourceFiles:manifest.sources.length,algorithm:manifest.algorithm}));
+
+await import('./prepare-monitor-context.js');

@@ -1,5 +1,5 @@
 // Slide the current document out immediately, before waiting for the next page.
-const pages=['index.html','observatory.html','map.html','history.html','method.html'];
+const pages=['index.html','monitor.html','observatory.html','map.html','history.html','method.html'];
 const pageIndex=url=>pages.indexOf(new URL(url,location.href).pathname.split('/').at(-1)||'index.html');
 let arriving=false,leaving=false;
 try{const travel=JSON.parse(sessionStorage.getItem('atlas-travel')||'null');if(travel&&travel.to===location.pathname&&Date.now()-travel.time<15000){document.documentElement.dataset.direction=travel.direction;arriving=true;}sessionStorage.removeItem('atlas-travel');}catch{}

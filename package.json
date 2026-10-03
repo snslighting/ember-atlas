@@ -15,7 +15,9 @@
     "history:audit": "node analyze-history.js",
     "harmonization:validate": "node validate-harmonization.js",
     "harmonization:external": "node supplemental-fire-validation.js",
-    "harmonization:e2e": "node check-end-to-end.js"
+    "harmonization:e2e": "node check-end-to-end.js",
+    "monitor:build-history": "node --max-old-space-size=4096 build-monitor-history.js",
+    "monitor:validate": "node validate-monitor.js"
   },
   "dependencies": {
     "@maplibre/maplibre-gl-leaflet": "^0.1.4",
