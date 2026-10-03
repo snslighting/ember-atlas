@@ -3,12 +3,12 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import {readFileSync} from 'node:fs';
 const source=readFileSync(new URL('./navigation.js',import.meta.url),'utf8');
-function setup({native=false,reduced=false,off=false,travel=null}={}){
+function setup({native=false,reduced=false,off=false,travel=null,page='index.html'}={}){
  const handlers={},classes=new Set(),storage=new Map(),timers=[],visits=[],events=[];
  if(travel)storage.set('atlas-travel',JSON.stringify(travel));
  const root={dataset:{},classList:{add:x=>classes.add(x),remove:x=>classes.delete(x)}};
  const window={atlasMotion:{enabled:!off&&!reduced},addEventListener:(name,fn)=>handlers[name]=fn,dispatchEvent:e=>events.push(e.type)};if(native)window.onpagereveal=null;
- const context={URL,Date,Event,window,document:{documentElement:root,addEventListener:(name,fn)=>handlers[name]=fn},location:{href:'https://example.org/ember-atlas/index.html',origin:'https://example.org',pathname:'/ember-atlas/index.html',assign:url=>visits.push(url)},CSS:{supports:()=>native},matchMedia:()=>({matches:reduced}),sessionStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)},setTimeout:fn=>timers.push(fn)};
+ const context={URL,Date,Event,window,document:{documentElement:root,addEventListener:(name,fn)=>handlers[name]=fn},location:{href:'https://example.org/ember-atlas/'+page,origin:'https://example.org',pathname:new URL('https://example.org/ember-atlas/'+page).pathname,assign:url=>visits.push(url)},CSS:{supports:()=>native},matchMedia:()=>({matches:reduced}),sessionStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)},setTimeout:fn=>timers.push(fn)};
  vm.runInNewContext(source,context);
  function click(href,extra={}){let prevented=false;const link={href:new URL(href,context.location.href).href,target:'',hasAttribute:()=>false};handlers.click({target:{closest:()=>link},button:0,preventDefault:()=>prevented=true,...extra});return prevented;}
  return {click,classes,storage,timers,visits,events,root,handlers};
@@ -28,3 +28,11 @@ test('incoming fallback starts the sheet entrance and consumes the travel marker
 
 test('the old sheet leaves immediately even with native transition support',()=>{const s=setup({native:true});assert.equal(s.click('./observatory.html'),true);assert.ok(s.classes.has('page-leave'));assert.equal(s.visits.length,0);s.timers[0]();assert.equal(s.visits.length,1);});
 test('a second click cannot start a competing departure',()=>{const s=setup();s.click('./observatory.html');assert.equal(s.click('./method.html'),true);assert.equal(s.timers.length,1);});
+
+
+test('slide directions match the visible menu in both directions',()=>{for(const [page,target,direction] of [['history.html','observatory.html','forward'],['observatory.html','history.html','back'],['method.html','history.html','back'],['map.html','history.html','back']]){const s=setup({page});assert.equal(s.click('./'+target),true);assert.equal(s.root.dataset.direction,direction);assert.equal(JSON.parse(s.storage.get('atlas-travel')).direction,direction);}});
+
+test('calendar remains a same-document anchor while map aliases keep forward travel',()=>{const s=setup({page:'monitor.html?mode=history'});assert.equal(s.click('./monitor.html?mode=history#monitor-calendar'),false);const alias=setup({page:'observatory.html'});alias.click('./map.html');assert.equal(alias.root.dataset.direction,'forward');});
+
+
+test('browser back and forward restores the matching slide direction from the last page',()=>{const s=setup({page:'history.html'});s.storage.set('atlas-last-page','3');s.handlers.pageshow({persisted:true});assert.equal(s.root.dataset.direction,'back');assert.ok(s.classes.has('page-enter'));s.storage.set('atlas-last-page','1');s.handlers.pageshow({persisted:true});assert.equal(s.root.dataset.direction,'forward');const off=setup({off:true,page:'history.html'});off.handlers.pageshow({persisted:true});assert.ok(!off.classes.has('page-enter'));});

@@ -1,5 +1,5 @@
 // Move the existing controls, preserving their listeners and IDs, into one map sidebar.
-export function createMapShell(panel){
+export function createMapShell(panel,{keepOutside=[]}={}){
  const fullPage=document.body.classList.contains('map-page');
  const sidebar=document.createElement('aside');sidebar.className='explorer-sidebar';sidebar.id='explorer-sidebar';sidebar.setAttribute('aria-label','Map controls and NASA data');sidebar.setAttribute('data-lenis-prevent','');
  sidebar.innerHTML='<header class="explorer-brand"><span class="symbol">✳</span><div><strong>EMBER ATLAS</strong><small>EARTH OBSERVATION EXPLORER</small></div></header><section class="boundary-tools"><label for="country-search">Find a country or territory</label><form id="country-search-form"><input id="country-search" list="country-names" placeholder="Search in English" autocomplete="off"><button type="submit">Go</button></form><datalist id="country-names"></datalist><p id="boundary-status" role="status">Loading country borders…</p><div id="boundary-breadcrumb" class="boundary-breadcrumb"></div><section id="boundary-info" class="boundary-info" aria-label="Selected boundary NASA summary" aria-live="polite"><h3>Explore the world</h3><p>Double-click a country to see its regions and NASA observations. Double-click a region to focus on it.</p></section><label for="region-picker">Regions of selected country</label><select id="region-picker" disabled><option>Select a country first</option></select><button id="boundary-back" type="button" hidden>← Back to country</button><button id="boundary-clear" type="button" hidden>Clear boundary</button></section>';
@@ -11,7 +11,8 @@ export function createMapShell(panel){
  const originals=[], move=element=>{if(!element)return;const slot=document.createComment('Map control location');element.before(slot);originals.push({element,slot});sidebar.append(element);};
  const feed=document.querySelector('.feed-bar'),status=document.getElementById('status'),filters=document.querySelector('.filters'),metrics=document.getElementById('metrics'),activity=document.getElementById('activity'),exportButton=document.getElementById('export');
  const dataHeading=document.createElement('h3');dataHeading.textContent='NASA observations';sidebar.append(dataHeading);
- const dataNodes=[feed,status,filters,metrics,activity,exportButton,document.getElementById('motion-toggle')];
+ const activityNodes=activity&&keepOutside.length?[...activity.children].filter(node=>!keepOutside.includes(node)):[activity];
+ const dataNodes=[feed,status,filters,metrics,...activityNodes,exportButton,document.getElementById('motion-toggle')];
  sidebar.append(accessible);
  const frame=document.createElement('div');frame.className='explorer-frame';
  const stage=document.createElement('div');stage.className='explorer-stage';

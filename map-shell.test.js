@@ -25,3 +25,6 @@ test('on-map boundary Back and close stay available while the sidebar is collaps
  shell.setExpanded(true);document.getElementById('sidebar-toggle').click();assert.equal(nav.hidden,false);document.getElementById('map-boundary-close').click();assert.equal(clear,2);
  shell.showSelection(null);assert.equal(nav.hidden,true);
 });
+
+
+test('Analyze keeps its activity calendar below the normal map and out of the enlarged sidebar',async()=>{const {document,window}=parseHTML(await readFile('history.html','utf8'));globalThis.document=document;globalThis.window=window;globalThis.requestAnimationFrame=fn=>fn();const calendar=document.querySelector('.history-calendar-card'),activity=document.getElementById('activity'),comparison=document.getElementById('history-comparison'),shell=createMapShell(document.querySelector('.map-panel'),{keepOutside:[calendar]});shell.setExpanded(true);assert.equal(calendar.parentElement,activity);assert.ok(!calendar.closest('.explorer-sidebar'));assert.ok(comparison.closest('.explorer-sidebar'));shell.setExpanded(false);assert.equal(calendar.parentElement,activity);assert.equal(comparison.parentElement,activity);assert.equal(activity.firstElementChild,calendar);});

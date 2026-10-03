@@ -1,7 +1,7 @@
 import {createMapShell} from './map-shell.js';import {createAreaSelection} from './area-selection.js';import {createBoundaryExplorer} from './boundary-explorer.js';import {createHotspotLayer} from './hotspot-layer.js';
 import {parseArea} from './area-bounds.js';
 import {mapOptions,tileOptions,minimumWorldZoom} from './map-policy.js';import {basemaps,imageryDate} from './basemaps.js';
-const $=id=>document.getElementById(id),params=new URLSearchParams(location.search),shell=createMapShell(document.querySelector('.map-panel'));
+const $=id=>document.getElementById(id),params=new URLSearchParams(location.search),shell=createMapShell(document.querySelector('.map-panel'),{keepOutside:[document.querySelector('.history-calendar-card')]});
 const worker=new Worker(new URL('./history-worker.js',import.meta.url),{type:'module'}),pending=new Map();let rpc=0;
 function ask(type,args){return new Promise((resolve,reject)=>{const id=++rpc;pending.set(id,{resolve,reject});worker.postMessage({id,type,args});});}
 worker.onmessage=({data})=>{const p=pending.get(data.id);if(!p)return;pending.delete(data.id);data.error?p.reject(Error(data.error)):p.resolve(data.result);};
