@@ -19,12 +19,12 @@ export function createBoundaryExplorer(map,{isDrawing,onSelect,onClear,onNotice,
   outline=L.geoJSON(feature,{renderer:highlightRenderer,pane:'boundaryHighlight',style:{color:'#7bc8ff',weight:2.4,opacity:1,fillColor:'#63b6ff',fillOpacity:.09},interactive:false}).addTo(map);
  }
  function breadcrumbs(){
-  const node=$('boundary-breadcrumb');node.replaceChildren();const world=document.createElement('button');world.textContent='World';world.onclick=clear;node.append(world);
+  const node=$('boundary-breadcrumb');node.replaceChildren();const world=document.createElement('button');world.textContent='World';world.onclick=()=>backToWorld();node.append(world);
   if(country){const c=document.createElement('button');c.textContent=country.properties.name;c.onclick=()=>selectCountry(country.properties.country);node.append(' / ',c);}
   if(selected&&selected.id!==country?.id){const label=document.createElement('span');label.textContent=selected.properties.name;node.append(' / ',label);}
-  $('boundary-clear').hidden=!selected;$('boundary-back').hidden=!selected||selected.id===country?.id;
+  $('boundary-clear').hidden=!selected;$('boundary-back').hidden=!selected;$('boundary-back').textContent=selected&&selected.id!==country?.id?'← Back to '+country.properties.name:'← Back to world';
  }
- async function commit(feature){selected=feature;shade(feature);breadcrumbs();onNotice(feature.properties.name);$('boundary-info').replaceChildren();const h=document.createElement('h3');h.textContent=feature.properties.name;const p=document.createElement('p');p.textContent='Analyzing NASA observations inside this border…';$('boundary-info').append(h,p);fit(feature);labels.paint();try{await onSelect(feature);}catch{if(selected?.id===feature.id)$('boundary-status').textContent='Boundary selected; NASA analysis unavailable. Check the data connection.';}}
+ async function commit(feature){selected=feature;shade(feature);breadcrumbs();onNotice(feature.properties.name,{backLabel:feature.id===country?.id?'Back to world':'Back to '+country.properties.name});$('boundary-info').replaceChildren();const h=document.createElement('h3');h.textContent=feature.properties.name;const p=document.createElement('p');p.textContent='Analyzing NASA observations inside this border…';$('boundary-info').append(h,p);fit(feature);labels.paint();try{await onSelect(feature);}catch{if(selected?.id===feature.id)$('boundary-status').textContent='Boundary selected; NASA analysis unavailable. Check the data connection.';}}
  async function selectCountry(id){
   const idTicket=++ticket;const overview=countries.find(f=>f.properties.country===id);if(!overview)return;
   $('boundary-status').textContent='Loading '+overview.properties.name+' regions…';map.closePopup();
@@ -39,6 +39,8 @@ export function createBoundaryExplorer(map,{isDrawing,onSelect,onClear,onNotice,
   }catch{$('boundary-status').textContent='Could not load borders. Try selecting this country again.';}
  }
  async function selectRegion(feature){++ticket;map.closePopup();$('region-picker').value=feature.id;await commit(feature);}
+ function backToWorld(){clear();map.closePopup();map.fitBounds([[-80,-180],[80,180]],{...(Array.isArray(getPadding())?{padding:getPadding()}:getPadding()),animate:window.atlasMotion.enabled});}
+ async function back(){if(!selected)return;if(country&&selected.id!==country.id){++ticket;$('region-picker').value='';await commit(country);}else backToWorld();}
  function clear({notify=true}={}){
   ++ticket;country=selected=null;regions=[];if(subdivisions)map.removeLayer(subdivisions);subdivisions=null;shade(null);breadcrumbs();
   const empty=document.createElement('option');empty.textContent='Select a country first';empty.value='';$('region-picker').replaceChildren(empty);$('region-picker').disabled=true;
@@ -68,7 +70,7 @@ export function createBoundaryExplorer(map,{isDrawing,onSelect,onClear,onNotice,
   const region=regions.find(f=>f.contains(row));if(region)return selectRegion(region);
   const feature=countries.find(f=>f.contains(row));if(feature)return selectCountry(feature.properties.country);
  });
- $('boundary-clear').onclick=()=>clear();$('boundary-back').onclick=()=>country&&selectCountry(country.properties.country);
+ $('boundary-clear').onclick=()=>clear();$('boundary-back').onclick=back;
  $('region-picker').onchange=()=>{const feature=regions.find(f=>f.id===$('region-picker').value);if(feature)selectRegion(feature);};
  $('country-search-form').onsubmit=event=>{event.preventDefault();const value=$('country-search').value.trim().toLowerCase(),feature=countries.find(f=>f.properties.name.toLowerCase()===value)||countries.find(f=>f.properties.name.toLowerCase().startsWith(value));if(feature&&value)selectCountry(feature.properties.country);else $('boundary-status').textContent='Choose a country from the English name suggestions.';};
  const ready=json('world.json').then(data=>{
@@ -76,7 +78,7 @@ export function createBoundaryExplorer(map,{isDrawing,onSelect,onClear,onNotice,
   $('country-names').replaceChildren(...[...countries].sort((a,b)=>a.properties.name.localeCompare(b.properties.name,'en')).map(f=>{const option=document.createElement('option');option.value=f.properties.name;return option;}));
   $('boundary-status').textContent='Country borders ready · double-click to explore';labels.paint();return true;
  }).catch(()=>{$('boundary-status').textContent='Country borders unavailable. Reload to retry; map detections still work.';return false;});
- return {ready,selectCountry,selectRegion,clear,get selected(){return selected;},get country(){return country;},showSummary(result,{start,end,confidence,view,day}){
+ return {ready,selectCountry,selectRegion,clear,back,get selected(){return selected;},get country(){return country;},showSummary(result,{start,end,confidence,view,day}){
   if(!selected)return;const node=$('boundary-info');node.replaceChildren();const title=document.createElement('h3');title.textContent=selected.properties.name;node.append(title);
   const type=document.createElement('p');type.className='boundary-kind';type.textContent=selected.properties.kind+(country&&selected.id!==country.id?' · '+country.properties.name:'');node.append(type);
   const values=[['Selected detections',result.selected.toLocaleString()],['MODIS observations',result.bars[0][1].toLocaleString()],['VIIRS observations',result.bars[1][1].toLocaleString()],['Daily occupied cells',result.cells.toLocaleString()],['Multi-sensor cells',result.overlap.toLocaleString()],['Highest observed FRP',result.maxFrp===null?'Unavailable':result.maxFrp+' MW'],['Latest observation',result.latest?result.latest+' UTC':'No detections in window']];

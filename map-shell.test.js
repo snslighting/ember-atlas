@@ -13,3 +13,15 @@ test('full-page map starts with all observation controls in the sidebar',async()
  const shell=createMapShell(document.querySelector('.map-panel'));assert.equal(shell.expanded,true);
  for(const id of ['region','confidence','start','end','metrics','export','calendar'])assert.ok(document.getElementById(id).closest('.explorer-sidebar'),id);
 });
+
+test('on-map boundary Back and close stay available while the sidebar is collapsed',async()=>{
+ const {document,window}=parseHTML(await readFile('observatory.html','utf8'));globalThis.document=document;globalThis.window=window;globalThis.requestAnimationFrame=fn=>fn();
+ const panel=document.querySelector('.map-panel'),shell=createMapShell(panel);let back=0,clear=0;
+ document.getElementById('boundary-back').onclick=()=>back++;document.getElementById('boundary-clear').onclick=()=>clear++;
+ shell.showSelection('Bukhara',{backLabel:'Back to Uzbekistan'});
+ const nav=panel.querySelector('.map-boundary-nav');assert.equal(nav.hidden,false);assert.ok(nav.closest('.explorer-stage'));assert.ok(!nav.closest('.explorer-sidebar'));
+ assert.equal(document.getElementById('map-boundary-back').textContent,'← Back to Uzbekistan');
+ document.getElementById('map-boundary-back').click();document.getElementById('map-boundary-close').click();assert.equal(back,1);assert.equal(clear,1);
+ shell.setExpanded(true);document.getElementById('sidebar-toggle').click();assert.equal(nav.hidden,false);document.getElementById('map-boundary-close').click();assert.equal(clear,2);
+ shell.showSelection(null);assert.equal(nav.hidden,true);
+});
