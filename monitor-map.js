@@ -16,12 +16,22 @@ export function createMonitorShell(){
  options.after(document.querySelector('.monitor-playback'));
  const metrics=$('monitor-metrics');sidebar.querySelector('.monitor-playback').after(metrics);
  const detail=$('monitor-event-detail');metrics.after(detail);
+ const attention=document.createElement('section');attention.id='monitor-attention-view';attention.setAttribute('aria-label','Areas requiring attention');
+ for(const node of [...sidebar.children])if(![brand,selection,boundary,options,metrics,detail].includes(node)&&!node.classList.contains('monitor-playback')&&!node.classList.contains('watchlist-panel')&&!node.classList.contains('alert-panel'))attention.append(node);
+ attention.querySelector('.priority-search').after(detail);
+ const controlView=document.createElement('section');controlView.id='monitor-controls-view';controlView.setAttribute('aria-label','Area, map and playback controls');
+ for(const node of [...sidebar.children])if(node!==brand)controlView.append(node);
+ const tabs=document.createElement('div');tabs.className='monitor-sidebar-tabs';tabs.setAttribute('role','group');tabs.setAttribute('aria-label','Sidebar view');
+ tabs.innerHTML='<button id="monitor-attention-tab" aria-controls="monitor-attention-view" aria-pressed="true">Attention</button><button id="monitor-controls-tab" aria-controls="monitor-controls-view" aria-pressed="false">Map controls</button>';
+ sidebar.append(tabs,attention,controlView);controlView.hidden=true;
+ function showView(controls){attention.hidden=controls;controlView.hidden=!controls;$('monitor-attention-tab').setAttribute('aria-pressed',String(!controls));$('monitor-controls-tab').setAttribute('aria-pressed',String(controls));sidebar.scrollTop=0;}
+ $('monitor-attention-tab').onclick=()=>showView(false);$('monitor-controls-tab').onclick=()=>showView(true);
  const frame=document.createElement('div');frame.className='monitor-explorer-frame';frame.append(sidebar,stage);panel.append(frame);document.querySelector('.monitor-layout').append(panel);
  const note=$('monitor-map-note');note.classList.add('explorer-density');stage.append(note);
  const back=document.createElement('button');back.id='monitor-boundary-back';back.textContent='← Back';back.hidden=true;back.onclick=()=>$('boundary-back').click();$('monitor-map-selection').prepend(back);
  function collapse(value){panel.classList.toggle('sidebar-collapsed',value);const b=$('monitor-sidebar-toggle');b.textContent=value?'›':'‹';b.setAttribute('aria-expanded',String(!value));b.setAttribute('aria-label',value?'Expand map sidebar':'Collapse map sidebar');requestAnimationFrame(()=>$('monitor-map').dispatchEvent(new Event('atlas-map-layout')));}
  $('monitor-sidebar-toggle').onclick=()=>collapse(!panel.classList.contains('sidebar-collapsed'));
- return {showDetail(){collapse(false);detail.scrollIntoView({block:'nearest',behavior:'instant'});},closeDetail(){sidebar.querySelector('.priority-search').scrollIntoView({block:'nearest',behavior:'instant'});}};
+ return {showDetail(){collapse(false);showView(false);detail.scrollIntoView({block:'nearest',behavior:'instant'});},closeDetail(){showView(false);sidebar.querySelector('.priority-search').scrollIntoView({block:'nearest',behavior:'instant'});}};
 }
 
 export function createMonitorMap({ask,onInspect,onArea,onNotice}){
@@ -52,5 +62,8 @@ export function createMonitorMap({ask,onInspect,onArea,onNotice}){
  $('monitor-map').addEventListener('atlas-map-layout',()=>{map.invalidateSize({pan:true,animate:false});draw();});
  function showBoundarySummary(result){if(!boundaries.selected)return;const node=$('boundary-info');const title=document.createElement('h3');title.textContent=boundaries.selected.properties.name;const values=document.createElement('p');values.textContent=result.rawDetections.toLocaleString()+' quality-selected NASA observations · '+result.totalEvents.toLocaleString()+' activity groups · '+result.supportCells.toLocaleString()+' daily footprint-support cells. Seasonal history is available only where a prepared archive covers this selection.';node.replaceChildren(title,values);}
 
- return {draw,fit,setArea,showBoundarySummary,select(id){selected=id;inspectLink.hidden=!id;draw();},cancelDrawing:stopDrawing};
+ let pixelMarker=null;
+ function locate(location,{focus=true}={}){pixelMarker?.remove();const label=location.kind==='group'?'Approximate activity group center':'Reported NASA pixel center';pixelMarker=L.circleMarker([location.lat,location.lon],{radius:9,color:'#fff',weight:2,fillColor:'#63b6ff',fillOpacity:.8}).addTo(map).bindTooltip(label+' · '+location.lat+', '+location.lon,{direction:'top'});const width=(location.scan||1)/(2*111.32*Math.max(.01,Math.cos(location.lat*Math.PI/180))),height=(location.track||1)/(2*111.32);if(focus)map.fitBounds([[Math.max(-85,location.lat-height),location.lon-width],[Math.min(85,location.lat+height),location.lon+width]],{padding:[40,55],maxZoom:13,animate:false});pixelMarker.openTooltip();}
+
+ return {draw,fit,locate,setArea,showBoundarySummary,select(id){pixelMarker?.remove();pixelMarker=null;selected=id;inspectLink.hidden=!id;draw();},cancelDrawing:stopDrawing};
 }

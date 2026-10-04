@@ -32,3 +32,14 @@ test('lazy raw partition filtering preserves original records while applying mon
 
 
 test('successive live loads retain complete in-memory identities when local registry is absent',async()=>{const today=new Date().toISOString().slice(0,10),records=[row('earliest','00:00',65,today),row('overlap','04:00',65,today)],engine=createMonitorEngine({metadata:null,loadLive:async()=>({retrievedAt:new Date().toISOString(),dateStart:today,dateEnd:today,requests:[{product:'MODIS_NRT'}],data:records.map(r=>({...r,product:'MODIS_NRT'}))})});const first=await engine.load({caseID:'world',mode:'live'});const id=first.events[0].id;records.shift();const second=await engine.load({caseID:'world',mode:'live',registry:[]});assert.equal(second.events[0].id,id);await engine.replay(Date.parse(today+'T00:01:00Z'));const third=await engine.load({caseID:'world',mode:'live',registry:[]});assert.equal(third.events[0].id,id);});
+
+test('queue and detail expose source pixel coordinates and replay never uses later locations',async()=>{
+ const date='2024-08-01',records=[{...row('earliest','00:00',65.12345,date),lat:41.23456},{...row('later','08:00',65.12456,date),lat:41.23456}],engine=createMonitorEngine({metadata:null,loadLive:async()=>({retrievedAt:new Date().toISOString(),dateStart:date,dateEnd:date,requests:[{product:'MODIS_NRT'}],data:records})});
+ await engine.load({caseID:'world',mode:'live'});const replay=await engine.replay(Date.parse(date+'T01:00:00Z'));assert.equal(replay.events.length,1);assert.equal(replay.events[0].location.lon,65.12345);assert.equal(replay.events[0].location.lat,41.23456);assert.deepEqual(engine.detail(replay.events[0].id).location,replay.events[0].location);
+ const later=await engine.replay(Date.parse(date+'T09:00:00Z'));assert.equal(later.events[0].location.lon,65.12456);assert.ok(engine.detail(later.events[0].id).raw.some(r=>r.lon===later.events[0].location.lon));
+});
+
+test('worldwide queue sampling never truncates global totals or the map evidence',async()=>{
+ const date='2024-08-01',records=Array.from({length:256},(_,i)=>({...row('global-'+i,'00:00',-150+(i%16)*18,date),lat:-60+Math.floor(i/16)*8})),engine=createMonitorEngine({metadata:null,loadLive:async()=>({retrievedAt:new Date().toISOString(),dateStart:date,dateEnd:date,requests:[{product:'MODIS_NRT'}],data:records})});
+ const result=await engine.load({caseID:'world',mode:'live'});assert.equal(result.queueMode,'worldwide-evidence');assert.equal(result.totalEvents,256);assert.equal(result.rawDetections,256);assert.equal(result.events.length,250);assert.ok(new Set(engine.geometry({view:'MODIS'}).map(p=>p.eventID)).size===256);assert.ok(result.events.every(e=>e.location));
+});
