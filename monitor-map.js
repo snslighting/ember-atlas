@@ -31,7 +31,7 @@ export function createMonitorShell(){
  const back=document.createElement('button');back.id='monitor-boundary-back';back.textContent='← Back';back.hidden=true;back.onclick=()=>$('boundary-back').click();$('monitor-map-selection').prepend(back);
  function collapse(value){panel.classList.toggle('sidebar-collapsed',value);const b=$('monitor-sidebar-toggle');b.textContent=value?'›':'‹';b.setAttribute('aria-expanded',String(!value));b.setAttribute('aria-label',value?'Expand map sidebar':'Collapse map sidebar');requestAnimationFrame(()=>$('monitor-map').dispatchEvent(new Event('atlas-map-layout')));}
  $('monitor-sidebar-toggle').onclick=()=>collapse(!panel.classList.contains('sidebar-collapsed'));
- return {showDetail(){collapse(false);showView(false);detail.scrollIntoView({block:'nearest',behavior:'instant'});},closeDetail(){showView(false);sidebar.querySelector('.priority-search').scrollIntoView({block:'nearest',behavior:'instant'});}};
+ return {showDetail(){collapse(false);showView(false);sidebar.scrollTop+=detail.getBoundingClientRect().top-sidebar.getBoundingClientRect().top-tabs.getBoundingClientRect().height-12;},closeDetail(){showView(false);sidebar.querySelector('.priority-search').scrollIntoView({block:'nearest',behavior:'instant'});}};
 }
 
 export function createMonitorMap({ask,onInspect,onArea,onNotice}){
