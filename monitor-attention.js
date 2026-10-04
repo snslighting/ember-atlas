@@ -3,7 +3,7 @@ export function latestPixelLocation(ids, records){
  let latest=null,latestID='';
  for(const id of ids){const r=records.get(id);if(!r||!Number.isFinite(r.lat)||!Number.isFinite(r.lon))continue;
   const acquiredAt=r.date+'T'+r.time+':00Z';
-  if(!latest||acquiredAt>latest.acquiredAt||acquiredAt===latest.acquiredAt&&id<latestID){latestID=id;latest={lat:r.lat,lon:r.lon,acquiredAt,sensor:r.sensor,satellite:r.satellite,scan:r.scan,track:r.track,confidenceRaw:r.confidenceRaw,sourceID:id};}
+  if(!latest||acquiredAt>latest.acquiredAt||acquiredAt===latest.acquiredAt&&id<latestID){latestID=id;latest={lat:r.lat,lon:r.lon,acquiredAt,sensor:r.sensor,satellite:r.satellite,scan:r.scan,track:r.track,frp:r.frp,confidenceRaw:r.confidenceRaw,sourceID:id};}
  }
  return latest;
 }

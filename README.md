@@ -158,8 +158,16 @@ Automated tests cover existing animations/navigation/map interactions, confidenc
 
 ## Limitations and future work
 
-Detections are thermal anomalies, not confirmed wildfires, unique fire events or burned area. No coverage mask accounts for clouds or overpass effort. Grid-center country/AOI assignment has edge uncertainty. Raw source counts include repeat acquisitions. Global historical coverage, NOAA-21 SP, cell-level transfer calibration, clear-sky normalization, independent validation, transition diagnostics and uncertainty intervals remain future work.
+Detections are thermal anomalies, not confirmed wildfires, unique fire events or burned area. No coverage mask accounts for clouds or overpass effort. Grid-center country/AOI assignment has edge uncertainty. Raw source counts include repeat acquisitions. Global calibrated historical comparisons, NOAA-21 SP, cell-level transfer calibration, clear-sky normalization, independent validation, transition diagnostics and uncertainty intervals remain future work.
 
 Persist NRT in a durable versioned store, replace provisional NRT with SP when it becomes available, extend area/month coverage, and add smaller temporal partitions as records grow. Exports are selected common cells with provenance; original raw point drill-down is an optional future extension.
 
 The reproducible [historical baseline audit](HISTORY-ANALYSIS.md) lists actual fitted factors, paired sample sizes and held-out errors for all three cases.
+
+## Worldwide historical map
+
+Monitor → Historical replay → Worldwide now browses real daily NASA GIBS/FIRMS thermal-anomaly vector tiles. MODIS Terra coverage starts 2000-11-01, Aqua 2002-07-04, VIIRS S-NPP 2012-01-20, and the available NOAA-20 GIBS layer starts 2020-01-01. Explicit catalogue gaps are retained; failed tiles are reported as partial coverage rather than zero detections. Newer dates refresh NASA coverage metadata.
+
+Visible geographic tiles load with four concurrent requests, decode in a separate worker, and use a bounded memory cache. Native LATITUDE/LONGITUDE attributes determine map pins, rather than quantized tile geometry. Zoomed views show coordinate labels; clickable pins expose acquisition UTC, satellite, native confidence, FRP and processing version. Low-zoom overlapping pins share a screen position; viewport counts count the decoded original observations, not the reduced display pins. Live mode shows representative latest reported pixels for all activity groups, independently of the 250-card attention list.
+
+This global daily archive includes native confidence levels and NRT/standard processing as supplied by NASA. It is separate from the quality-filtered Work support record and the four prepared seasonal comparison archives. Browsing a historical date does not fabricate a global baseline or attention percentile. Modern basemap imagery is geographical context, not imagery from the selected fire-observation date. NASA service: https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/1.0.0/WMTSCapabilities.xml

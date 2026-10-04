@@ -41,5 +41,5 @@ test('queue and detail expose source pixel coordinates and replay never uses lat
 
 test('worldwide queue sampling never truncates global totals or the map evidence',async()=>{
  const date='2024-08-01',records=Array.from({length:256},(_,i)=>({...row('global-'+i,'00:00',-150+(i%16)*18,date),lat:-60+Math.floor(i/16)*8})),engine=createMonitorEngine({metadata:null,loadLive:async()=>({retrievedAt:new Date().toISOString(),dateStart:date,dateEnd:date,requests:[{product:'MODIS_NRT'}],data:records})});
- const result=await engine.load({caseID:'world',mode:'live'});assert.equal(result.queueMode,'worldwide-evidence');assert.equal(result.totalEvents,256);assert.equal(result.rawDetections,256);assert.equal(result.events.length,250);assert.ok(new Set(engine.geometry({view:'MODIS'}).map(p=>p.eventID)).size===256);assert.ok(result.events.every(e=>e.location));
+ const result=await engine.load({caseID:'world',mode:'live'});assert.equal(result.queueMode,'worldwide-evidence');assert.equal(result.totalEvents,256);assert.equal(result.rawDetections,256);assert.equal(result.events.length,250);assert.ok(new Set(engine.geometry({view:'MODIS'}).map(p=>p.eventID)).size===256);assert.ok(result.events.every(e=>e.location));assert.equal(engine.geometry({locations:true}).length,256);assert.equal(engine.geometry({locations:true,bounds:[-151,-61,-149,-59]}).length,1);
 });
